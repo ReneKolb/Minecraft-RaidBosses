@@ -1,0 +1,34 @@
+name: RaidBosses
+main: de.GaMoFu.RaidBosses.RaidBosses
+version: 0.1
+api-version: 1.13
+author: GaMoFu
+softdepend: [HolographicDisplays]
+commands:
+  world:
+    description: Create, teleport, remove raid instances worlds
+    usage: /world [create|teleport|remove] [worldName]
+  test:
+    description: All test commands
+    usage: /test [subcommand]    
+  /mw:
+    description: Permits a magic wand for configuring mobs in dungeons
+    usage: //con 
+  add:
+    description: adds a monster at the selected location
+    usage: /add [MonsterType]
+  del:
+    description: delete the selected monster from the dungeon
+    usage: /remove
+  set:
+    description: modify a monster
+    usage: /set [type] {sub-type} [value]
+  skill:
+    description: Skill command category
+    usage: /skill [give|bla] [value]
+  item:
+    description: Item command category
+    usage: /item [give|bla] [value]
+  gm:
+    description: Set a players gamemode
+    usage: /gm [0|1|2|3] 
