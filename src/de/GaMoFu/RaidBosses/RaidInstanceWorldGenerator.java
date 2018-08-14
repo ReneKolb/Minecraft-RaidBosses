@@ -9,16 +9,15 @@ import org.bukkit.generator.ChunkGenerator;
 
 public class RaidInstanceWorldGenerator extends ChunkGenerator {
 
-	@Override
-	public ChunkData generateChunkData(World world, Random random, int x, int z, BiomeGrid biome) {
-		// // TODO Auto-generated method stub
-		// return super.generateChunkData(world, random, x, z, biome);
-		ChunkData result = new CraftChunkData(world);
-		if (x == 0 && z == 0) {
-			result.setBlock(0, 0, 0, Material.BEDROCK);
-		}
-		return result;
-	}
+    @Override
+    public ChunkData generateChunkData(World world, Random random, int x, int z, BiomeGrid biome) {
+        // // TODO Auto-generated method stub
+        // return super.generateChunkData(world, random, x, z, biome);
+        ChunkData result = new CraftChunkData(world);
+        if (x == 0 && z == 0) {
+            result.setBlock(0, 0, 0, Material.BEDROCK);
+        }
+        return result;
+    }
 
-	
 }

@@ -16,73 +16,73 @@ import de.GaMoFu.RaidBosses.Skill.ISkill;
 
 public class OpenShadowPortal implements ISkill {
 
-	public static final double MAX_SPAWN_PORTAL_RANGE = 5;
-	public static final double PORTAL_HEALTH = 200;
+    public static final double MAX_SPAWN_PORTAL_RANGE = 5;
+    public static final double PORTAL_HEALTH = 200;
 
-	private Random rnd = new Random();
+    private Random rnd = new Random();
 
-	@Override
-	public String getSkillDisplayName() {
-		return "Open Shadow Portal";
-	}
+    @Override
+    public String getSkillDisplayName() {
+        return "Open Shadow Portal";
+    }
 
-	@Override
-	public String getSkillInternalName() {
-		return "OPEN_SHADOW_PORTAL";
-	}
+    @Override
+    public String getSkillInternalName() {
+        return "OPEN_SHADOW_PORTAL";
+    }
 
-	@Override
-	public boolean execute(Player executer) {
-		return false;
-	}
+    @Override
+    public boolean execute(Player executer) {
+        return false;
+    }
 
-	@Override
-	public boolean execute(SpawnedMonster executer) {
-		double r = 2 + (MAX_SPAWN_PORTAL_RANGE - 2) * rnd.nextDouble();
-		double phi = 2 * Math.PI * rnd.nextDouble();
+    @Override
+    public boolean execute(SpawnedMonster executer) {
+        double r = 2 + (MAX_SPAWN_PORTAL_RANGE - 2) * rnd.nextDouble();
+        double phi = 2 * Math.PI * rnd.nextDouble();
 
-		Location loc = executer.getMonsterEntity().getEntity().getLocation().add(r * Math.cos(phi), 0,
-				r * Math.sin(phi));
+        Location loc = executer.getMonsterEntity().getEntity().getLocation().add(r * Math.cos(phi), 0,
+                r * Math.sin(phi));
 
-		return this.execute(executer, loc);
-	}
+        return this.execute(executer, loc);
+    }
 
-	@Override
-	public boolean execute(SpawnedMonster executer, Location targetLoc) {
+    @Override
+    public boolean execute(SpawnedMonster executer, Location targetLoc) {
 
-		System.out.println("spawn portal");
+        System.out.println("spawn portal");
 
-		Portal portal = new Portal(RaidBosses.getPluginInstance(), executer.getDungeon(), targetLoc, PORTAL_HEALTH,
-				20 * 7, 2, 6, Arrays.asList(MonsterType.LESSER_LIVING_SHADOW));
+        Portal portal = new Portal(RaidBosses.getPluginInstance(), executer.getDungeon(), targetLoc, PORTAL_HEALTH,
+                20 * 7, 2, 6, Arrays.asList(MonsterType.LESSER_LIVING_SHADOW));
 
-		RaidBosses.getPluginInstance().getPortalHandler()
-				.spawnPortal(executer.getMonsterEntity().getEntity().getUniqueId(), portal);
-		return true;
-	}
+        RaidBosses.getPluginInstance().getPortalHandler()
+                .spawnPortal(executer.getMonsterEntity().getEntity().getUniqueId(), portal);
+        return true;
+    }
 
-	@Override
-	public int getBasicHungerCost() {
-		return 0;
-	}
+    @Override
+    public int getBasicHungerCost() {
+        return 0;
+    }
 
-	@Override
-	public int getCooldownTicks() {
-		return 20 * 45;
-	}
+    @Override
+    public int getCooldownTicks() {
+        return 20 * 45;
+    }
 
-	@Override
-	public Material getDisplayMaterial() {
-		return null;
-	}
+    @Override
+    public Material getDisplayMaterial() {
+        return null;
+    }
 
-	@Override
-	public List<String> getLore() {
-		return null;
-	}
+    @Override
+    public List<String> getLore() {
+        return null;
+    }
 
-	@Override
-	public boolean isTriggerGlobalCooldown() {
-		return true;
-	}
+    @Override
+    public boolean isTriggerGlobalCooldown() {
+        return true;
+    }
 
 }

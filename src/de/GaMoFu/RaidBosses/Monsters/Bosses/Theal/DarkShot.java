@@ -21,124 +21,124 @@ import net.minecraft.server.v1_13_R1.EntityWitherSkull;
 
 public class DarkShot implements ISkill {
 
-	@Override
-	public String getSkillDisplayName() {
-		return "Dark Shot";
-	}
+    @Override
+    public String getSkillDisplayName() {
+        return "Dark Shot";
+    }
 
-	@Override
-	public String getSkillInternalName() {
-		return "DARK SHOT";
-	}
+    @Override
+    public String getSkillInternalName() {
+        return "DARK SHOT";
+    }
 
-	@Override
-	public boolean execute(Player executer) {
-		return false;
-	}
+    @Override
+    public boolean execute(Player executer) {
+        return false;
+    }
 
-	@Override
-	public boolean execute(SpawnedMonster executer) {
-		Creature c = executer.getMonsterEntity().getEntity();
-		World w = c.getWorld();
+    @Override
+    public boolean execute(SpawnedMonster executer) {
+        Creature c = executer.getMonsterEntity().getEntity();
+        World w = c.getWorld();
 
-		// Get random target
-		UUID targetID = executer.getMonsterEntity().getRandomAggroTarget();
+        // Get random target
+        UUID targetID = executer.getMonsterEntity().getRandomAggroTarget();
 
-		LivingEntity target = null;
-		for (LivingEntity le : w.getLivingEntities()) {
-			if (le.getUniqueId().equals(targetID)) {
-				target = le;
-				break;
-			}
-		}
+        LivingEntity target = null;
+        for (LivingEntity le : w.getLivingEntities()) {
+            if (le.getUniqueId().equals(targetID)) {
+                target = le;
+                break;
+            }
+        }
 
-		if (target == null) {
-			// Handle if no target?
-			System.out.println("No target. abort FrostBolt");
-			return false;
-		}
+        if (target == null) {
+            // Handle if no target?
+            System.out.println("No target. abort FrostBolt");
+            return false;
+        }
 
-		return this.execute(executer, target.getEyeLocation());
-	}
+        return this.execute(executer, target.getEyeLocation());
+    }
 
-	@Override
-	public boolean execute(SpawnedMonster executer, Location targetLoc) {
-		Creature c = executer.getMonsterEntity().getEntity();
-		CraftCreature cc = (CraftCreature) c;
-		World w = c.getWorld();
-		CraftWorld cw = (CraftWorld) w;
+    @Override
+    public boolean execute(SpawnedMonster executer, Location targetLoc) {
+        Creature c = executer.getMonsterEntity().getEntity();
+        CraftCreature cc = (CraftCreature) c;
+        World w = c.getWorld();
+        CraftWorld cw = (CraftWorld) w;
 
-		Location location = executer.getMonsterEntity().getEntity().getEyeLocation();
+        Location location = executer.getMonsterEntity().getEntity().getEyeLocation();
 
-		Vector dir = targetLoc.clone().subtract(c.getEyeLocation()).toVector();
-		dir.normalize();
-		// dir.multiply(0.8);
-		Vector velo = dir.clone().multiply(0.2);
-		double len = dir.length();
+        Vector dir = targetLoc.clone().subtract(c.getEyeLocation()).toVector();
+        dir.normalize();
+        // dir.multiply(0.8);
+        Vector velo = dir.clone().multiply(0.2);
+        double len = dir.length();
 
-		EntityWitherSkull launch = new EntityWitherSkull(cw.getHandle(), cc.getHandle(), dir.getX(), dir.getY(),
-				dir.getZ());
-		
-		launch.dirX = velo.getX();
-		launch.dirY = velo.getY();
-		launch.dirZ = velo.getZ();
+        EntityWitherSkull launch = new EntityWitherSkull(cw.getHandle(), cc.getHandle(), dir.getX(), dir.getY(),
+                dir.getZ());
 
-		launch.projectileSource = cc;
-		launch.setPositionRotation(location.getX(), location.getY(), location.getZ(),
-				(float) Math.atan2(dir.getX(), dir.getZ()), (float) Math.asin(dir.getY() / len));
+        launch.dirX = velo.getX();
+        launch.dirY = velo.getY();
+        launch.dirZ = velo.getZ();
 
-		cw.getHandle().addEntity(launch);
+        launch.projectileSource = cc;
+        launch.setPositionRotation(location.getX(), location.getY(), location.getZ(),
+                (float) Math.atan2(dir.getX(), dir.getZ()), (float) Math.asin(dir.getY() / len));
 
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(RaidBosses.getPluginInstance(), new Runnable() {
+        cw.getHandle().addEntity(launch);
 
-			@Override
-			public void run() {
-				EntityWitherSkull launch = new EntityWitherSkull(cw.getHandle(), cc.getHandle(), dir.getX(), dir.getY(),
-						dir.getZ());
+        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(RaidBosses.getPluginInstance(), new Runnable() {
 
-				launch.dirX = velo.getX();
-				launch.dirY = velo.getY();
-				launch.dirZ = velo.getZ();
-				
-				launch.projectileSource = cc;
-				launch.setPositionRotation(location.getX(), location.getY(), location.getZ(),
-						(float) Math.atan2(dir.getX(), dir.getZ()), (float) Math.asin(dir.getY() / len));
+            @Override
+            public void run() {
+                EntityWitherSkull launch = new EntityWitherSkull(cw.getHandle(), cc.getHandle(), dir.getX(), dir.getY(),
+                        dir.getZ());
 
-				// launch.getBukkitEntity().setVelocity(velo); // ok?
-				cw.getHandle().addEntity(launch);
-			}
+                launch.dirX = velo.getX();
+                launch.dirY = velo.getY();
+                launch.dirZ = velo.getZ();
 
-		}, 10);
+                launch.projectileSource = cc;
+                launch.setPositionRotation(location.getX(), location.getY(), location.getZ(),
+                        (float) Math.atan2(dir.getX(), dir.getZ()), (float) Math.asin(dir.getY() / len));
 
-		// RaidBosses.getPluginInstance().getCustomDamageHandler().setCustomDamageToEntity(ws.getUniqueId(),
-		// damage);
+                // launch.getBukkitEntity().setVelocity(velo); // ok?
+                cw.getHandle().addEntity(launch);
+            }
 
-		return true;
-	}
+        }, 10);
 
-	@Override
-	public int getBasicHungerCost() {
-		return 0;
-	}
+        // RaidBosses.getPluginInstance().getCustomDamageHandler().setCustomDamageToEntity(ws.getUniqueId(),
+        // damage);
 
-	@Override
-	public int getCooldownTicks() {
-		return 40;
-	}
+        return true;
+    }
 
-	@Override
-	public Material getDisplayMaterial() {
-		return null;
-	}
+    @Override
+    public int getBasicHungerCost() {
+        return 0;
+    }
 
-	@Override
-	public List<String> getLore() {
-		return null;
-	}
+    @Override
+    public int getCooldownTicks() {
+        return 40;
+    }
 
-	@Override
-	public boolean isTriggerGlobalCooldown() {
-		return true;
-	}
+    @Override
+    public Material getDisplayMaterial() {
+        return null;
+    }
+
+    @Override
+    public List<String> getLore() {
+        return null;
+    }
+
+    @Override
+    public boolean isTriggerGlobalCooldown() {
+        return true;
+    }
 
 }

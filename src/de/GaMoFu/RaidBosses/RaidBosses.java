@@ -30,200 +30,200 @@ import de.GaMoFu.RaidBosses.Worlds.Worlds;
 
 public final class RaidBosses extends JavaPlugin {
 
-	// TODO: Mob Spawnen / add via click
-	// TODO: select spawned mob via click
-	// TODO: Modify selected mob, change Type, delete, move, rotate
+    // TODO: Mob Spawnen / add via click
+    // TODO: select spawned mob via click
+    // TODO: Modify selected mob, change Type, delete, move, rotate
 
-	private CommandManager commandManager;
+    private CommandManager commandManager;
 
-	private static RaidBosses pluginInstance;
+    private static RaidBosses pluginInstance;
 
-	private Worlds worlds;
+    private Worlds worlds;
 
-	private Dungeons instances;
+    private Dungeons instances;
 
-	private SkillFactory skillFactory;
+    private SkillFactory skillFactory;
 
-	private ItemsFactory itemsFactory;
+    private ItemsFactory itemsFactory;
 
-	private TraderFactory traderFactory;
+    private TraderFactory traderFactory;
 
-	private HologramHandler hologramHandler;
+    private HologramHandler hologramHandler;
 
-	private FallingSwordHandler fallingSwordHandler;
+    private FallingSwordHandler fallingSwordHandler;
 
-	private ProjectileManager projectileManager;
+    private ProjectileManager projectileManager;
 
-	private AreaCloudHandler areaCloudHandler;
+    private AreaCloudHandler areaCloudHandler;
 
-	private CustomDamageHandler customDamageHandler;
+    private CustomDamageHandler customDamageHandler;
 
-	private PortalHandler portalHandler;
+    private PortalHandler portalHandler;
 
-	private Map<UUID, PlayerSettings> playerSettings;
+    private Map<UUID, PlayerSettings> playerSettings;
 
-	public static DecimalFormat df;
+    public static DecimalFormat df;
 
-	private void printAsciiArt() {
+    private void printAsciiArt() {
 
-		this.getLogger().info("");
+        this.getLogger().info("");
 
-		BufferedReader bufferedReader = new BufferedReader(
-				new InputStreamReader(getClass().getResourceAsStream("/ascii/all.cfg")));
-		List<String> enabledFiles = bufferedReader.lines().collect(Collectors.toCollection(ArrayList::new));
+        BufferedReader bufferedReader = new BufferedReader(
+                new InputStreamReader(getClass().getResourceAsStream("/ascii/all.cfg")));
+        List<String> enabledFiles = bufferedReader.lines().collect(Collectors.toCollection(ArrayList::new));
 
-		if (enabledFiles == null || enabledFiles.isEmpty()) {
-			this.getLogger().info("#####################################################");
-			this.getLogger().info("#################### RAID BOSSES ####################");
-			this.getLogger().info("#####################################################");
-			return;
-		}
-		
-		System.out.println("\033[31;1mHello\033[0m, \033[32;1;2mworld!\033[0m");
-		System.out.println("\033[31mRed\033[32m, Green\033[33m, Yellow\033[34m, Blue\033[0m");
+        if (enabledFiles == null || enabledFiles.isEmpty()) {
+            this.getLogger().info("#####################################################");
+            this.getLogger().info("#################### RAID BOSSES ####################");
+            this.getLogger().info("#####################################################");
+            return;
+        }
 
-		String useName = enabledFiles.get(new Random().nextInt(enabledFiles.size()));
+        System.out.println("\033[31;1mHello\033[0m, \033[32;1;2mworld!\033[0m");
+        System.out.println("\033[31mRed\033[32m, Green\033[33m, Yellow\033[34m, Blue\033[0m");
 
-		try {
-			BufferedReader br = new BufferedReader(
-					new InputStreamReader(getClass().getResourceAsStream("/ascii/" + useName)));
-			String line;
-			while ((line = br.readLine()) != null) {
-				this.getLogger().info(line);
-			}
-			this.getLogger().info("");
-			br.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+        String useName = enabledFiles.get(new Random().nextInt(enabledFiles.size()));
 
-	@Override
-	public void onDisable() {
-		this.worlds.saveWorldsList();
-		this.instances.saveInstancesList();
-		this.saveConfig();
-		this.getLogger().info("RaidBosses has been disabled");
-	}
+        try {
+            BufferedReader br = new BufferedReader(
+                    new InputStreamReader(getClass().getResourceAsStream("/ascii/" + useName)));
+            String line;
+            while ((line = br.readLine()) != null) {
+                this.getLogger().info(line);
+            }
+            this.getLogger().info("");
+            br.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
-	@Override
-	public void onEnable() {
-		this.printAsciiArt();
+    @Override
+    public void onDisable() {
+        this.worlds.saveWorldsList();
+        this.instances.saveInstancesList();
+        this.saveConfig();
+        this.getLogger().info("RaidBosses has been disabled");
+    }
 
-		this.hologramHandler = new HologramHandler(this);
+    @Override
+    public void onEnable() {
+        this.printAsciiArt();
 
-		df = new DecimalFormat("#.0");
-		df.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.ENGLISH));
+        this.hologramHandler = new HologramHandler(this);
 
-		pluginInstance = this;
+        df = new DecimalFormat("#.0");
+        df.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.ENGLISH));
 
-		// must be initialized before instances
-		this.worlds = new Worlds(this);
+        pluginInstance = this;
 
-		this.instances = new Dungeons(this);
+        // must be initialized before instances
+        this.worlds = new Worlds(this);
 
-		commandManager = new CommandManager();
+        this.instances = new Dungeons(this);
 
-		this.playerSettings = new HashMap<>();
+        commandManager = new CommandManager();
 
-		for (Player p : this.getServer().getOnlinePlayers()) {
-			this.playerSettings.put(p.getUniqueId(), new PlayerSettings(this, p));
-		}
+        this.playerSettings = new HashMap<>();
 
-		this.skillFactory = new SkillFactory(this);
+        for (Player p : this.getServer().getOnlinePlayers()) {
+            this.playerSettings.put(p.getUniqueId(), new PlayerSettings(this, p));
+        }
 
-		this.itemsFactory = new ItemsFactory(this);
+        this.skillFactory = new SkillFactory(this);
 
-		this.traderFactory = new TraderFactory(this);
+        this.itemsFactory = new ItemsFactory(this);
 
-		this.fallingSwordHandler = new FallingSwordHandler(this);
+        this.traderFactory = new TraderFactory(this);
 
-		this.projectileManager = new ProjectileManager(this);
+        this.fallingSwordHandler = new FallingSwordHandler(this);
 
-		this.areaCloudHandler = new AreaCloudHandler(this);
+        this.projectileManager = new ProjectileManager(this);
 
-		this.customDamageHandler = new CustomDamageHandler(this);
+        this.areaCloudHandler = new AreaCloudHandler(this);
 
-		this.portalHandler = new PortalHandler(this);
+        this.customDamageHandler = new CustomDamageHandler(this);
 
-		this.getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
+        this.portalHandler = new PortalHandler(this);
 
-		this.getServer().getPluginManager().registerEvents(new DungeonDesignListener(this), this);
+        this.getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
 
-		this.getLogger().info("RaidBosses has benn enabled");
+        this.getServer().getPluginManager().registerEvents(new DungeonDesignListener(this), this);
 
-		// player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-		// TextComponent.fromLegacyText("Test"));
-	}
+        this.getLogger().info("RaidBosses has benn enabled");
 
-	public static RaidBosses getPluginInstance() {
-		return pluginInstance;
-	}
+        // player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
+        // TextComponent.fromLegacyText("Test"));
+    }
 
-	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		this.getLogger().info(
-				sender.getName() + " issued command: " + command.getName() + " with args: " + Arrays.toString(args));
-		return this.commandManager.onCommand(this, sender, command, label, args);
-	}
+    public static RaidBosses getPluginInstance() {
+        return pluginInstance;
+    }
 
-	public Worlds getWorlds() {
-		return this.worlds;
-	}
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        this.getLogger().info(
+                sender.getName() + " issued command: " + command.getName() + " with args: " + Arrays.toString(args));
+        return this.commandManager.onCommand(this, sender, command, label, args);
+    }
 
-	public Dungeons getInstances() {
-		return this.instances;
-	}
+    public Worlds getWorlds() {
+        return this.worlds;
+    }
 
-	public SkillFactory getSkillFactory() {
-		return this.skillFactory;
-	}
+    public Dungeons getInstances() {
+        return this.instances;
+    }
 
-	public ItemsFactory getItemsFactory() {
-		return this.itemsFactory;
-	}
+    public SkillFactory getSkillFactory() {
+        return this.skillFactory;
+    }
 
-	public TraderFactory getTraderFactory() {
-		return this.traderFactory;
-	}
+    public ItemsFactory getItemsFactory() {
+        return this.itemsFactory;
+    }
 
-	public HologramHandler getHologramHandler() {
-		return this.hologramHandler;
-	}
+    public TraderFactory getTraderFactory() {
+        return this.traderFactory;
+    }
 
-	public FallingSwordHandler getFallingSwordHandler() {
-		return this.fallingSwordHandler;
-	}
+    public HologramHandler getHologramHandler() {
+        return this.hologramHandler;
+    }
 
-	public ProjectileManager getProjectileManager() {
-		return this.projectileManager;
-	}
+    public FallingSwordHandler getFallingSwordHandler() {
+        return this.fallingSwordHandler;
+    }
 
-	public AreaCloudHandler getAreaCloudHandler() {
-		return this.areaCloudHandler;
-	}
+    public ProjectileManager getProjectileManager() {
+        return this.projectileManager;
+    }
 
-	public CustomDamageHandler getCustomDamageHandler() {
-		return this.customDamageHandler;
-	}
+    public AreaCloudHandler getAreaCloudHandler() {
+        return this.areaCloudHandler;
+    }
 
-	public PortalHandler getPortalHandler() {
-		return this.portalHandler;
-	}
+    public CustomDamageHandler getCustomDamageHandler() {
+        return this.customDamageHandler;
+    }
 
-	public void addNewPlayerSettings(Player player) {
-		this.playerSettings.put(player.getUniqueId(), new PlayerSettings(this, player));
-	}
+    public PortalHandler getPortalHandler() {
+        return this.portalHandler;
+    }
 
-	public PlayerSettings getPlayerSettings(Player player) {
-		return this.playerSettings.get(player.getUniqueId());
-	}
+    public void addNewPlayerSettings(Player player) {
+        this.playerSettings.put(player.getUniqueId(), new PlayerSettings(this, player));
+    }
 
-	public void removePlayerSettings(Player player) {
-		PlayerSettings ps = this.playerSettings.get(player.getUniqueId());
-		ps.onQuit();
-		this.playerSettings.remove(player.getUniqueId());
-	}
+    public PlayerSettings getPlayerSettings(Player player) {
+        return this.playerSettings.get(player.getUniqueId());
+    }
+
+    public void removePlayerSettings(Player player) {
+        PlayerSettings ps = this.playerSettings.get(player.getUniqueId());
+        ps.onQuit();
+        this.playerSettings.remove(player.getUniqueId());
+    }
 
 }

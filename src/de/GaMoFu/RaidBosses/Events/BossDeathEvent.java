@@ -8,25 +8,25 @@ import de.GaMoFu.RaidBosses.Monsters.Boss;
 
 public class BossDeathEvent extends Event {
 
-	private static final HandlerList handlers = new HandlerList();
+    private static final HandlerList handlers = new HandlerList();
 
-	private Boss<? extends Creature> boss;
+    private Boss<? extends Creature> boss;
 
-	public BossDeathEvent(Boss<? extends Creature> boss) {
-		this.boss = boss;
-	}
+    public BossDeathEvent(Boss<? extends Creature> boss) {
+        this.boss = boss;
+    }
 
-	public Boss<? extends Creature> getBoss() {
-		return this.boss;
-	}
+    public Boss<? extends Creature> getBoss() {
+        return this.boss;
+    }
 
-	@Override
-	public HandlerList getHandlers() {
-		return handlers;
-	}
+    @Override
+    public HandlerList getHandlers() {
+        return handlers;
+    }
 
-	public static HandlerList getHandlerList() {
-		return handlers;
-	}
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
 
 }

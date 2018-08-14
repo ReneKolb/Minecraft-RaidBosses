@@ -14,58 +14,58 @@ import net.minecraft.server.v1_13_R1.DamageSource;
 
 public class Utils {
 
-	public static String LocationToString(Location loc) {
-		String worldName = loc.getWorld().getName();
+    public static String LocationToString(Location loc) {
+        String worldName = loc.getWorld().getName();
 
-		int blockX = loc.getBlockX();
-		double x = loc.getX();
+        int blockX = loc.getBlockX();
+        double x = loc.getX();
 
-		int blockY = loc.getBlockY();
-		double y = loc.getY();
+        int blockY = loc.getBlockY();
+        double y = loc.getY();
 
-		int blockZ = loc.getBlockZ();
-		double z = loc.getZ();
+        int blockZ = loc.getBlockZ();
+        double z = loc.getZ();
 
-		// float yaw = loc.getYaw();
-		// float pitch = loc.getPitch();
+        // float yaw = loc.getYaw();
+        // float pitch = loc.getPitch();
 
-		StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder();
 
-		builder.append("(").append(ChatColor.AQUA).append(worldName).append(ChatColor.RESET).append(") ");
-		builder.append("[").append(blockX).append("]");
-		builder.append(String.format("%.2f", x));
-		builder.append(" [").append(blockY).append("]");
-		builder.append(String.format("%.2f", y));
-		builder.append(" [").append(blockZ).append("]");
-		builder.append(String.format("%.2f", z));
+        builder.append("(").append(ChatColor.AQUA).append(worldName).append(ChatColor.RESET).append(") ");
+        builder.append("[").append(blockX).append("]");
+        builder.append(String.format("%.2f", x));
+        builder.append(" [").append(blockY).append("]");
+        builder.append(String.format("%.2f", y));
+        builder.append(" [").append(blockZ).append("]");
+        builder.append(String.format("%.2f", z));
 
-		return builder.toString();
-	}
+        return builder.toString();
+    }
 
-	public static void sendLocation(CommandSender sender, Location loc) {
-		String worldName = loc.getWorld().getName();
+    public static void sendLocation(CommandSender sender, Location loc) {
+        String worldName = loc.getWorld().getName();
 
-		int blockX = loc.getBlockX();
-		double x = loc.getX();
+        int blockX = loc.getBlockX();
+        double x = loc.getX();
 
-		int blockY = loc.getBlockY();
-		double y = loc.getY();
+        int blockY = loc.getBlockY();
+        double y = loc.getY();
 
-		int blockZ = loc.getBlockZ();
-		double z = loc.getZ();
+        int blockZ = loc.getBlockZ();
+        double z = loc.getZ();
 
-		float yaw = loc.getYaw();
-		float pitch = loc.getPitch();
+        float yaw = loc.getYaw();
+        float pitch = loc.getPitch();
 
-		sender.sendMessage("Location in '" + ChatColor.BLUE + worldName + ChatColor.RESET + "'");
-		sender.sendMessage("  X: [" + blockX + "] " + x);
-		sender.sendMessage("  Y: [" + blockY + "] " + y);
-		sender.sendMessage("  Z: [" + blockZ + "] " + z);
-		sender.sendMessage("  yaw:   " + yaw);
-		sender.sendMessage("  pitch: " + pitch);
-	}
+        sender.sendMessage("Location in '" + ChatColor.BLUE + worldName + ChatColor.RESET + "'");
+        sender.sendMessage("  X: [" + blockX + "] " + x);
+        sender.sendMessage("  Y: [" + blockY + "] " + y);
+        sender.sendMessage("  Z: [" + blockZ + "] " + z);
+        sender.sendMessage("  yaw:   " + yaw);
+        sender.sendMessage("  pitch: " + pitch);
+    }
 
-	//@formatter:off
+    //@formatter:off
 	public static List<Material> interactableBlocks = Arrays.asList(
             Material.ANVIL,
             Material.BEACON,
@@ -112,13 +112,13 @@ public class Utils {
             Material.CRAFTING_TABLE);
 	//@formatter:on
 
-	public static void setIgnoreArmor(DamageSource ds) {
-		try {
-			Method setIgnoreArmor = DamageSource.class.getDeclaredMethod("setIgnoreArmor");
-			setIgnoreArmor.invoke(ds);
-		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
-				| InvocationTargetException e) {
-			e.printStackTrace();
-		}
-	}
+    public static void setIgnoreArmor(DamageSource ds) {
+        try {
+            Method setIgnoreArmor = DamageSource.class.getDeclaredMethod("setIgnoreArmor");
+            setIgnoreArmor.invoke(ds);
+        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
+                | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
 }

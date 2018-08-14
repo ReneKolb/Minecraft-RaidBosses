@@ -21,74 +21,74 @@ import de.GaMoFu.RaidBosses.Skill.ISkill;
 
 public class WitherAura implements ISkill {
 
-	@Override
-	public String getSkillDisplayName() {
-		return "Wither Aura";
-	}
+    @Override
+    public String getSkillDisplayName() {
+        return "Wither Aura";
+    }
 
-	@Override
-	public String getSkillInternalName() {
-		return "WITHER AURA";
-	}
+    @Override
+    public String getSkillInternalName() {
+        return "WITHER AURA";
+    }
 
-	@Override
-	public boolean execute(Player executer) {
-		return false;
-	}
+    @Override
+    public boolean execute(Player executer) {
+        return false;
+    }
 
-	@Override
-	public boolean execute(SpawnedMonster executer) {
-		Creature damager = executer.getMonsterEntity().getEntity();
-		Location loc = damager.getLocation();
-		return this.execute(executer, loc);
-	}
+    @Override
+    public boolean execute(SpawnedMonster executer) {
+        Creature damager = executer.getMonsterEntity().getEntity();
+        Location loc = damager.getLocation();
+        return this.execute(executer, loc);
+    }
 
-	@Override
-	public boolean execute(SpawnedMonster executer, Location targetLoc) {
-		
-		Creature damager = executer.getMonsterEntity().getEntity();
-		CraftCreature cDamager = (CraftCreature) damager;
-		World w = targetLoc.getWorld();
+    @Override
+    public boolean execute(SpawnedMonster executer, Location targetLoc) {
 
-		for (Player p : w.getPlayers()) {
-			if (p.getLocation().distanceSquared(targetLoc) <= 10 * 10) {
-				p.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 80, 0),true);
-			}
-		}
+        Creature damager = executer.getMonsterEntity().getEntity();
+        CraftCreature cDamager = (CraftCreature) damager;
+        World w = targetLoc.getWorld();
 
-		ParticleEffect effect = new ParticleEffect(Particle.PORTAL, 50, 0.5, 0.5, 0.5, 0.01);
-		Vector vec = targetLoc.toVector();
-		vec.setY(vec.getY() + 0.5);
-		PointEffect.doEffect(w, vec, effect);
+        for (Player p : w.getPlayers()) {
+            if (p.getLocation().distanceSquared(targetLoc) <= 10 * 10) {
+                p.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 80, 0), true);
+            }
+        }
 
-		SphereEffect.doEffect(targetLoc.clone().add(0, 1, 0), Particle.SPELL_WITCH, 10, 0, 0, 0, 150, 10);
+        ParticleEffect effect = new ParticleEffect(Particle.PORTAL, 50, 0.5, 0.5, 0.5, 0.01);
+        Vector vec = targetLoc.toVector();
+        vec.setY(vec.getY() + 0.5);
+        PointEffect.doEffect(w, vec, effect);
 
-		return true;
-	}
+        SphereEffect.doEffect(targetLoc.clone().add(0, 1, 0), Particle.SPELL_WITCH, 10, 0, 0, 0, 150, 10);
 
-	@Override
-	public int getBasicHungerCost() {
-		return 0;
-	}
+        return true;
+    }
 
-	@Override
-	public int getCooldownTicks() {
-		return 10;
-	}
+    @Override
+    public int getBasicHungerCost() {
+        return 0;
+    }
 
-	@Override
-	public Material getDisplayMaterial() {
-		return null;
-	}
+    @Override
+    public int getCooldownTicks() {
+        return 10;
+    }
 
-	@Override
-	public List<String> getLore() {
-		return null;
-	}
+    @Override
+    public Material getDisplayMaterial() {
+        return null;
+    }
 
-	@Override
-	public boolean isTriggerGlobalCooldown() {
-		return false;
-	}
+    @Override
+    public List<String> getLore() {
+        return null;
+    }
+
+    @Override
+    public boolean isTriggerGlobalCooldown() {
+        return false;
+    }
 
 }

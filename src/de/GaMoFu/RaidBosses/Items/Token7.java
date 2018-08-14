@@ -13,7 +13,7 @@ public class Token7 extends Token {
     public ItemTier getItemTier() {
         return ItemTier.TIER_7;
     }
-    
+
     @Override
     public Material getDisplayMaterial() {
         return Material.DIAMOND;

@@ -20,213 +20,214 @@ import net.minecraft.server.v1_13_R1.EntityLiving;
 
 public class ParticleProjectile {
 
-	private List<ParticleEffect> onFlyingTick;
+    private List<ParticleEffect> onFlyingTick;
 
-	// FIXME: maybe a patterned Effect
-	private List<ParticleEffect> onHit;
+    // FIXME: maybe a patterned Effect
+    private List<ParticleEffect> onHit;
 
-	private float hitRadius;
+    private float hitRadius;
 
-	private double maxFlyDistance;
+    private double maxFlyDistance;
 
-	private double flyedDistance;
+    private double flyedDistance;
 
-	private double damage;
-	
-	private boolean ignoreArmor;
+    private double damage;
 
-	private LivingEntity shooter;
+    private boolean ignoreArmor;
 
-	private UUID uuid;
+    private LivingEntity shooter;
 
-	private Vector dir;
+    private UUID uuid;
 
-	private World world;
+    private Vector dir;
 
-	private Location location;
+    private World world;
 
-	private boolean flyThroughNonAir;
+    private Location location;
 
-	private boolean die;
+    private boolean flyThroughNonAir;
 
-	public ParticleProjectile(List<ParticleEffect> onFlyingTick, List<ParticleEffect> onHit, float hitRadius,
-			double maxFlyDistance, double damage, boolean ignoreArmor, LivingEntity shooter, Vector dir, Location location) {
-		this.onFlyingTick = onFlyingTick;
-		this.onHit = onHit;
-		this.hitRadius = hitRadius;
-		this.maxFlyDistance = maxFlyDistance;
-		this.damage = damage;
-		this.ignoreArmor = ignoreArmor;
-		this.shooter = shooter;
-		this.dir = dir;
-		this.location = location;
-		this.world = location.getWorld();
+    private boolean die;
 
-		this.flyThroughNonAir = false;
-		this.die = false;
+    public ParticleProjectile(List<ParticleEffect> onFlyingTick, List<ParticleEffect> onHit, float hitRadius,
+            double maxFlyDistance, double damage, boolean ignoreArmor, LivingEntity shooter, Vector dir,
+            Location location) {
+        this.onFlyingTick = onFlyingTick;
+        this.onHit = onHit;
+        this.hitRadius = hitRadius;
+        this.maxFlyDistance = maxFlyDistance;
+        this.damage = damage;
+        this.ignoreArmor = ignoreArmor;
+        this.shooter = shooter;
+        this.dir = dir;
+        this.location = location;
+        this.world = location.getWorld();
 
-		this.flyedDistance = 0;
-		this.uuid = UUID.randomUUID();
-	}
+        this.flyThroughNonAir = false;
+        this.die = false;
 
-	/**
-	 * @return the onFlyingTick
-	 */
-	public List<ParticleEffect> getOnFlyingTick() {
-		return onFlyingTick;
-	}
+        this.flyedDistance = 0;
+        this.uuid = UUID.randomUUID();
+    }
 
-	/**
-	 * @return the hitRadius
-	 */
-	public float getHitRadius() {
-		return hitRadius;
-	}
+    /**
+     * @return the onFlyingTick
+     */
+    public List<ParticleEffect> getOnFlyingTick() {
+        return onFlyingTick;
+    }
 
-	/**
-	 * @return the maxFlyDistance
-	 */
-	public double getMaxFlyDistance() {
-		return maxFlyDistance;
-	}
+    /**
+     * @return the hitRadius
+     */
+    public float getHitRadius() {
+        return hitRadius;
+    }
 
-	/**
-	 * @return the flyedDistance
-	 */
-	public double getFlyedDistance() {
-		return flyedDistance;
-	}
+    /**
+     * @return the maxFlyDistance
+     */
+    public double getMaxFlyDistance() {
+        return maxFlyDistance;
+    }
 
-	/**
-	 * @return the damage
-	 */
-	public double getDamage() {
-		return damage;
-	}
+    /**
+     * @return the flyedDistance
+     */
+    public double getFlyedDistance() {
+        return flyedDistance;
+    }
 
-	/**
-	 * @return the shooter
-	 */
-	public LivingEntity getShooter() {
-		return shooter;
-	}
+    /**
+     * @return the damage
+     */
+    public double getDamage() {
+        return damage;
+    }
 
-	/**
-	 * @return the uuid
-	 */
-	public UUID getUuid() {
-		return uuid;
-	}
+    /**
+     * @return the shooter
+     */
+    public LivingEntity getShooter() {
+        return shooter;
+    }
 
-	/**
-	 * @return the dir
-	 */
-	public Vector getDir() {
-		return dir;
-	}
+    /**
+     * @return the uuid
+     */
+    public UUID getUuid() {
+        return uuid;
+    }
 
-	/**
-	 * @return the location
-	 */
-	public Location getLocation() {
-		return location;
-	}
+    /**
+     * @return the dir
+     */
+    public Vector getDir() {
+        return dir;
+    }
 
-	/**
-	 * @return the world
-	 */
-	public World getWorld() {
-		return world;
-	}
+    /**
+     * @return the location
+     */
+    public Location getLocation() {
+        return location;
+    }
 
-	/**
-	 * @return the die
-	 */
-	public boolean isDie() {
-		return die;
-	}
+    /**
+     * @return the world
+     */
+    public World getWorld() {
+        return world;
+    }
 
-	protected Vector getDirectionVector() {
-		return this.dir;
-	}
+    /**
+     * @return the die
+     */
+    public boolean isDie() {
+        return die;
+    }
 
-	public void tick() {
-		double oldX = location.getX();
-		double oldY = location.getY();
-		double oldZ = location.getZ();
+    protected Vector getDirectionVector() {
+        return this.dir;
+    }
 
-		Vector dirVec = getDirectionVector();
+    public void tick() {
+        double oldX = location.getX();
+        double oldY = location.getY();
+        double oldZ = location.getZ();
 
-		location.add(dirVec.getX(), dirVec.getY(), dirVec.getZ());
+        Vector dirVec = getDirectionVector();
 
-		double x = location.getX();
-		double y = location.getY();
-		double z = location.getZ();
+        location.add(dirVec.getX(), dirVec.getY(), dirVec.getZ());
 
-		this.flyedDistance += dirVec.length();
+        double x = location.getX();
+        double y = location.getY();
+        double z = location.getZ();
 
-		Block targetBlock = world.getBlockAt((int) x, (int) y, (int) z);
-		Material blockMat = targetBlock.getType();
-		if (!this.flyThroughNonAir && blockMat != Material.AIR && blockMat.isBlock()) {
-			this.die = true;
-			System.out.println("Hit wall");
-			// hit a wall
-			// trigger explode or so
-		}
+        this.flyedDistance += dirVec.length();
 
-		for (ParticleEffect e : onFlyingTick) {
-			LineEffect.doEffect(world, new Vector(oldX, oldY, oldZ), new Vector(x, y, z), e, 0.3);
-		}
+        Block targetBlock = world.getBlockAt((int) x, (int) y, (int) z);
+        Material blockMat = targetBlock.getType();
+        if (!this.flyThroughNonAir && blockMat != Material.AIR && blockMat.isBlock()) {
+            this.die = true;
+            System.out.println("Hit wall");
+            // hit a wall
+            // trigger explode or so
+        }
 
-		if (this.flyedDistance >= this.maxFlyDistance) {
-			this.die = true;
-			System.out.println("Flyed too far");
-		}
+        for (ParticleEffect e : onFlyingTick) {
+            LineEffect.doEffect(world, new Vector(oldX, oldY, oldZ), new Vector(x, y, z), e, 0.3);
+        }
 
-		DamageSource ds;
-		if (shooter instanceof Player) {
-			ds = DamageSource.playerAttack(((CraftPlayer) shooter).getHandle());
-		} else {
-			ds = DamageSource.mobAttack(((CraftLivingEntity) shooter).getHandle());
-		}
-		
-		if(this.ignoreArmor) {
-			Utils.setIgnoreArmor(ds);
-		}
+        if (this.flyedDistance >= this.maxFlyDistance) {
+            this.die = true;
+            System.out.println("Flyed too far");
+        }
 
-		boolean hit = false;
-		for (LivingEntity le : world.getLivingEntities()) {
-			if ((shooter instanceof Player) && (le instanceof Player)) {
-				continue;
-			}
-			
-			if(le.getUniqueId().equals(shooter.getUniqueId()))
-				continue;
-			
-			if(RaidBosses.getPluginInstance().getHologramHandler().isHologramEntity(le))
-				continue;
+        DamageSource ds;
+        if (shooter instanceof Player) {
+            ds = DamageSource.playerAttack(((CraftPlayer) shooter).getHandle());
+        } else {
+            ds = DamageSource.mobAttack(((CraftLivingEntity) shooter).getHandle());
+        }
 
-			if (le.getEyeLocation().distance(this.location) <= this.hitRadius) {
-				// hit target
-				EntityLiving el = ((CraftLivingEntity) le).getHandle();
+        if (this.ignoreArmor) {
+            Utils.setIgnoreArmor(ds);
+        }
 
-				System.out.println("Hit: "+le.getType());
-				
-				el.damageEntity(ds, (float) this.damage);
-				hit = true;
-				this.die = true;
-			}
-		}
+        boolean hit = false;
+        for (LivingEntity le : world.getLivingEntities()) {
+            if ((shooter instanceof Player) && (le instanceof Player)) {
+                continue;
+            }
 
-		if (hit) {
-			for (ParticleEffect e : onHit) {
-				PointEffect.doEffect(world, location.toVector(), e);
-			}
-		}
+            if (le.getUniqueId().equals(shooter.getUniqueId()))
+                continue;
 
-		// check if hit & trigger damage event
-		// DamageSource.projectile(entity, entity1)
+            if (RaidBosses.getPluginInstance().getHologramHandler().isHologramEntity(le))
+                continue;
 
-	}
+            if (le.getEyeLocation().distance(this.location) <= this.hitRadius) {
+                // hit target
+                EntityLiving el = ((CraftLivingEntity) le).getHandle();
+
+                System.out.println("Hit: " + le.getType());
+
+                el.damageEntity(ds, (float) this.damage);
+                hit = true;
+                this.die = true;
+            }
+        }
+
+        if (hit) {
+            for (ParticleEffect e : onHit) {
+                PointEffect.doEffect(world, location.toVector(), e);
+            }
+        }
+
+        // check if hit & trigger damage event
+        // DamageSource.projectile(entity, entity1)
+
+    }
 
 }

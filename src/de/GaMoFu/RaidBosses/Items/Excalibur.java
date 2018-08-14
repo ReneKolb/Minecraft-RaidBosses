@@ -15,41 +15,41 @@ import de.GaMoFu.RaidBosses.Attributes.Attributes.Slot;
 
 public class Excalibur implements IItem {
 
-	@Override
-	public String getItemDisplayName() {
-		return ChatColor.GOLD + "Excalibur";
-	}
+    @Override
+    public String getItemDisplayName() {
+        return ChatColor.GOLD + "Excalibur";
+    }
 
-	@Override
-	public String getItemInternalName() {
-		return "EXCALIBUR";
-	}
+    @Override
+    public String getItemInternalName() {
+        return "EXCALIBUR";
+    }
 
-	@Override
-	public Material getDisplayMaterial() {
-		return Material.DIAMOND_SWORD;
-	}
+    @Override
+    public Material getDisplayMaterial() {
+        return Material.DIAMOND_SWORD;
+    }
 
-	@Override
-	public List<String> getLore() {
-		return Arrays.asList("The sword to rule them all!");
-	}
+    @Override
+    public List<String> getLore() {
+        return Arrays.asList("The sword to rule them all!");
+    }
 
-	@Override
-	public List<Attribute> getAttributes() {
-		List<Attribute> result = new LinkedList<>();
+    @Override
+    public List<Attribute> getAttributes() {
+        List<Attribute> result = new LinkedList<>();
 
-		result.add(Attribute.newBuilder().type(AttributeType.GENERIC_ATTACK_DAMAGE).name("damage").amount(25)
-				.slot(Slot.MAINHAND).build());
+        result.add(Attribute.newBuilder().type(AttributeType.GENERIC_ATTACK_DAMAGE).name("damage").amount(25)
+                .slot(Slot.MAINHAND).build());
 
-		return result;
-	}
+        return result;
+    }
 
-	@Override
-	public void onDamageEntity(EntityDamageByEntityEvent event) {
-		World w = event.getEntity().getWorld();
-		w.strikeLightning(event.getEntity().getLocation());
+    @Override
+    public void onDamageEntity(EntityDamageByEntityEvent event) {
+        World w = event.getEntity().getWorld();
+        w.strikeLightning(event.getEntity().getLocation());
 
-	}
+    }
 
 }

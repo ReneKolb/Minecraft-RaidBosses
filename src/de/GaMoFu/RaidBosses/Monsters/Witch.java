@@ -5,35 +5,35 @@ import java.util.List;
 import de.GaMoFu.RaidBosses.Skill.ISkill;
 
 public class Witch extends Monster<org.bukkit.entity.Witch> {
-	
-	public static final String ALIAS = "witch";
 
-	public Witch() {
-		super(org.bukkit.entity.Witch.class);
-	}
+    public static final String ALIAS = "witch";
 
-	@Override
-	public List<ISkill> createSkillList() {
-		return null;
-	}
+    public Witch() {
+        super(org.bukkit.entity.Witch.class);
+    }
 
-	@Override
-	public double getMaxHealth() {
-		return 26;
-	}
+    @Override
+    public List<ISkill> createSkillList() {
+        return null;
+    }
 
-	@Override
-	public String getDisplayName() {
-		return "Dirty Bitch ehh Witch";
-	}
+    @Override
+    public double getMaxHealth() {
+        return 26;
+    }
 
-	@Override
-	public double getPullAggroRangeSquared() {
-		return 12 * 12;
-	}
+    @Override
+    public String getDisplayName() {
+        return "Dirty Bitch ehh Witch";
+    }
 
-	@Override
-	protected void afterSpawn() {
-	}
+    @Override
+    public double getPullAggroRangeSquared() {
+        return 12 * 12;
+    }
+
+    @Override
+    protected void afterSpawn() {
+    }
 
 }

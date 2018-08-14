@@ -1,6 +1,5 @@
 package de.GaMoFu.RaidBosses.Commands;
 
-import java.util.Arrays;
 import java.util.Optional;
 
 import org.bukkit.ChatColor;
@@ -11,7 +10,6 @@ import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Creature;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Phantom;
 import org.bukkit.entity.Player;
@@ -21,7 +19,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import de.GaMoFu.RaidBosses.Dungeon;
-import de.GaMoFu.RaidBosses.ParticleEffect;
 import de.GaMoFu.RaidBosses.PlayerSettings;
 import de.GaMoFu.RaidBosses.PlayerSettings.MonsterSelection;
 import de.GaMoFu.RaidBosses.RaidBosses;
@@ -134,8 +131,8 @@ public class TestCommand implements ICommandHandler {
                     EntityType.POLAR_BEAR);
             bear.addPassenger(stray);
 
-        }else if(args.length==2 && args[0].equalsIgnoreCase("phantom")) {
-            Phantom p = (Phantom) player.getWorld().spawnEntity(player.getLocation().add(1,0,1), EntityType.PHANTOM);
+        } else if (args.length == 2 && args[0].equalsIgnoreCase("phantom")) {
+            Phantom p = (Phantom) player.getWorld().spawnEntity(player.getLocation().add(1, 0, 1), EntityType.PHANTOM);
             p.setSize(Integer.parseInt(args[1]));
         }
 

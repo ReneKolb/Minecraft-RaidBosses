@@ -11,37 +11,37 @@ import de.GaMoFu.RaidBosses.RaidBosses;
 
 public class ItemCommands implements ICommandHandler {
 
-	@Override
-	public boolean handleCommand(RaidBosses plugin, CommandSender sender, Command command, String label,
-			String[] args) {
-		if (!(sender instanceof Player)) {
-			sender.sendMessage("This command must be executed as a Player. (for now)");
-			return true;
-		}
+    @Override
+    public boolean handleCommand(RaidBosses plugin, CommandSender sender, Command command, String label,
+            String[] args) {
+        if (!(sender instanceof Player)) {
+            sender.sendMessage("This command must be executed as a Player. (for now)");
+            return true;
+        }
 
-		if (args.length < 2) {
-			return false;
-		}
+        if (args.length < 2) {
+            return false;
+        }
 
-		Player player = (Player) sender;
+        Player player = (Player) sender;
 
-		if (args[0].equalsIgnoreCase("give")) {
-			Optional<ItemStack> item;
+        if (args[0].equalsIgnoreCase("give")) {
+            Optional<ItemStack> item;
 
-			if (args.length == 2)
-				item = plugin.getItemsFactory().buildItemItem(args[1]);
-			else
-				item = plugin.getItemsFactory().buildItemItem(args[1], Integer.parseInt(args[2]));
+            if (args.length == 2)
+                item = plugin.getItemsFactory().buildItemItem(args[1]);
+            else
+                item = plugin.getItemsFactory().buildItemItem(args[1], Integer.parseInt(args[2]));
 
-			if (!item.isPresent()) {
-				player.sendMessage("Item '" + args[1] + "' not found");
-			} else {
-				player.getInventory().addItem(item.get());
-			}
+            if (!item.isPresent()) {
+                player.sendMessage("Item '" + args[1] + "' not found");
+            } else {
+                player.getInventory().addItem(item.get());
+            }
 
-			return true;
-		}
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 }

@@ -13,52 +13,52 @@ import de.GaMoFu.RaidBosses.RaidBosses;
 
 public abstract class Trader {
 
-	protected RaidBosses plugin;
+    protected RaidBosses plugin;
 
-	protected Villager villager;
+    protected Villager villager;
 
-	public abstract String getDisplayName();
-	
-	public abstract String getInternalName();
+    public abstract String getDisplayName();
 
-	public Trader(RaidBosses plugin) {
-		this.plugin = plugin;
+    public abstract String getInternalName();
 
-	}
+    public Trader(RaidBosses plugin) {
+        this.plugin = plugin;
 
-	protected abstract List<MerchantRecipe> getRecipes();
+    }
 
-	protected Optional<MerchantRecipe> buildRecipe(Optional<ItemStack> result, Optional<ItemStack> ingredient1,
-			Optional<ItemStack> ingredient2) {
+    protected abstract List<MerchantRecipe> getRecipes();
 
-		if (result == null || !result.isPresent())
-			return Optional.empty();
+    protected Optional<MerchantRecipe> buildRecipe(Optional<ItemStack> result, Optional<ItemStack> ingredient1,
+            Optional<ItemStack> ingredient2) {
 
-		MerchantRecipe recipe = new MerchantRecipe(result.get(), Integer.MAX_VALUE);
+        if (result == null || !result.isPresent())
+            return Optional.empty();
 
-		if (ingredient1 != null && ingredient1.isPresent())
-			recipe.addIngredient(ingredient1.get());
+        MerchantRecipe recipe = new MerchantRecipe(result.get(), Integer.MAX_VALUE);
 
-		if (ingredient2 != null && ingredient2.isPresent())
-			recipe.addIngredient(ingredient2.get());
+        if (ingredient1 != null && ingredient1.isPresent())
+            recipe.addIngredient(ingredient1.get());
 
-		if (recipe.getIngredients().isEmpty())
-			return Optional.empty();
+        if (ingredient2 != null && ingredient2.isPresent())
+            recipe.addIngredient(ingredient2.get());
 
-		recipe.setExperienceReward(false);
+        if (recipe.getIngredients().isEmpty())
+            return Optional.empty();
 
-		return Optional.of(recipe);
-	}
+        recipe.setExperienceReward(false);
 
-	public void spawn(Location spawnLocation) {
-		this.villager = (Villager) spawnLocation.getWorld().spawnEntity(spawnLocation, EntityType.VILLAGER);
-		this.villager.setAI(false);
-		this.villager.setRemoveWhenFarAway(false);
-		this.villager.setCustomName(getDisplayName());
-		this.villager.setCustomNameVisible(true);
+        return Optional.of(recipe);
+    }
 
-		this.villager.setRecipes(getRecipes());
+    public void spawn(Location spawnLocation) {
+        this.villager = (Villager) spawnLocation.getWorld().spawnEntity(spawnLocation, EntityType.VILLAGER);
+        this.villager.setAI(false);
+        this.villager.setRemoveWhenFarAway(false);
+        this.villager.setCustomName(getDisplayName());
+        this.villager.setCustomNameVisible(true);
 
-	}
+        this.villager.setRecipes(getRecipes());
+
+    }
 
 }

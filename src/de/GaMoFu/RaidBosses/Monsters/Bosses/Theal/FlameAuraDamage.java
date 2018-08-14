@@ -22,86 +22,86 @@ import net.minecraft.server.v1_13_R1.EntityHuman;
 
 public class FlameAuraDamage implements ISkill {
 
-	@Override
-	public String getSkillDisplayName() {
-		return "Flame Aura";
-	}
+    @Override
+    public String getSkillDisplayName() {
+        return "Flame Aura";
+    }
 
-	@Override
-	public String getSkillInternalName() {
-		return "FLAME AURA";
-	}
+    @Override
+    public String getSkillInternalName() {
+        return "FLAME AURA";
+    }
 
-	@Override
-	public boolean execute(Player executer) {
-		return false;
-	}
+    @Override
+    public boolean execute(Player executer) {
+        return false;
+    }
 
-	@Override
-	public boolean execute(SpawnedMonster executer) {
-		Creature damager = executer.getMonsterEntity().getEntity();
-		Location loc = damager.getLocation();
-		return this.execute(executer, loc);
-	}
+    @Override
+    public boolean execute(SpawnedMonster executer) {
+        Creature damager = executer.getMonsterEntity().getEntity();
+        Location loc = damager.getLocation();
+        return this.execute(executer, loc);
+    }
 
-	@Override
-	public boolean execute(SpawnedMonster executer, Location targetLoc) {
+    @Override
+    public boolean execute(SpawnedMonster executer, Location targetLoc) {
 
-		Creature damager = executer.getMonsterEntity().getEntity();
-		CraftCreature cDamager = (CraftCreature) damager;
-		World w = targetLoc.getWorld();
+        Creature damager = executer.getMonsterEntity().getEntity();
+        CraftCreature cDamager = (CraftCreature) damager;
+        World w = targetLoc.getWorld();
 
-		DamageSource source = DamageSource.mobAttack(cDamager.getHandle());
-		// Utils.setIgnoreArmor(source);
+        DamageSource source = DamageSource.mobAttack(cDamager.getHandle());
+        // Utils.setIgnoreArmor(source);
 
-		for (Player p : w.getPlayers()) {
-			if (p.getLocation().distanceSquared(targetLoc) <= 8 * 8) {
+        for (Player p : w.getPlayers()) {
+            if (p.getLocation().distanceSquared(targetLoc) <= 8 * 8) {
 
-				EntityHuman human = ((CraftPlayer) p).getHandle();
-				// dämlicher Umweg, aber so werden wenigstens alle Events richtig getriggert
-				human.damageEntity(source, 5);
-			}
-		}
+                EntityHuman human = ((CraftPlayer) p).getHandle();
+                // dämlicher Umweg, aber so werden wenigstens alle Events richtig getriggert
+                human.damageEntity(source, 5);
+            }
+        }
 
-		w.playSound(targetLoc, Sound.BLOCK_FIRE_AMBIENT, 1, 1);
-		for (int i = 1; i <= 8; i++) {
-			final int radius = i;
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(RaidBosses.getPluginInstance(), new Runnable() {
+        w.playSound(targetLoc, Sound.BLOCK_FIRE_AMBIENT, 1, 1);
+        for (int i = 1; i <= 8; i++) {
+            final int radius = i;
+            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(RaidBosses.getPluginInstance(), new Runnable() {
 
-				@Override
-				public void run() {
-					RingEffect.doEffect(targetLoc, Particle.FLAME, 100, 0.5f, 0.5f, 0, 0, 20, radius);
-				}
+                @Override
+                public void run() {
+                    RingEffect.doEffect(targetLoc, Particle.FLAME, 100, 0.5f, 0.5f, 0, 0, 20, radius);
+                }
 
-			}, 3 * i);
-		}
+            }, 3 * i);
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	@Override
-	public int getBasicHungerCost() {
-		return 0;
-	}
+    @Override
+    public int getBasicHungerCost() {
+        return 0;
+    }
 
-	@Override
-	public int getCooldownTicks() {
-		return 400;
-	}
+    @Override
+    public int getCooldownTicks() {
+        return 400;
+    }
 
-	@Override
-	public Material getDisplayMaterial() {
-		return null;
-	}
+    @Override
+    public Material getDisplayMaterial() {
+        return null;
+    }
 
-	@Override
-	public List<String> getLore() {
-		return null;
-	}
+    @Override
+    public List<String> getLore() {
+        return null;
+    }
 
-	@Override
-	public boolean isTriggerGlobalCooldown() {
-		return true;
-	}
+    @Override
+    public boolean isTriggerGlobalCooldown() {
+        return true;
+    }
 
 }

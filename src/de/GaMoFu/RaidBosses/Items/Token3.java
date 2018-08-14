@@ -13,7 +13,7 @@ public class Token3 extends Token {
     public ItemTier getItemTier() {
         return ItemTier.TIER_3;
     }
-    
+
     @Override
     public Material getDisplayMaterial() {
         return Material.PRISMARINE_SHARD;

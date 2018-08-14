@@ -7,6 +7,6 @@ import de.GaMoFu.RaidBosses.RaidBosses;
 
 public interface ICommandHandler {
 
-	public boolean handleCommand(RaidBosses plugin, CommandSender sender, Command command, String label, String[] args);
+    public boolean handleCommand(RaidBosses plugin, CommandSender sender, Command command, String label, String[] args);
 
 }

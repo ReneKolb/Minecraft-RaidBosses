@@ -11,32 +11,32 @@ import de.GaMoFu.RaidBosses.RaidBosses;
 
 public class SkillCommands implements ICommandHandler {
 
-	@Override
-	public boolean handleCommand(RaidBosses plugin, CommandSender sender, Command command, String label,
-			String[] args) {
-		if (!(sender instanceof Player)) {
-			sender.sendMessage("This command must be executed as a Player");
-			return true;
-		}
+    @Override
+    public boolean handleCommand(RaidBosses plugin, CommandSender sender, Command command, String label,
+            String[] args) {
+        if (!(sender instanceof Player)) {
+            sender.sendMessage("This command must be executed as a Player");
+            return true;
+        }
 
-		if (args.length != 2) {
-			return false;
-		}
+        if (args.length != 2) {
+            return false;
+        }
 
-		Player player = (Player) sender;
+        Player player = (Player) sender;
 
-		if (args[0].equalsIgnoreCase("give")) {
-			Optional<ItemStack> skillItem = plugin.getSkillFactory().buildSkillItem(args[1]);
-			if (!skillItem.isPresent()) {
-				player.sendMessage("Skill '" + args[1] + "' not found");
-			} else {
-				player.getInventory().addItem(skillItem.get());
-			}
+        if (args[0].equalsIgnoreCase("give")) {
+            Optional<ItemStack> skillItem = plugin.getSkillFactory().buildSkillItem(args[1]);
+            if (!skillItem.isPresent()) {
+                player.sendMessage("Skill '" + args[1] + "' not found");
+            } else {
+                player.getInventory().addItem(skillItem.get());
+            }
 
-			return true;
-		}
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
 }

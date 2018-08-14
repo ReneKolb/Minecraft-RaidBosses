@@ -30,166 +30,166 @@ import net.minecraft.server.v1_13_R1.EntityLiving;
 
 public class FallingSwordHandler implements Listener {
 
-	private static final double DAMAGE_DIST_SQUARED = 1;
+    private static final double DAMAGE_DIST_SQUARED = 1;
 
-	public class FallingSword {
+    public class FallingSword {
 
-		public ArmorStand entity;
+        public ArmorStand entity;
 
-		public double damage;
+        public double damage;
 
-		public Entity spawner;
+        public Entity spawner;
 
-	}
+    }
 
-	private Map<UUID, FallingSword> spawnedFallingSwords;
+    private Map<UUID, FallingSword> spawnedFallingSwords;
 
-	private RaidBosses plugin;
+    private RaidBosses plugin;
 
-	private Random rnd = new Random();
+    private Random rnd = new Random();
 
-	public FallingSwordHandler(RaidBosses plugin) {
-		this.plugin = plugin;
+    public FallingSwordHandler(RaidBosses plugin) {
+        this.plugin = plugin;
 
-		this.spawnedFallingSwords = new HashMap<>();
+        this.spawnedFallingSwords = new HashMap<>();
 
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-		plugin.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, this.damageChecker, 2, 2);
-	}
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        plugin.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, this.damageChecker, 2, 2);
+    }
 
-	private Runnable damageChecker = new Runnable() {
+    private Runnable damageChecker = new Runnable() {
 
-		@Override
-		public void run() {
-			List<UUID> toRemove = new LinkedList<>();
-			for (FallingSword fs : spawnedFallingSwords.values()) {
-				for (LivingEntity le : fs.entity.getWorld().getLivingEntities()) {
-					if (fs.entity.getUniqueId().equals(le.getUniqueId()))
-						continue;
+        @Override
+        public void run() {
+            List<UUID> toRemove = new LinkedList<>();
+            for (FallingSword fs : spawnedFallingSwords.values()) {
+                for (LivingEntity le : fs.entity.getWorld().getLivingEntities()) {
+                    if (fs.entity.getUniqueId().equals(le.getUniqueId()))
+                        continue;
 
-					if ((fs.spawner instanceof Player) && (le instanceof Player))
-						continue;
+                    if ((fs.spawner instanceof Player) && (le instanceof Player))
+                        continue;
 
-					if (plugin.getHologramHandler().isHologramEntity(le))
-						continue;
+                    if (plugin.getHologramHandler().isHologramEntity(le))
+                        continue;
 
-					if (le.getEyeLocation().distanceSquared(fs.entity.getLocation()) <= DAMAGE_DIST_SQUARED) {
-						if (fs.spawner instanceof Player) {
-							// trigger events and so
-							EntityHuman human = ((CraftPlayer) fs.spawner).getHandle();
-							((CraftLivingEntity) le).getHandle().damageEntity(DamageSource.playerAttack(human),
-									(float) fs.damage);
-						} else {
-							// trigger events and so
-							EntityLiving entityLiving = ((CraftLivingEntity) fs.spawner).getHandle();
-							((CraftLivingEntity) le).getHandle().damageEntity(DamageSource.mobAttack(entityLiving),
-									(float) fs.damage);
-						}
+                    if (le.getEyeLocation().distanceSquared(fs.entity.getLocation()) <= DAMAGE_DIST_SQUARED) {
+                        if (fs.spawner instanceof Player) {
+                            // trigger events and so
+                            EntityHuman human = ((CraftPlayer) fs.spawner).getHandle();
+                            ((CraftLivingEntity) le).getHandle().damageEntity(DamageSource.playerAttack(human),
+                                    (float) fs.damage);
+                        } else {
+                            // trigger events and so
+                            EntityLiving entityLiving = ((CraftLivingEntity) fs.spawner).getHandle();
+                            ((CraftLivingEntity) le).getHandle().damageEntity(DamageSource.mobAttack(entityLiving),
+                                    (float) fs.damage);
+                        }
 
-						toRemove.add(fs.entity.getUniqueId());
+                        toRemove.add(fs.entity.getUniqueId());
 
-						// only one target per sword
-						break;
-					}
-				}
-			}
+                        // only one target per sword
+                        break;
+                    }
+                }
+            }
 
-			for (UUID id : toRemove) {
-				scheduleRemove(spawnedFallingSwords.get(id));
-			}
-		}
+            for (UUID id : toRemove) {
+                scheduleRemove(spawnedFallingSwords.get(id));
+            }
+        }
 
-	};
+    };
 
-	public void spawn(Location loc, Material itemType, Entity spawner, double damage) {
-		double x = 1.3963;// Math.PI*80.0/180.0;
-		double y = 1.3963;// Math.PI*80.0/180.0;
-		double z = 0;
+    public void spawn(Location loc, Material itemType, Entity spawner, double damage) {
+        double x = 1.3963;// Math.PI*80.0/180.0;
+        double y = 1.3963;// Math.PI*80.0/180.0;
+        double z = 0;
 
-		ArmorStand a = (ArmorStand) loc.getWorld().spawnEntity(loc, EntityType.ARMOR_STAND);
-		a.setItemInHand(new ItemStack(itemType));
-		a.setVisible(false);
-		a.setRightArmPose(new EulerAngle(x, y, z));
+        ArmorStand a = (ArmorStand) loc.getWorld().spawnEntity(loc, EntityType.ARMOR_STAND);
+        a.setItemInHand(new ItemStack(itemType));
+        a.setVisible(false);
+        a.setRightArmPose(new EulerAngle(x, y, z));
 
-		FallingSword fs = new FallingSword();
-		fs.entity = a;
-		fs.damage = damage;
-		fs.spawner = spawner;
+        FallingSword fs = new FallingSword();
+        fs.entity = a;
+        fs.damage = damage;
+        fs.spawner = spawner;
 
-		this.spawnedFallingSwords.put(a.getUniqueId(), fs);
-	}
+        this.spawnedFallingSwords.put(a.getUniqueId(), fs);
+    }
 
-	public void spawnInArea(Location center, float radius, int amount, Material itemType, Entity spawner, double damage,
-			int delayTicks) {
+    public void spawnInArea(Location center, float radius, int amount, Material itemType, Entity spawner, double damage,
+            int delayTicks) {
 
-		double dx, dz;
-		for (int i = 0; i < amount; i++) {
+        double dx, dz;
+        for (int i = 0; i < amount; i++) {
 
-			do {
-				dx = 2 * radius * rnd.nextDouble() - radius;
-				dz = 2 * radius * rnd.nextDouble() - radius;
-			} while ((dx * dx + dz * dz) > radius * radius);
+            do {
+                dx = 2 * radius * rnd.nextDouble() - radius;
+                dz = 2 * radius * rnd.nextDouble() - radius;
+            } while ((dx * dx + dz * dz) > radius * radius);
 
-			final Location targetLoc = center.clone().add(dx, 0, dz);
-			plugin.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, new Runnable() {
+            final Location targetLoc = center.clone().add(dx, 0, dz);
+            plugin.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, new Runnable() {
 
-				@Override
-				public void run() {
-					spawn(targetLoc, itemType, spawner, damage);
-				}
+                @Override
+                public void run() {
+                    spawn(targetLoc, itemType, spawner, damage);
+                }
 
-			}, i * delayTicks);
-		}
-	}
+            }, i * delayTicks);
+        }
+    }
 
-	private void scheduleRemove(FallingSword fallingSword) {
-		fallingSword.entity.remove();
-		this.spawnedFallingSwords.remove(fallingSword.entity.getUniqueId());
-	}
+    private void scheduleRemove(FallingSword fallingSword) {
+        fallingSword.entity.remove();
+        this.spawnedFallingSwords.remove(fallingSword.entity.getUniqueId());
+    }
 
-	// @EventHandler
-	// public void handleSwordHit(EntityDamageByEntityEvent event) {
-	// System.out.println("ent by ent: " + event.getDamager().getType() + " -> " +
-	// event.getEntity().getType());
-	// if (!this.spawnedFallingSwords.containsKey(event.getDamager().getUniqueId()))
-	// {
-	// return;
-	// }
-	//
-	// FallingSword fs =
-	// this.spawnedFallingSwords.get(event.getDamager().getUniqueId());
-	//
-	// if (fs.spawner != null) {
-	// if ((fs.spawner instanceof Player) && (event.getEntity() instanceof Player))
-	// {
-	// scheduleRemove(fs);
-	// event.setCancelled(true);
-	// return;
-	// }
-	// }
-	//
-	// event.setDamage(fs.damage);
-	// scheduleRemove(fs);
-	// }
+    // @EventHandler
+    // public void handleSwordHit(EntityDamageByEntityEvent event) {
+    // System.out.println("ent by ent: " + event.getDamager().getType() + " -> " +
+    // event.getEntity().getType());
+    // if (!this.spawnedFallingSwords.containsKey(event.getDamager().getUniqueId()))
+    // {
+    // return;
+    // }
+    //
+    // FallingSword fs =
+    // this.spawnedFallingSwords.get(event.getDamager().getUniqueId());
+    //
+    // if (fs.spawner != null) {
+    // if ((fs.spawner instanceof Player) && (event.getEntity() instanceof Player))
+    // {
+    // scheduleRemove(fs);
+    // event.setCancelled(true);
+    // return;
+    // }
+    // }
+    //
+    // event.setDamage(fs.damage);
+    // scheduleRemove(fs);
+    // }
 
-	@EventHandler
-	public void handleSwordLand(EntityDamageEvent event) {
-		if (!this.spawnedFallingSwords.containsKey(event.getEntity().getUniqueId())) {
-			return;
-		}
-		FallingSword fs = this.spawnedFallingSwords.get(event.getEntity().getUniqueId());
+    @EventHandler
+    public void handleSwordLand(EntityDamageEvent event) {
+        if (!this.spawnedFallingSwords.containsKey(event.getEntity().getUniqueId())) {
+            return;
+        }
+        FallingSword fs = this.spawnedFallingSwords.get(event.getEntity().getUniqueId());
 
-		if (event.getCause() == DamageCause.FALL) {
-			scheduleRemove(fs);
-		}
-	}
+        if (event.getCause() == DamageCause.FALL) {
+            scheduleRemove(fs);
+        }
+    }
 
-	@EventHandler
-	public void handleSwordDeath(EntityDeathEvent event) {
-		FallingSword fs = this.spawnedFallingSwords.get(event.getEntity().getUniqueId());
-		if (fs != null) {
-			scheduleRemove(fs);
-		}
-	}
+    @EventHandler
+    public void handleSwordDeath(EntityDeathEvent event) {
+        FallingSword fs = this.spawnedFallingSwords.get(event.getEntity().getUniqueId());
+        if (fs != null) {
+            scheduleRemove(fs);
+        }
+    }
 
 }

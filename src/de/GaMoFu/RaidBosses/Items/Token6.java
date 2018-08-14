@@ -13,7 +13,7 @@ public class Token6 extends Token {
     public ItemTier getItemTier() {
         return ItemTier.TIER_6;
     }
-    
+
     @Override
     public Material getDisplayMaterial() {
         return Material.GOLD_INGOT;

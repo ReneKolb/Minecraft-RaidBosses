@@ -7,9 +7,9 @@ import de.GaMoFu.RaidBosses.ParticleEffect;
 
 public class PointEffect {
 
-	public static void doEffect(World world, Vector point, ParticleEffect effect) {
-		world.spawnParticle(effect.getType(), point.toLocation(world), effect.getCount(), effect.getOffsetX(),
-				effect.getOffsetY(), effect.getOffsetZ(), effect.getExtra());
-	}
+    public static void doEffect(World world, Vector point, ParticleEffect effect) {
+        world.spawnParticle(effect.getType(), point.toLocation(world), effect.getCount(), effect.getOffsetX(),
+                effect.getOffsetY(), effect.getOffsetZ(), effect.getExtra());
+    }
 
 }

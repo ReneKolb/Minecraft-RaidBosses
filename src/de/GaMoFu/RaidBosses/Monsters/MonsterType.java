@@ -6,7 +6,7 @@ import org.bukkit.entity.Creature;
 
 public enum MonsterType {
 
-	//@formatter:off
+    //@formatter:off
 	ANNOYING_BUG(AnnoyingBug.class, AnnoyingBug.ALIAS),
 	SPIDER(Spider.class, Spider.ALIAS),
 	WITCH(Witch.class, Witch.ALIAS),
@@ -16,36 +16,36 @@ public enum MonsterType {
 	LESSER_LIVING_SHADOW(LesserLivingShadow.class, LesserLivingShadow.ALIAS);
 	//@formatter:on
 
-	private Class<? extends Monster<? extends Creature>> entityClass;
+    private Class<? extends Monster<? extends Creature>> entityClass;
 
-	private String aliasName;
+    private String aliasName;
 
-	private MonsterType(Class<? extends Monster<? extends Creature>> monsterClass, String aliasName) {
-		this.entityClass = monsterClass;
-		this.aliasName = aliasName;
-	}
+    private MonsterType(Class<? extends Monster<? extends Creature>> monsterClass, String aliasName) {
+        this.entityClass = monsterClass;
+        this.aliasName = aliasName;
+    }
 
-	/**
-	 * @return the entityClass
-	 */
-	public Class<? extends Monster<? extends Creature>> getEntityClass() {
-		return entityClass;
-	}
+    /**
+     * @return the entityClass
+     */
+    public Class<? extends Monster<? extends Creature>> getEntityClass() {
+        return entityClass;
+    }
 
-	/**
-	 * @return the aliasName
-	 */
-	public String getAliasName() {
-		return aliasName;
-	}
+    /**
+     * @return the aliasName
+     */
+    public String getAliasName() {
+        return aliasName;
+    }
 
-	public static Optional<MonsterType> fromAliasName(String aliasName) {
-		for (MonsterType type : MonsterType.values()) {
-			if (type.aliasName.equals(aliasName)) {
-				return Optional.of(type);
-			}
-		}
-		return Optional.empty();
-	}
+    public static Optional<MonsterType> fromAliasName(String aliasName) {
+        for (MonsterType type : MonsterType.values()) {
+            if (type.aliasName.equals(aliasName)) {
+                return Optional.of(type);
+            }
+        }
+        return Optional.empty();
+    }
 
 }

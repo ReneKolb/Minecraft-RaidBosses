@@ -9,35 +9,35 @@ import de.GaMoFu.RaidBosses.Skill.ISkill;
 
 public class AnnoyingBug extends Monster<Silverfish> {
 
-	public static final String ALIAS = "annoyingbug";
+    public static final String ALIAS = "annoyingbug";
 
-	public AnnoyingBug() {
-		super(Silverfish.class);
-	}
+    public AnnoyingBug() {
+        super(Silverfish.class);
+    }
 
-	@Override
-	public List<ISkill> createSkillList() {
-		return new LinkedList<>();
-	}
+    @Override
+    public List<ISkill> createSkillList() {
+        return new LinkedList<>();
+    }
 
-	@Override
-	public double getMaxHealth() {
-		return 3;
-	}
+    @Override
+    public double getMaxHealth() {
+        return 3;
+    }
 
-	@Override
-	public String getDisplayName() {
-		return "Annoying Bug";
-	}
+    @Override
+    public String getDisplayName() {
+        return "Annoying Bug";
+    }
 
-	@Override
-	public double getPullAggroRangeSquared() {
-		return 9 * 9;
-	}
+    @Override
+    public double getPullAggroRangeSquared() {
+        return 9 * 9;
+    }
 
-	@Override
-	protected void afterSpawn() {
-		// Hide in Block extends RandomStroll, so no need to extra remove it
-	}
+    @Override
+    protected void afterSpawn() {
+        // Hide in Block extends RandomStroll, so no need to extra remove it
+    }
 
 }

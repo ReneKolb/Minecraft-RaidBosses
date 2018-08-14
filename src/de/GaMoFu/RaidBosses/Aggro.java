@@ -9,109 +9,109 @@ import java.util.UUID;
 
 public class Aggro {
 
-	private Map<UUID, Integer> aggroList;
-	
-	private Random rnd = new Random();
+    private Map<UUID, Integer> aggroList;
 
-	public Aggro() {
-		this.aggroList = new HashMap<>();
-	}
+    private Random rnd = new Random();
 
-	public void reset() {
-		this.aggroList.clear();
-	}
+    public Aggro() {
+        this.aggroList = new HashMap<>();
+    }
 
-	private Entry<UUID, Integer> findHighestAggroEntry() {
-		if (aggroList.isEmpty()) {
-			return null;
-		}
+    public void reset() {
+        this.aggroList.clear();
+    }
 
-		Entry<UUID, Integer> highestEntry = null;
-		int highest = Integer.MIN_VALUE;
+    private Entry<UUID, Integer> findHighestAggroEntry() {
+        if (aggroList.isEmpty()) {
+            return null;
+        }
 
-		for (Map.Entry<UUID, Integer> entry : aggroList.entrySet()) {
-			if (entry.getValue() > highest) {
-				highest = entry.getValue();
-				highestEntry = entry;
-			}
-		}
+        Entry<UUID, Integer> highestEntry = null;
+        int highest = Integer.MIN_VALUE;
 
-		return highestEntry;
-	}
-	
-	public UUID getRandomTarget() {
-		Set<UUID> ids = aggroList.keySet();
-		int index = rnd.nextInt(ids.size());
-		int i=0;
-		
-		for(UUID id : ids) {
-			if(i==index) {
-				return id;
-			}
-			i++;
-		}
-		
-		//should never happen, only if no entry in aggroList 
-		return null;
-	}
+        for (Map.Entry<UUID, Integer> entry : aggroList.entrySet()) {
+            if (entry.getValue() > highest) {
+                highest = entry.getValue();
+                highestEntry = entry;
+            }
+        }
 
-	/**
-	 * Same as {@link addAggro(UUID, int)} but round amount to ceil.
-	 */
-	public UUID addAggro(UUID damagerID, double amount) {
-		return this.addAggro(damagerID, (int) Math.ceil(amount));
-	}
+        return highestEntry;
+    }
 
-	/**
-	 * 
-	 * @param damagerID
-	 *            The damager UUID
-	 * @param amount
-	 *            The amount of aggro to add or subtract (if negative)
-	 * 
-	 * @return The UUID of the player/entity with the highest aggro (after
-	 *         modifying).
-	 */
-	public UUID addAggro(UUID damagerID, int amount) {
-		// The total aggro amount per player cannot be negative. So since amount may be
-		// negative,
-		// the added value must be checked and corrected (>=0) if needed.
+    public UUID getRandomTarget() {
+        Set<UUID> ids = aggroList.keySet();
+        int index = rnd.nextInt(ids.size());
+        int i = 0;
 
-		int newAggro;
-		if (aggroList.containsKey(damagerID)) {
-			newAggro = Math.max(0, aggroList.get(damagerID) + amount);
-		} else {
-			newAggro = Math.max(0, amount);
-		}
+        for (UUID id : ids) {
+            if (i == index) {
+                return id;
+            }
+            i++;
+        }
 
-		aggroList.put(damagerID, newAggro);
+        // should never happen, only if no entry in aggroList
+        return null;
+    }
 
-		Entry<UUID, Integer> highestAggro = findHighestAggroEntry();
+    /**
+     * Same as {@link addAggro(UUID, int)} but round amount to ceil.
+     */
+    public UUID addAggro(UUID damagerID, double amount) {
+        return this.addAggro(damagerID, (int) Math.ceil(amount));
+    }
 
-		if (highestAggro == null)
-			return null;
+    /**
+     * 
+     * @param damagerID
+     *            The damager UUID
+     * @param amount
+     *            The amount of aggro to add or subtract (if negative)
+     * 
+     * @return The UUID of the player/entity with the highest aggro (after
+     *         modifying).
+     */
+    public UUID addAggro(UUID damagerID, int amount) {
+        // The total aggro amount per player cannot be negative. So since amount may be
+        // negative,
+        // the added value must be checked and corrected (>=0) if needed.
 
-		return highestAggro.getKey();
-	}
+        int newAggro;
+        if (aggroList.containsKey(damagerID)) {
+            newAggro = Math.max(0, aggroList.get(damagerID) + amount);
+        } else {
+            newAggro = Math.max(0, amount);
+        }
 
-	/**
-	 * Remove the aggro entry from the given Damager. This is used when the damager
-	 * dies or logs off.
-	 * 
-	 * @param damagerID
-	 *            The UUID to remove
-	 * 
-	 * @return The new UUID with the (now) highest aggro amount.
-	 */
-	public UUID removeDamager(UUID damagerID) {
-		this.aggroList.remove(damagerID);
+        aggroList.put(damagerID, newAggro);
 
-		Entry<UUID, Integer> highestAggro = findHighestAggroEntry();
+        Entry<UUID, Integer> highestAggro = findHighestAggroEntry();
 
-		if (highestAggro == null)
-			return null;
+        if (highestAggro == null)
+            return null;
 
-		return highestAggro.getKey();
-	}
+        return highestAggro.getKey();
+    }
+
+    /**
+     * Remove the aggro entry from the given Damager. This is used when the damager
+     * dies or logs off.
+     * 
+     * @param damagerID
+     *            The UUID to remove
+     * 
+     * @return The new UUID with the (now) highest aggro amount.
+     */
+    public UUID removeDamager(UUID damagerID) {
+        this.aggroList.remove(damagerID);
+
+        Entry<UUID, Integer> highestAggro = findHighestAggroEntry();
+
+        if (highestAggro == null)
+            return null;
+
+        return highestAggro.getKey();
+    }
 
 }

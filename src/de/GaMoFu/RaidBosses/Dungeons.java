@@ -9,8 +9,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.bukkit.World;
-import org.bukkit.entity.Phantom;
-import org.bukkit.loot.LootContext;
 
 import net.md_5.bungee.api.ChatColor;
 
