@@ -37,6 +37,8 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.map.MapRenderer;
+import org.bukkit.map.MapView;
 import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
@@ -126,7 +128,7 @@ public abstract class Monster<T extends Creature> implements Listener {
             Set<?> fieldB = (Set<?>) b.get(entity.getHandle().goalSelector);
 
             Class<?> clazz = Class
-                    .forName("net.minecraft.server.v1_12_R1.PathfinderGoalSelector$PathfinderGoalSelectorItem");
+                    .forName("net.minecraft.server.v1_13_R1.PathfinderGoalSelector$PathfinderGoalSelectorItem");
             Field a = clazz.getField("a");
             a.setAccessible(true); // Since "a" is public final
 

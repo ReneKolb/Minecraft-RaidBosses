@@ -26,7 +26,7 @@ import org.bukkit.inventory.ItemStack;
 
 import de.GaMoFu.RaidBosses.RaidBosses;
 import de.GaMoFu.RaidBosses.RaidInstanceWorldGenerator;
-import de.GaMoFu.RaidBosses.Items.IItem;
+import de.GaMoFu.RaidBosses.Items.Item;
 import net.md_5.bungee.api.ChatColor;
 
 public class Worlds implements Listener {
@@ -207,10 +207,10 @@ public class Worlds implements Listener {
             if (damagerPlayer.getGameMode() != GameMode.CREATIVE) {
                 ItemStack weapon = damagerPlayer.getInventory().getItemInMainHand();
                 if (weapon != null && weapon.getItemMeta() != null) {
-                    Optional<IItem> weaponItem = plugin.getItemsFactory()
+                    Optional<Item> weaponItem = plugin.getItemsFactory()
                             .getItemFromDisplayName(weapon.getItemMeta().getDisplayName());
                     if (weaponItem.isPresent()) {
-                        weaponItem.get().onDamageEntity(event);
+                        weaponItem.get().getItemEffects().forEach(effect -> effect.onDamageEntity(event));
                     }
                 }
                 plugin.getHologramHandler().displayDamage(damagerPlayer, event.getEntity(), event.getFinalDamage(),

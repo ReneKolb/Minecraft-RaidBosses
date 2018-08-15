@@ -15,13 +15,13 @@ public enum ItemsEnum {
     TOKEN_8(Token8.class);
 	//@formatter:on
 
-    private Class<? extends IItem> itemClass;
+    private Class<? extends Item> itemClass;
 
-    private ItemsEnum(Class<? extends IItem> itemClass) {
+    private ItemsEnum(Class<? extends Item> itemClass) {
         this.itemClass = itemClass;
     }
 
-    public Class<? extends IItem> getItemClass() {
+    public Class<? extends Item> getItemClass() {
         return itemClass;
     }
 }

@@ -1,25 +1,30 @@
 package de.GaMoFu.RaidBosses.Items;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import de.GaMoFu.RaidBosses.RaidBosses;
 import de.GaMoFu.RaidBosses.Attributes.Attributes;
 import de.GaMoFu.RaidBosses.Attributes.Attributes.Attribute;
+import de.GaMoFu.RaidBosses.Items.Effects.ItemEffect;
 
 public class ItemsFactory {
 
     private RaidBosses plugin;
 
     /** For looking up an item by its internal name */
-    private Map<String, IItem> itemNameLookup; // SkillName -> Item
+    private Map<String, Item> itemNameLookup; // SkillName -> Item
 
     /** For looking up an item be an held item's display name */
-    private Map<String, IItem> itemDisplayNameLookup; // DisplayString -> Item
+    private Map<String, Item> itemDisplayNameLookup; // DisplayString -> Item
 
     public ItemsFactory(RaidBosses plugin) {
         this.plugin = plugin;
@@ -33,8 +38,8 @@ public class ItemsFactory {
         this.plugin.getLogger().info("Initializing items");
 
         for (ItemsEnum i : ItemsEnum.values()) {
-            Class<? extends IItem> itemClass = i.getItemClass();
-            IItem item;
+            Class<? extends Item> itemClass = i.getItemClass();
+            Item item;
             try {
                 item = itemClass.newInstance();
 
@@ -46,7 +51,7 @@ public class ItemsFactory {
         }
     }
 
-    public Optional<IItem> getItemFromDisplayName(String itemDisplayName) {
+    public Optional<Item> getItemFromDisplayName(String itemDisplayName) {
         if (this.itemDisplayNameLookup.containsKey(itemDisplayName))
             return Optional.of(this.itemDisplayNameLookup.get(itemDisplayName));
 
@@ -61,7 +66,7 @@ public class ItemsFactory {
         if (amount > 64)
             amount = 64;
 
-        IItem item = itemNameLookup.get(itemName);
+        Item item = itemNameLookup.get(itemName);
         if (item == null) {
             return Optional.empty();
         }
@@ -71,7 +76,29 @@ public class ItemsFactory {
         ItemMeta meta = result.getItemMeta();
 
         meta.setDisplayName(item.getItemDisplayName());
-        meta.setLore(item.getLore());
+        List<String> lore = new LinkedList<>(item.getLore());
+        List<String> effectLore = new LinkedList<>();
+        for (ItemEffect effect : item.getItemEffects()) {
+            String effectText = effect.getTootipText();
+            if (!StringUtils.isEmpty(effectText)) {
+                effectLore.add(effectText);
+            }
+        }
+
+        int longestLine = -1;
+        for (String l : lore) {
+            longestLine = Math.max(longestLine, l.length());
+        }
+        for (String l : effectLore) {
+            longestLine = Math.max(longestLine, l.length());
+        }
+
+        if (!effectLore.isEmpty()) {
+            lore.add(ChatColor.GRAY + StringUtils.repeat("-", longestLine));
+            lore.addAll(effectLore);
+        }
+
+        meta.setLore(lore);
 
         result.setItemMeta(meta);
 

@@ -1,5 +1,6 @@
 package de.GaMoFu.RaidBosses.Commands;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import org.bukkit.ChatColor;
@@ -26,6 +27,20 @@ import de.GaMoFu.RaidBosses.Monsters.Zombie;
 import de.GaMoFu.RaidBosses.Monsters.Zomboss;
 import de.GaMoFu.RaidBosses.ParticleEffects.RingEffect;
 import de.GaMoFu.RaidBosses.Trader.Trader;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ClickEvent.Action;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.minecraft.server.v1_13_R1.ChatClickable;
+import net.minecraft.server.v1_13_R1.ChatClickable.EnumClickAction;
+import net.minecraft.server.v1_13_R1.ChatHoverable;
+import net.minecraft.server.v1_13_R1.ChatHoverable.EnumHoverAction;
+import net.minecraft.server.v1_13_R1.ChatMessage;
+import net.minecraft.server.v1_13_R1.ChatMessageType;
+import net.minecraft.server.v1_13_R1.ChatModifier;
+import net.minecraft.server.v1_13_R1.IChatBaseComponent;
 
 public class TestCommand implements ICommandHandler {
 
@@ -130,10 +145,39 @@ public class TestCommand implements ICommandHandler {
             PolarBear bear = (PolarBear) player.getWorld().spawnEntity(player.getLocation().add(0, 0, 1),
                     EntityType.POLAR_BEAR);
             bear.addPassenger(stray);
-
+            return true;
         } else if (args.length == 2 && args[0].equalsIgnoreCase("phantom")) {
             Phantom p = (Phantom) player.getWorld().spawnEntity(player.getLocation().add(1, 0, 1), EntityType.PHANTOM);
             p.setSize(Integer.parseInt(args[1]));
+            return true;
+        }else if(args.length==2 &&args[0].equals("actionbar")) {
+            
+            BaseComponent[] specialText = new ComponentBuilder(args[1]).color(net.md_5.bungee.api.ChatColor.GREEN).event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("hover text").color(net.md_5.bungee.api.ChatColor.GOLD).create())).event(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "you clicked on it")).create();
+            
+            TextComponent all1 =   new TextComponent(new TextComponent("Click here ["),specialText[0],new TextComponent("]"));
+            
+            player.spigot().sendMessage(all1);
+            
+            
+            
+            TextComponent part1 = new TextComponent("Click here [");
+            
+            TextComponent  part2 = new TextComponent(args[1]);
+            part2.setColor(net.md_5.bungee.api.ChatColor.RED);
+            part2.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "clickable"));
+            
+            
+            part2.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("hover text").create()));
+            
+            TextComponent part3 = new TextComponent("]");
+            
+            TextComponent all = new TextComponent(part1,part2,part3);
+
+            
+            player.spigot().sendMessage(all);
+            
+            player.spigot().sendMessage(net.md_5.bungee.api.ChatMessageType.ACTION_BAR, all);
+            return true;
         }
 
         return false;

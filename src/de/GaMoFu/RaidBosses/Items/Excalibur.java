@@ -6,18 +6,23 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import de.GaMoFu.RaidBosses.Attributes.Attributes.Attribute;
 import de.GaMoFu.RaidBosses.Attributes.Attributes.AttributeType;
 import de.GaMoFu.RaidBosses.Attributes.Attributes.Slot;
+import de.GaMoFu.RaidBosses.Items.Effects.ItemEffect;
+import de.GaMoFu.RaidBosses.Items.Effects.LightningEffect;
 
-public class Excalibur implements IItem {
+public class Excalibur extends Item {
 
     @Override
-    public String getItemDisplayName() {
-        return ChatColor.GOLD + "Excalibur";
+    public ItemTier getItemTier() {
+        return ItemTier.TIER_8;
+    }
+
+    @Override
+    protected String getItemDisplayNameWithoutColor() {
+        return "Excalibur";
     }
 
     @Override
@@ -46,10 +51,8 @@ public class Excalibur implements IItem {
     }
 
     @Override
-    public void onDamageEntity(EntityDamageByEntityEvent event) {
-        World w = event.getEntity().getWorld();
-        w.strikeLightning(event.getEntity().getLocation());
-
+    public List<ItemEffect> getItemEffects() {
+        return Arrays.asList(LightningEffect.INSTANCE);
     }
 
 }
