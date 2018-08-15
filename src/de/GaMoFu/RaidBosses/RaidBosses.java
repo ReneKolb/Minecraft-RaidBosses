@@ -61,6 +61,8 @@ public final class RaidBosses extends JavaPlugin {
     private PortalHandler portalHandler;
 
     private Map<UUID, PlayerSettings> playerSettings;
+    
+    public static final Random random = new Random();
 
     public static DecimalFormat df;
 

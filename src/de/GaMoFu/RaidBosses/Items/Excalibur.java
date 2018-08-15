@@ -17,7 +17,7 @@ public class Excalibur extends Item {
 
     @Override
     public ItemTier getItemTier() {
-        return ItemTier.TIER_8;
+        return ItemTier.TIER_RAINBOW;
     }
 
     @Override

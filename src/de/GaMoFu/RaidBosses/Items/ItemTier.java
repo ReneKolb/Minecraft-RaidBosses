@@ -12,7 +12,9 @@ public enum ItemTier {
     TIER_5(ChatColor.GOLD),
     TIER_6(ChatColor.YELLOW),
     TIER_7(ChatColor.AQUA),
-    TIER_8(ChatColor.RED);
+    TIER_8(ChatColor.RED),
+    
+    TIER_RAINBOW(ChatColor.MAGIC);
     //@formatter:on
 
     private ChatColor itemColor;
