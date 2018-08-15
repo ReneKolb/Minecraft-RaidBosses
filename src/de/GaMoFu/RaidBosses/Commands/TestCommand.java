@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -150,34 +151,56 @@ public class TestCommand implements ICommandHandler {
             Phantom p = (Phantom) player.getWorld().spawnEntity(player.getLocation().add(1, 0, 1), EntityType.PHANTOM);
             p.setSize(Integer.parseInt(args[1]));
             return true;
-        }else if(args.length==2 &&args[0].equals("actionbar")) {
-            
-            BaseComponent[] specialText = new ComponentBuilder(args[1]).color(net.md_5.bungee.api.ChatColor.GREEN).event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("hover text").color(net.md_5.bungee.api.ChatColor.GOLD).create())).event(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "you clicked on it")).create();
-            
-            TextComponent all1 =   new TextComponent(new TextComponent("Click here ["),specialText[0],new TextComponent("]"));
-            
+        } else if (args.length == 2 && args[0].equals("actionbar")) {
+
+            BaseComponent[] specialText = new ComponentBuilder(args[1]).color(net.md_5.bungee.api.ChatColor.GREEN)
+                    .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                            new ComponentBuilder("hover text").color(net.md_5.bungee.api.ChatColor.GOLD).create()))
+                    .event(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "you clicked on it")).create();
+
+            TextComponent all1 = new TextComponent(new TextComponent("Click here ["), specialText[0],
+                    new TextComponent("]"));
+
             player.spigot().sendMessage(all1);
-            
-            
-            
+
             TextComponent part1 = new TextComponent("Click here [");
-            
-            TextComponent  part2 = new TextComponent(args[1]);
+
+            TextComponent part2 = new TextComponent(args[1]);
             part2.setColor(net.md_5.bungee.api.ChatColor.RED);
             part2.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "clickable"));
-            
-            
-            part2.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("hover text").create()));
-            
-            TextComponent part3 = new TextComponent("]");
-            
-            TextComponent all = new TextComponent(part1,part2,part3);
 
-            
+            part2.setHoverEvent(
+                    new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("hover text").create()));
+
+            TextComponent part3 = new TextComponent("]");
+
+            TextComponent all = new TextComponent(part1, part2, part3);
+
             player.spigot().sendMessage(all);
-            
+
             player.spigot().sendMessage(net.md_5.bungee.api.ChatMessageType.ACTION_BAR, all);
             return true;
+        } else if (args.length == 5 && args[0].equals("dig")) {
+            
+            //good values are: delay=2, amount=75
+            
+            int delay = Integer.parseInt(args[1]);
+            int amount = Integer.parseInt(args[2]);
+            double width = Double.parseDouble(args[3]);
+            double height = Double.parseDouble(args[4]);
+            
+            World world = player.getWorld();
+            Location loc = player.getLocation().clone();
+
+            for (int i = 0; i < 30; i++) {
+                plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+
+                    @Override
+                    public void run() {
+                        world.spawnParticle(Particle.BLOCK_CRACK, loc, amount, width, height, width, Material.DIRT.createBlockData());
+                    }
+                }, i * delay);
+            }
         }
 
         return false;

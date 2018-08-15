@@ -123,13 +123,13 @@ public abstract class Dungeon implements Listener {
         this.scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
 
         // only 16 characters are allowed for names
-        this.healthDisplayHead = scoreboard.registerNewObjective("HealthDispHead", "dummy");
+        this.healthDisplayHead = scoreboard.registerNewObjective("HealthDispHead", "dummy", "Health");
         healthDisplayHead.setDisplaySlot(DisplaySlot.BELOW_NAME);
         healthDisplayHead.setDisplayName(org.bukkit.ChatColor.LIGHT_PURPLE + "% Health");
 
-        this.healthDisplaySide = scoreboard.registerNewObjective("HealthDispSide", "dummy");
+        this.healthDisplaySide = scoreboard.registerNewObjective("HealthDispSide", "dummy",ChatColor.YELLOW + this.getDisplayName());
         healthDisplaySide.setDisplaySlot(DisplaySlot.SIDEBAR);
-        healthDisplaySide.setDisplayName(ChatColor.YELLOW + this.getDisplayName());
+//        healthDisplaySide.setDisplayName(ChatColor.YELLOW + this.getDisplayName());
 
         this.dungeonTeam = scoreboard.registerNewTeam("DungeonTeam");
         dungeonTeam.setAllowFriendlyFire(false);

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.bukkit.GameMode;
+import org.bukkit.GameRule;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.WorldCreator;
@@ -38,6 +39,17 @@ public class Worlds implements Listener {
     private List<String> worlds;
 
     private boolean configChanged;
+
+    public  void applyGameRules(World world) {
+        plugin.getLogger().info("Applying World Rules to world "+world.getName());
+        
+        world.setGameRule(GameRule.DO_FIRE_TICK, false); // disable fire spread and extinguish
+        world.setGameRule(GameRule.DO_MOB_LOOT, false); // disable mob naturally drop items
+        world.setGameRule(GameRule.DO_WEATHER_CYCLE, false); // disable weather cycle
+        world.setGameRule(GameRule.KEEP_INVENTORY, true); // player do not drop Inventory on death
+        world.setGameRule(GameRule.MOB_GRIEFING, false); // disable mobs can change blocks / creeper destroy blocks
+        world.setGameRule(GameRule.RANDOM_TICK_SPEED, 0); // disable natural growing plants etc.
+    }
 
     @SuppressWarnings("unchecked")
     public Worlds(RaidBosses plugin) {
@@ -72,12 +84,7 @@ public class Worlds implements Listener {
             }
 
             // applying gamerules
-            w.setGameRuleValue("doFireTicks", "false"); // disable fire spread and extinguish
-            w.setGameRuleValue("doMobLoot", "false"); // disable mob naturally drop items
-            w.setGameRuleValue("doWeatherCycle", "false"); // disable weather cycle
-            w.setGameRuleValue("keepInventory", "true"); // player do not drop Inventory on death
-            w.setGameRuleValue("mobGriefing", "false"); // disable mobs can change blocks / creeper destroy blocks
-            w.setGameRuleValue("randomTickSpeed", "0"); // disable natural growing plants etc.
+            applyGameRules(w);
 
         }
         plugin.getLogger().info("All worlds loaded");
@@ -109,6 +116,8 @@ public class Worlds implements Listener {
         // temporary set the spawn location to 0,1,0 since this is the only available
         // block in the world due to RaidInstanceWorldGenerator
         world.setSpawnLocation(0, 2, 0);
+        
+        applyGameRules(world);
 
         plugin.getServer().getConsoleSender().sendMessage(ChatColor.BLUE + "done");
 
