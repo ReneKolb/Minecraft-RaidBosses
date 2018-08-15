@@ -11,13 +11,13 @@ import org.bukkit.command.TabCompleter;
 
 import de.GaMoFu.RaidBosses.RaidBosses;
 
-public class ItemTabComplete implements TabCompleter {
+public class SkillTabComplete implements TabCompleter {
 
     private static final List<String> validSubcommands = Collections.unmodifiableList(Arrays.asList("give"));
 
     private final RaidBosses plugin;
 
-    public ItemTabComplete(RaidBosses plugin) {
+    public SkillTabComplete(RaidBosses plugin) {
         this.plugin = plugin;
     }
 
@@ -39,7 +39,7 @@ public class ItemTabComplete implements TabCompleter {
                 return null;
             }
 
-            return plugin.getItemsFactory().getItemInternalNames().stream()
+            return plugin.getSkillFactory().getSkillInternalNames().stream()
                     .filter(itemName -> itemName.toUpperCase().startsWith(input)).collect(Collectors.toList());
 
         }

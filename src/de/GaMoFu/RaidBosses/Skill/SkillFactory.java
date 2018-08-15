@@ -1,6 +1,8 @@
 package de.GaMoFu.RaidBosses.Skill;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -24,6 +26,8 @@ public class SkillFactory implements Listener {
 
     /** For looking up a skill by its internal name */
     private Map<String, ISkill> skillNameLookup; // SkillName -> Skill
+    
+    private List<String> internalSkillNames;
 
     /** For looking up a skill be an held item's display name */
     private Map<String, ISkill> skillDisplayNameLookup; // DisplayString -> Skill
@@ -35,6 +39,13 @@ public class SkillFactory implements Listener {
         this.skillDisplayNameLookup = new HashMap<>();
 
         init();
+    }
+    
+    public List<String> getSkillInternalNames() {
+        if (internalSkillNames == null) {
+            internalSkillNames = new LinkedList<>(skillNameLookup.keySet());
+        }
+        return internalSkillNames;
     }
 
     private void init() {

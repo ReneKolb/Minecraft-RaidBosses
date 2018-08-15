@@ -20,7 +20,10 @@ public class CommandManager {
         this.worldCommand = new WorldCommand();
         this.testCommand = new TestCommand();
         this.dungeonControlCommands = new DungeonControlCommands();
+        plugin.getCommand("set").setTabCompleter(new DungeonControlTabComplete(plugin));
+        
         this.skillCommands = new SkillCommands();
+        plugin.getCommand("skill").setTabCompleter(new SkillTabComplete(plugin));
 
         this.itemCommands = new ItemCommands();
         plugin.getCommand("item").setTabCompleter(new ItemTabComplete(plugin));
