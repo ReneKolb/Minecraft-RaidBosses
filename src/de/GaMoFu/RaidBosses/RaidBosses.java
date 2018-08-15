@@ -125,7 +125,7 @@ public final class RaidBosses extends JavaPlugin {
 
         this.instances = new Dungeons(this);
 
-        commandManager = new CommandManager();
+        this.commandManager = new CommandManager(this);
 
         this.playerSettings = new HashMap<>();
 

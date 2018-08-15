@@ -23,6 +23,8 @@ public class ItemsFactory {
     /** For looking up an item by its internal name */
     private Map<String, Item> itemNameLookup; // SkillName -> Item
 
+    private List<String> internalItemNames;
+
     /** For looking up an item be an held item's display name */
     private Map<String, Item> itemDisplayNameLookup; // DisplayString -> Item
 
@@ -32,6 +34,13 @@ public class ItemsFactory {
         this.itemDisplayNameLookup = new HashMap<>();
 
         init();
+    }
+
+    public List<String> getItemInternalNames() {
+        if (internalItemNames == null) {
+            internalItemNames = new LinkedList<>(itemNameLookup.keySet());
+        }
+        return internalItemNames;
     }
 
     private void init() {

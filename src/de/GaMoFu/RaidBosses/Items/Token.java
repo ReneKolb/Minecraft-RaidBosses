@@ -22,7 +22,7 @@ public abstract class Token extends Item {
     @Override
     public List<String> getLore() {
         return Arrays
-                .asList(ChatColor.GRAY + "" + ChatColor.ITALIC + "Trade this token for a Lv." + getLevel() + " item");
+                .asList(ChatColor.GRAY + "" + ChatColor.ITALIC + "Trade this token for a Tier" + getLevel() + " item");
     }
 
 }

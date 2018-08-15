@@ -16,12 +16,14 @@ public class CommandManager {
     private SkillCommands skillCommands;
     private ItemCommands itemCommands;
 
-    public CommandManager() {
+    public CommandManager(RaidBosses plugin) {
         this.worldCommand = new WorldCommand();
         this.testCommand = new TestCommand();
         this.dungeonControlCommands = new DungeonControlCommands();
         this.skillCommands = new SkillCommands();
+
         this.itemCommands = new ItemCommands();
+        plugin.getCommand("item").setTabCompleter(new ItemTabComplete(plugin));
     }
 
     public boolean onCommand(RaidBosses plugin, CommandSender sender, Command command, String label, String[] args) {
