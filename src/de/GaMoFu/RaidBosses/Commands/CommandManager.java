@@ -18,10 +18,14 @@ public class CommandManager {
 
     public CommandManager(RaidBosses plugin) {
         this.worldCommand = new WorldCommand();
+        plugin.getCommand("world").setTabCompleter(new WorldTabComplete(plugin));
+
         this.testCommand = new TestCommand();
         this.dungeonControlCommands = new DungeonControlCommands();
         plugin.getCommand("set").setTabCompleter(new DungeonControlTabComplete(plugin));
-        
+        plugin.getCommand("add").setTabCompleter(new DungeonControlTabComplete(plugin));
+        plugin.getCommand("del").setTabCompleter(new DungeonControlTabComplete(plugin));
+
         this.skillCommands = new SkillCommands();
         plugin.getCommand("skill").setTabCompleter(new SkillTabComplete(plugin));
 
