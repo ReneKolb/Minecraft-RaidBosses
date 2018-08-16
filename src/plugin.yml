@@ -32,3 +32,6 @@ commands:
   gm:
     description: Set a players gamemode
     usage: /gm [0|1|2|3] 
+  nv:
+    description: Toogle player nightvision (only in creative mode)
+    usage: /nv

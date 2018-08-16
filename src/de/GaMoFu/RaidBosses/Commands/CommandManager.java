@@ -4,6 +4,8 @@ import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import de.GaMoFu.RaidBosses.RaidBosses;
 import de.GaMoFu.RaidBosses.EventListeners.DungeonDesignListener;
@@ -65,11 +67,32 @@ public class CommandManager {
         if (command.getName().equalsIgnoreCase("/mw")) {
             if (!(sender instanceof Player)) {
                 sender.sendMessage("Only players can execute this command");
+                return true;
             }
             Player player = (Player) sender;
 
             player.getInventory().addItem(DungeonDesignListener.buildMagicWand());
             return true;
+        }
+
+        if (command.getName().equalsIgnoreCase("nv")) {
+            if (!(sender instanceof Player)) {
+                sender.sendMessage("Only players can execute this command");
+                return true;
+            }
+            Player player = (Player) sender;
+
+            if (!player.getGameMode().equals(GameMode.CREATIVE)) {
+                sender.sendMessage("Only in Creative Mode");
+                return true;
+            }
+
+            if (player.hasPotionEffect(PotionEffectType.NIGHT_VISION)) {
+                player.removePotionEffect(PotionEffectType.NIGHT_VISION);
+            } else {
+                player.addPotionEffect(
+                        new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 100, false, false), true);
+            }
         }
 
         if (command.getName().equalsIgnoreCase("gm")) {
