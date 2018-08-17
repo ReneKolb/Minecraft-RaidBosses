@@ -107,8 +107,8 @@ public abstract class Refreshment implements ISkill {
                 .add(new DescriptionLine("TODO"))
                 .add(new EmptyLine())
                 .add(new HungerPerSecLine(1, 20))
-                .add(new RadiusLine(getRange()))
                 .add(new DurationLine(getDurationTicks()))
+                .add(new RadiusLine(getRange()))
 
                 .add(new HorizontalLine())
                 .add(new HungerCostLine(getBasicHungerCost()))

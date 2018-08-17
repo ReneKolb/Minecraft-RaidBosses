@@ -21,8 +21,10 @@ public class RangeLine implements ITooltipLine {
 
     @Override
     public List<String> formatLine() {
-        return Arrays.asList("  " + ChatColor.DARK_GREEN + "Range" + ChatColor.GRAY + ": " + ChatColor.WHITE
-                + decimalFormat.format(range));
+        String left = Colors.RANGE + "Range";
+        String right = ChatColor.WHITE + decimalFormat.format(range);
+
+        return Arrays.asList(String.format(SkillTooltipBuilder.TABLE_FORMAT_PATTERN, left, right));
     }
 
 }

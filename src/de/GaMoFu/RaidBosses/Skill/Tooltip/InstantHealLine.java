@@ -25,8 +25,10 @@ public class InstantHealLine implements ITooltipLine {
 
     @Override
     public List<String> formatLine() {
-        return Arrays.asList(
-                ChatColor.RED + "  Heal" + ChatColor.GRAY + ": " + ChatColor.WHITE + decimalFormat.format(healAmount));
+        String left = Colors.HEALTH + "Heal";
+        String right = ChatColor.WHITE + decimalFormat.format(healAmount);
+
+        return Arrays.asList(String.format(SkillTooltipBuilder.TABLE_FORMAT_PATTERN, left, right));
     }
 
 }

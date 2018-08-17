@@ -3,9 +3,13 @@ package de.GaMoFu.RaidBosses.Skill.Tooltip;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.bukkit.ChatColor;
+
 public class SkillTooltipBuilder {
-    
+
     public static final int MAX_LINE_LENGTH = 32;
+
+    public static final String TABLE_FORMAT_PATTERN = "%-11s" + ChatColor.GRAY + ": %s";
 
     private List<ITooltipLine> lines;
 

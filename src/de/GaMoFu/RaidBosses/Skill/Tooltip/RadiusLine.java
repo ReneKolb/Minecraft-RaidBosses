@@ -25,8 +25,10 @@ public class RadiusLine implements ITooltipLine {
 
     @Override
     public List<String> formatLine() {
-        return Arrays.asList("  " + ChatColor.YELLOW + "Radius" + ChatColor.GRAY + ": " + ChatColor.WHITE
-                + decimalFormat.format(radius));
+        String left = Colors.RADIUS + "Radius";
+        String right = ChatColor.WHITE + decimalFormat.format(radius);
+
+        return Arrays.asList(String.format(SkillTooltipBuilder.TABLE_FORMAT_PATTERN, left, right));
     }
 
 }

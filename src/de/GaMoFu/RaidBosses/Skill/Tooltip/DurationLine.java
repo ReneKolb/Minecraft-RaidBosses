@@ -25,8 +25,10 @@ public class DurationLine implements ITooltipLine {
 
     @Override
     public List<String> formatLine() {
-        return Arrays.asList("  " + ChatColor.DARK_BLUE + "Lasts" + ChatColor.GRAY + ": " + ChatColor.WHITE
-                + decimalFormat.format(durationTicks / 20.0) + ChatColor.GRAY + "sec");
+        String left = Colors.DURATION + "Duration";
+        String right = ChatColor.WHITE + decimalFormat.format(durationTicks / 20.0) + ChatColor.GRAY + "sec";
+
+        return Arrays.asList(String.format(SkillTooltipBuilder.TABLE_FORMAT_PATTERN, left, right));
     }
 
 }

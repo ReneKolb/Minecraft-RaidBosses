@@ -9,7 +9,6 @@ import java.util.Locale;
 
 import org.bukkit.ChatColor;
 
-
 public class HealPerSecLine implements ITooltipLine {
 
     private double healAmount;
@@ -35,9 +34,11 @@ public class HealPerSecLine implements ITooltipLine {
 
     @Override
     public List<String> formatLine() {
-        return Arrays.asList(ChatColor.LIGHT_PURPLE + "  Heal" + ChatColor.GRAY + ": " + ChatColor.WHITE
-                + decimalFormatHealth.format(healAmount) + ChatColor.GOLD + " per " + ChatColor.WHITE
-                + decimalFormatTime.format(tickDelay / 20.0) + ChatColor.GRAY + "sec");
+        String left = Colors.HEALTH + "Heal";
+        String right = ChatColor.WHITE + decimalFormatHealth.format(healAmount) + Colors.PER_SECOND + " per "
+                + ChatColor.WHITE + decimalFormatTime.format(tickDelay / 20.0) + ChatColor.GRAY + "sec";
+
+        return Arrays.asList(String.format(SkillTooltipBuilder.TABLE_FORMAT_PATTERN, left, right));
     }
 
 }

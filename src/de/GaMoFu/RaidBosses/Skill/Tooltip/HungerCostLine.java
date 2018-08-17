@@ -15,8 +15,10 @@ public class HungerCostLine implements ITooltipLine {
 
     @Override
     public List<String> formatLine() {
-        return Arrays
-                .asList(ChatColor.DARK_PURPLE + "Hunger" + ChatColor.GRAY + " cost: " + ChatColor.WHITE + hungerCost);
+        String left = Colors.HUNGER + "Hunger";
+        String right = ChatColor.RED + "-" + ChatColor.WHITE + hungerCost;
+
+        return Arrays.asList(String.format(SkillTooltipBuilder.TABLE_FORMAT_PATTERN, left, right));
     }
 
 }

@@ -97,8 +97,8 @@ public abstract class GroupHealing implements ISkill {
                 .add(new DescriptionLine("Nearby players are healed by the inner power of the BIG potato."))
                 .add(new EmptyLine())
                 .add(new HealPerSecLine(0.2, 50))
-                .add(new RadiusLine(getHealingRange()))
                 .add(new DurationLine(20 * 12))
+                .add(new RadiusLine(getHealingRange()))
 
                 .add(new HorizontalLine())
                 .add(new HungerCostLine(getBasicHungerCost()))
