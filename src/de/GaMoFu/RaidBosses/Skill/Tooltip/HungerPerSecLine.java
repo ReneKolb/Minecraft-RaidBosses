@@ -9,8 +9,6 @@ import java.util.Locale;
 
 import org.bukkit.ChatColor;
 
-import de.GaMoFu.RaidBosses.Skill.SkillFactory;
-
 public class HungerPerSecLine implements ITooltipLine {
 
     private int healAmount;
@@ -30,7 +28,7 @@ public class HungerPerSecLine implements ITooltipLine {
 
     @Override
     public List<String> formatLine() {
-        String left = Colors.HUNGER + "Hunger";
+        String left = FontUtil.formatStringToWidth(Colors.HUNGER + "Hunger", SkillTooltipBuilder.FIRST_COLUMN_WIDTH);
         String right = ChatColor.GREEN + "+" + ChatColor.WHITE + healAmount + ChatColor.GOLD + " per " + ChatColor.WHITE
                 + decimalFormatTime.format(tickDelay / 20.0) + ChatColor.GRAY + "sec";
 

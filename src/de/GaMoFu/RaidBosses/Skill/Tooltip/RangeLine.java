@@ -21,7 +21,7 @@ public class RangeLine implements ITooltipLine {
 
     @Override
     public List<String> formatLine() {
-        String left = Colors.RANGE + "Range";
+        String left = FontUtil.formatStringToWidth(Colors.RANGE + "Range", SkillTooltipBuilder.FIRST_COLUMN_WIDTH);
         String right = ChatColor.WHITE + decimalFormat.format(range);
 
         return Arrays.asList(String.format(SkillTooltipBuilder.TABLE_FORMAT_PATTERN, left, right));

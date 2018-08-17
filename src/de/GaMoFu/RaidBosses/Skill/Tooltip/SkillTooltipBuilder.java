@@ -8,8 +8,10 @@ import org.bukkit.ChatColor;
 public class SkillTooltipBuilder {
 
     public static final int MAX_LINE_LENGTH = 32;
+    
+    public static final int FIRST_COLUMN_WIDTH = 11;
 
-    public static final String TABLE_FORMAT_PATTERN = "%-11s" + ChatColor.GRAY + ": %s";
+    public static final String TABLE_FORMAT_PATTERN = "%s" + ChatColor.GRAY + ": %s";
 
     private List<ITooltipLine> lines;
 

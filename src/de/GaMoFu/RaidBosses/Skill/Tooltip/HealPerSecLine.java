@@ -34,7 +34,7 @@ public class HealPerSecLine implements ITooltipLine {
 
     @Override
     public List<String> formatLine() {
-        String left = Colors.HEALTH + "Heal";
+        String left = FontUtil.formatStringToWidth(Colors.HEALTH + "Heal", SkillTooltipBuilder.FIRST_COLUMN_WIDTH);
         String right = ChatColor.WHITE + decimalFormatHealth.format(healAmount) + Colors.PER_SECOND + " per "
                 + ChatColor.WHITE + decimalFormatTime.format(tickDelay / 20.0) + ChatColor.GRAY + "sec";
 

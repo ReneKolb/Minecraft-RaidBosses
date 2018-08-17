@@ -1,6 +1,7 @@
 package de.GaMoFu.RaidBosses.Commands;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.bukkit.ChatColor;
@@ -17,6 +18,8 @@ import org.bukkit.entity.Phantom;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.PolarBear;
 import org.bukkit.entity.Stray;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -30,18 +33,9 @@ import de.GaMoFu.RaidBosses.ParticleEffects.RingEffect;
 import de.GaMoFu.RaidBosses.Trader.Trader;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ClickEvent.Action;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.minecraft.server.v1_13_R1.ChatClickable;
-import net.minecraft.server.v1_13_R1.ChatClickable.EnumClickAction;
-import net.minecraft.server.v1_13_R1.ChatHoverable;
-import net.minecraft.server.v1_13_R1.ChatHoverable.EnumHoverAction;
-import net.minecraft.server.v1_13_R1.ChatMessage;
-import net.minecraft.server.v1_13_R1.ChatMessageType;
-import net.minecraft.server.v1_13_R1.ChatModifier;
-import net.minecraft.server.v1_13_R1.IChatBaseComponent;
 
 public class TestCommand implements ICommandHandler {
 
@@ -181,14 +175,14 @@ public class TestCommand implements ICommandHandler {
             player.spigot().sendMessage(net.md_5.bungee.api.ChatMessageType.ACTION_BAR, all);
             return true;
         } else if (args.length == 5 && args[0].equals("dig")) {
-            
-            //good values are: delay=2, amount=75
-            
+
+            // good values are: delay=2, amount=75
+
             int delay = Integer.parseInt(args[1]);
             int amount = Integer.parseInt(args[2]);
             double width = Double.parseDouble(args[3]);
             double height = Double.parseDouble(args[4]);
-            
+
             World world = player.getWorld();
             Location loc = player.getLocation().clone();
 
@@ -197,10 +191,24 @@ public class TestCommand implements ICommandHandler {
 
                     @Override
                     public void run() {
-                        world.spawnParticle(Particle.BLOCK_CRACK, loc, amount, width, height, width, Material.DIRT.createBlockData());
+                        world.spawnParticle(Particle.BLOCK_CRACK, loc, amount, width, height, width,
+                                Material.DIRT.createBlockData());
                     }
                 }, i * delay);
             }
+        } else if (args.length == 1 && args[0].equalsIgnoreCase("lore")) {
+            ItemStack i = new ItemStack(Material.ACACIA_BOAT);
+            ItemMeta m = i.getItemMeta();
+            List<String> lore = new ArrayList<>();
+            lore.add(ChatColor.WHITE+"ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+            lore.add(ChatColor.WHITE+"abcdefghijklmnopqrstuvwxyz");
+            lore.add(ChatColor.WHITE+",;.:-_<>| #'+*~@");
+            lore.add(ChatColor.WHITE+"1234567890");
+            lore.add(ChatColor.WHITE+"^°!\"§$%&/{([)]=}?\\ß´`*+");
+
+            m.setLore(lore);
+            i.setItemMeta(m);
+            player.getInventory().addItem(i);
         }
 
         return false;

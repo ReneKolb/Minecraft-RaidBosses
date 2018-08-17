@@ -26,7 +26,8 @@ public class CooldownLine implements ITooltipLine {
 
     @Override
     public List<String> formatLine() {
-        String left = Colors.COOLDOWN + "Cooldown";
+        String left = FontUtil.formatStringToWidth(Colors.COOLDOWN + "Cooldown",
+                SkillTooltipBuilder.FIRST_COLUMN_WIDTH);
         String right = ChatColor.WHITE + decimalFormat.format(cooldownTicks / 20.0) + " " + ChatColor.GRAY + "sec ";
 
         return Arrays.asList(String.format(SkillTooltipBuilder.TABLE_FORMAT_PATTERN, left, right));
