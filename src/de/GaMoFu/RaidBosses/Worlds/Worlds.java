@@ -14,6 +14,7 @@ import org.bukkit.entity.Creature;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -211,6 +212,13 @@ public class Worlds implements Listener {
                 damagerPlayer = (Player) projectile.getShooter();
             }
         }
+        
+        if(event.getEntity() instanceof Villager){
+            //TODO use a merchant Class, to check if this villager is an actual Trader or a spawned monster. But for now assume Villager = Trader
+            event.setCancelled(true);
+            return;
+        }
+        
 
         if (damagerPlayer != null) {
             if (damagerPlayer.getGameMode() != GameMode.CREATIVE) {

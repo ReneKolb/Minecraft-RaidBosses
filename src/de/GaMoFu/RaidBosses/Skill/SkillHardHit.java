@@ -13,6 +13,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import de.GaMoFu.RaidBosses.SpawnedMonster;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.CooldownLine;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.DescriptionLine;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.EmptyLine;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.HorizontalLine;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.HungerCostLine;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
 
 public abstract class SkillHardHit implements ISkill {
 
@@ -96,11 +102,27 @@ public abstract class SkillHardHit implements ISkill {
     public Material getDisplayMaterial() {
         return Material.ANVIL;
     }
-
+    
     @Override
-    public List<String> getLore() {
-        return Arrays.asList("Hard Hit");
+    public SkillTooltipBuilder getTooltipBuilder() {
+        
+        //TODO:
+        return new SkillTooltipBuilder()
+                .add(new DescriptionLine("TODO"))
+                .add(new EmptyLine())
+//                .add(new HealPerSecLine(0.2, 50))
+//                .add(new DurationLine(20 * 12))
+//                .add(new RadiusLine(getHealingRange()))
+
+                .add(new HorizontalLine())
+                .add(new HungerCostLine(getBasicHungerCost()))
+                .add(new CooldownLine(getCooldownTicks()));
     }
+
+//    @Override
+//    public List<String> getLore() {
+//        return Arrays.asList("Hard Hit");
+//    }
 
     @Override
     public boolean isTriggerGlobalCooldown() {

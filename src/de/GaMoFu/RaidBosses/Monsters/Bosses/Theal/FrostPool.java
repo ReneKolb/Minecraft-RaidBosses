@@ -1,6 +1,5 @@
 package de.GaMoFu.RaidBosses.Monsters.Bosses.Theal;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Color;
@@ -19,6 +18,7 @@ import de.GaMoFu.RaidBosses.AreaCloudSettings;
 import de.GaMoFu.RaidBosses.RaidBosses;
 import de.GaMoFu.RaidBosses.SpawnedMonster;
 import de.GaMoFu.RaidBosses.Skill.ISkill;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
 
 public class FrostPool implements ISkill {
 
@@ -105,7 +105,7 @@ public class FrostPool implements ISkill {
     }
 
     @Override
-    public List<String> getLore() {
+    public SkillTooltipBuilder getTooltipBuilder() {
         return null;
     }
 

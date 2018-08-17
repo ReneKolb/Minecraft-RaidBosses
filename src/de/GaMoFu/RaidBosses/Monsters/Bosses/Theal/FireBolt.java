@@ -1,7 +1,6 @@
 package de.GaMoFu.RaidBosses.Monsters.Bosses.Theal;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Location;
@@ -17,6 +16,7 @@ import de.GaMoFu.RaidBosses.ParticleEffect;
 import de.GaMoFu.RaidBosses.RaidBosses;
 import de.GaMoFu.RaidBosses.SpawnedMonster;
 import de.GaMoFu.RaidBosses.Skill.ISkill;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
 
 public class FireBolt implements ISkill {
 
@@ -103,7 +103,7 @@ public class FireBolt implements ISkill {
     }
 
     @Override
-    public List<String> getLore() {
+    public SkillTooltipBuilder getTooltipBuilder() {
         return null;
     }
 

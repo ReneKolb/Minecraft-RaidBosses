@@ -1,6 +1,8 @@
 package de.GaMoFu.RaidBosses.Trader;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import de.GaMoFu.RaidBosses.RaidBosses;
@@ -12,11 +14,20 @@ public class TraderFactory {
     /** For looking up a trader by its internal name */
     private Map<String, Trader> traderNameLookup;
 
+    private List<String> internalTraderNames;
+
     public TraderFactory(RaidBosses plugin) {
         this.plugin = plugin;
         this.traderNameLookup = new HashMap<>();
 
         init();
+    }
+
+    public List<String> getTraderInternalNames() {
+        if (internalTraderNames == null) {
+            internalTraderNames = new LinkedList<>(traderNameLookup.keySet());
+        }
+        return internalTraderNames;
     }
 
     // Load locations and typed frpm Config

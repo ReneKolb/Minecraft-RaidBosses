@@ -1,7 +1,5 @@
 package de.GaMoFu.RaidBosses.Monsters.Bosses.Theal;
 
-import java.util.List;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -18,6 +16,7 @@ import de.GaMoFu.RaidBosses.SpawnedMonster;
 import de.GaMoFu.RaidBosses.ParticleEffects.PointEffect;
 import de.GaMoFu.RaidBosses.ParticleEffects.SphereEffect;
 import de.GaMoFu.RaidBosses.Skill.ISkill;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
 
 public class WitherAura implements ISkill {
 
@@ -82,7 +81,7 @@ public class WitherAura implements ISkill {
     }
 
     @Override
-    public List<String> getLore() {
+    public SkillTooltipBuilder getTooltipBuilder() {
         return null;
     }
 

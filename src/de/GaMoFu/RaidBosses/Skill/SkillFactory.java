@@ -19,6 +19,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import de.GaMoFu.RaidBosses.PlayerSettings;
 import de.GaMoFu.RaidBosses.RaidBosses;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
 
 public class SkillFactory implements Listener {
 
@@ -26,7 +27,7 @@ public class SkillFactory implements Listener {
 
     /** For looking up a skill by its internal name */
     private Map<String, ISkill> skillNameLookup; // SkillName -> Skill
-    
+
     private List<String> internalSkillNames;
 
     /** For looking up a skill be an held item's display name */
@@ -40,7 +41,7 @@ public class SkillFactory implements Listener {
 
         init();
     }
-    
+
     public List<String> getSkillInternalNames() {
         if (internalSkillNames == null) {
             internalSkillNames = new LinkedList<>(skillNameLookup.keySet());
@@ -100,7 +101,11 @@ public class SkillFactory implements Listener {
         ItemMeta meta = result.getItemMeta();
 
         meta.setDisplayName(skill.getSkillDisplayName());
-        meta.setLore(skill.getLore());
+
+        SkillTooltipBuilder tooltipBuilder = skill.getTooltipBuilder();
+        if (tooltipBuilder != null) {
+            meta.setLore(tooltipBuilder.build());
+        }
 
         meta.addEnchant(Enchantment.WATER_WORKER, 0, true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);

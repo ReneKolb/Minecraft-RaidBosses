@@ -17,6 +17,7 @@ public class CommandManager {
     private DungeonControlCommands dungeonControlCommands;
     private SkillCommands skillCommands;
     private ItemCommands itemCommands;
+    private TraderCommands traderCommands;
 
     public CommandManager(RaidBosses plugin) {
         this.worldCommand = new WorldCommand();
@@ -33,6 +34,9 @@ public class CommandManager {
 
         this.itemCommands = new ItemCommands();
         plugin.getCommand("item").setTabCompleter(new ItemTabComplete(plugin));
+
+        this.traderCommands = new TraderCommands();
+        plugin.getCommand("trader").setTabCompleter(new TraderTabComplete(plugin));
     }
 
     public boolean onCommand(RaidBosses plugin, CommandSender sender, Command command, String label, String[] args) {
@@ -62,6 +66,10 @@ public class CommandManager {
 
         if (command.getName().equalsIgnoreCase("item")) {
             return this.itemCommands.handleCommand(plugin, sender, command, label, args);
+        }
+
+        if (command.getName().equalsIgnoreCase("trader")) {
+            return this.traderCommands.handleCommand(plugin, sender, command, label, args);
         }
 
         if (command.getName().equalsIgnoreCase("/mw")) {

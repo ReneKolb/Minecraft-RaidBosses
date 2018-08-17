@@ -13,6 +13,7 @@ import org.bukkit.util.Vector;
 
 import de.GaMoFu.RaidBosses.RaidBosses;
 import de.GaMoFu.RaidBosses.SpawnedMonster;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
 
 public interface ISkill {
 
@@ -36,7 +37,7 @@ public interface ISkill {
         return 0;
     }
 
-    public List<String> getLore();
+    public SkillTooltipBuilder getTooltipBuilder();
 
     /**
      * 

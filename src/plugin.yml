@@ -29,6 +29,9 @@ commands:
   item:
     description: Item command category
     usage: /item [give|bla] [value]
+  trader:
+    description: Trader command category
+    usage: /trader [add|del]
   gm:
     description: Set a players gamemode
     usage: /gm [0|1|2|3] 

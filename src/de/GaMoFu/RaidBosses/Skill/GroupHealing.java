@@ -1,8 +1,5 @@
 package de.GaMoFu.RaidBosses.Skill;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -16,6 +13,15 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 
 import de.GaMoFu.RaidBosses.SpawnedMonster;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.CooldownLine;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.DescriptionLine;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.DurationLine;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.EmptyLine;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.HealPerSecLine;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.HorizontalLine;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.HungerCostLine;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.RadiusLine;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
 
 public abstract class GroupHealing implements ISkill {
 
@@ -86,8 +92,17 @@ public abstract class GroupHealing implements ISkill {
     }
 
     @Override
-    public List<String> getLore() {
-        return Arrays.asList("Heal near players");
+    public SkillTooltipBuilder getTooltipBuilder() {
+        return new SkillTooltipBuilder()
+                .add(new DescriptionLine("Nearby players are healed by the inner power of the BIG potato."))
+                .add(new EmptyLine())
+                .add(new HealPerSecLine(0.2, 50))
+                .add(new RadiusLine(getHealingRange()))
+                .add(new DurationLine(20 * 12))
+
+                .add(new HorizontalLine())
+                .add(new HungerCostLine(getBasicHungerCost()))
+                .add(new CooldownLine(getCooldownTicks()));
     }
 
     @Override

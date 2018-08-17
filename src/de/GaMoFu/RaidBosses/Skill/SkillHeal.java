@@ -15,6 +15,13 @@ import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
 
 import de.GaMoFu.RaidBosses.RaidBosses;
 import de.GaMoFu.RaidBosses.SpawnedMonster;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.CooldownLine;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.DescriptionLine;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.EmptyLine;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.HorizontalLine;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.InstantHealLine;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.HungerCostLine;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
 
 public abstract class SkillHeal implements ISkill {
 
@@ -92,10 +99,15 @@ public abstract class SkillHeal implements ISkill {
     }
 
     @Override
-    public List<String> getLore() {
-        return Arrays.asList(ChatColor.GRAY + "Heal yourself by",
-                "  " + ChatColor.WHITE + RaidBosses.df.format(getHealAmount()) + ChatColor.RED + " Health", "",
-                ChatColor.DARK_GRAY + "Cost: " + ChatColor.BLUE + RaidBosses.df.format(getBasicHungerCost()));
+    public SkillTooltipBuilder getTooltipBuilder() {
+        return new SkillTooltipBuilder()
+                .add(new DescriptionLine("The player is healed by the inner power of the potato."))
+                .add(new EmptyLine())
+                .add(new InstantHealLine(getHealAmount()))
+                
+                .add(new HorizontalLine())
+                .add(new HungerCostLine(getBasicHungerCost()))
+                .add(new CooldownLine(getCooldownTicks()));
     }
 
     @Override

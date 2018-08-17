@@ -3,6 +3,7 @@ package de.GaMoFu.RaidBosses.Skill;
 import java.util.Arrays;
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -18,6 +19,16 @@ import org.bukkit.potion.PotionType;
 import de.GaMoFu.RaidBosses.AreaCloudSettings;
 import de.GaMoFu.RaidBosses.RaidBosses;
 import de.GaMoFu.RaidBosses.SpawnedMonster;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.CooldownLine;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.DescriptionLine;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.DurationLine;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.EmptyLine;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.HorizontalLine;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.HungerCostLine;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.HungerPerSecLine;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.RadiusLine;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
+import javafx.util.Duration;
 
 public abstract class Refreshment implements ISkill {
 
@@ -90,9 +101,24 @@ public abstract class Refreshment implements ISkill {
     }
 
     @Override
-    public List<String> getLore() {
-        return Arrays.asList("Refreshment");
+    public SkillTooltipBuilder getTooltipBuilder() {
+ 
+        return new SkillTooltipBuilder()
+                .add(new DescriptionLine("TODO"))
+                .add(new EmptyLine())
+                .add(new HungerPerSecLine(1, 20))
+                .add(new RadiusLine(getRange()))
+                .add(new DurationLine(getDurationTicks()))
+
+                .add(new HorizontalLine())
+                .add(new HungerCostLine(getBasicHungerCost()))
+                .add(new CooldownLine(getCooldownTicks()));
     }
+//    @Override
+//    public List<String> getLore() {
+//        return Arrays.asList(ChatColor.GRAY + "Regenerates Hunger", "  " + ChatColor.WHITE + "1 " + ChatColor.DARK_RED
+//                + " Hunger" + ChatColor.GRAY + " per " + ChatColor.WHITE + "1 " + ChatColor.YELLOW + " sec");
+//    }
 
     @Override
     public boolean isTriggerGlobalCooldown() {

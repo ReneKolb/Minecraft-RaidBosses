@@ -1,7 +1,5 @@
 package de.GaMoFu.RaidBosses.Monsters.Bosses.Theal;
 
-import java.util.List;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -17,6 +15,7 @@ import de.GaMoFu.RaidBosses.RaidBosses;
 import de.GaMoFu.RaidBosses.SpawnedMonster;
 import de.GaMoFu.RaidBosses.ParticleEffects.RingEffect;
 import de.GaMoFu.RaidBosses.Skill.ISkill;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
 import net.minecraft.server.v1_13_R1.DamageSource;
 import net.minecraft.server.v1_13_R1.EntityHuman;
 
@@ -95,7 +94,7 @@ public class FlameAuraDamage implements ISkill {
     }
 
     @Override
-    public List<String> getLore() {
+    public SkillTooltipBuilder getTooltipBuilder() {
         return null;
     }
 

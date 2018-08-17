@@ -1,7 +1,6 @@
 package de.GaMoFu.RaidBosses.Monsters.Bosses.Theal;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 import org.bukkit.Location;
@@ -13,6 +12,7 @@ import de.GaMoFu.RaidBosses.RaidBosses;
 import de.GaMoFu.RaidBosses.SpawnedMonster;
 import de.GaMoFu.RaidBosses.Monsters.MonsterType;
 import de.GaMoFu.RaidBosses.Skill.ISkill;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
 
 public class OpenShadowPortal implements ISkill {
 
@@ -76,7 +76,7 @@ public class OpenShadowPortal implements ISkill {
     }
 
     @Override
-    public List<String> getLore() {
+    public SkillTooltipBuilder getTooltipBuilder() {
         return null;
     }
 
