@@ -1,11 +1,7 @@
 package de.GaMoFu.RaidBosses.Skill.Tooltip;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 import org.bukkit.ChatColor;
 
@@ -15,12 +11,6 @@ public class HungerPerSecLine implements ITooltipLine {
 
     private int tickDelay;
 
-    private static final NumberFormat decimalFormatTime;
-    static {
-        DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.US);
-        decimalFormatTime = new DecimalFormat("0.00", otherSymbols);
-    }
-
     public HungerPerSecLine(int healAmount, int tickDelay) {
         this.healAmount = healAmount;
         this.tickDelay = tickDelay;
@@ -29,8 +19,8 @@ public class HungerPerSecLine implements ITooltipLine {
     @Override
     public List<String> formatLine() {
         String left = FontUtil.formatStringToWidth(Colors.HUNGER + "Hunger", SkillTooltipBuilder.FIRST_COLUMN_WIDTH);
-        String right = ChatColor.GREEN + "+" + ChatColor.WHITE + healAmount + ChatColor.GOLD + " per " + ChatColor.WHITE
-                + decimalFormatTime.format(tickDelay / 20.0) + ChatColor.GRAY + "sec";
+        String right = ChatColor.GREEN + "+" + ChatColor.WHITE + healAmount + Colors.PER_SECOND + " per "
+                + SkillTooltipBuilder.formatTimeSec(tickDelay);
 
         return Arrays.asList(String.format(SkillTooltipBuilder.TABLE_FORMAT_PATTERN, left, right));
     }

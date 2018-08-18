@@ -1,9 +1,8 @@
 package de.GaMoFu.RaidBosses.Items;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.bukkit.ChatColor;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.DescriptionLine;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.EmptyLine;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
 
 public abstract class Token extends Item {
 
@@ -20,9 +19,12 @@ public abstract class Token extends Item {
     }
 
     @Override
-    public List<String> getLore() {
-        return Arrays
-                .asList(ChatColor.GRAY + "" + ChatColor.ITALIC + "Trade this token for a Tier" + getLevel() + " item");
+    public SkillTooltipBuilder getTooltipBuilder() {
+        //@formatter:off
+        return new SkillTooltipBuilder()
+                .add(new DescriptionLine("Trade this token for a Tier" + getLevel() + " item"))
+                .add(new EmptyLine());
+        //@formatter:on
     }
 
 }

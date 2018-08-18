@@ -20,7 +20,12 @@ import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
 public class FrostBolt implements ISkill {
 
     @Override
-    public String getSkillDisplayName() {
+    public int getLevel() {
+        return -1;
+    }
+    
+    @Override
+    public String getSkillDisplayNameWithoutLevel() {
         return "Frost Bolt";
     }
 

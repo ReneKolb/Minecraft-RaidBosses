@@ -1,9 +1,5 @@
 package de.GaMoFu.RaidBosses.Skill;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -28,19 +24,16 @@ import de.GaMoFu.RaidBosses.Skill.Tooltip.HungerCostLine;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.HungerPerSecLine;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.RadiusLine;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
-import javafx.util.Duration;
 
 public abstract class Refreshment implements ISkill {
-
-    public abstract int getLevel();
 
     public abstract float getRange();
 
     public abstract int getDurationTicks();
 
     @Override
-    public String getSkillDisplayName() {
-        return "Refreshment Lv." + getLevel();
+    public String getSkillDisplayNameWithoutLevel() {
+        return "Refreshment";
     }
 
     @Override
@@ -102,7 +95,7 @@ public abstract class Refreshment implements ISkill {
 
     @Override
     public SkillTooltipBuilder getTooltipBuilder() {
- 
+        //@formatter:off
         return new SkillTooltipBuilder()
                 .add(new DescriptionLine("TODO"))
                 .add(new EmptyLine())
@@ -113,6 +106,7 @@ public abstract class Refreshment implements ISkill {
                 .add(new HorizontalLine())
                 .add(new HungerCostLine(getBasicHungerCost()))
                 .add(new CooldownLine(getCooldownTicks()));
+        //@formatter:on
     }
 //    @Override
 //    public List<String> getLore() {

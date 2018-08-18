@@ -6,8 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import org.apache.commons.lang3.StringUtils;
-import org.bukkit.ChatColor;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -15,6 +14,8 @@ import de.GaMoFu.RaidBosses.RaidBosses;
 import de.GaMoFu.RaidBosses.Attributes.Attributes;
 import de.GaMoFu.RaidBosses.Attributes.Attributes.Attribute;
 import de.GaMoFu.RaidBosses.Items.Effects.ItemEffect;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.ItemEffectLine;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
 
 public class ItemsFactory {
 
@@ -85,29 +86,26 @@ public class ItemsFactory {
         ItemMeta meta = result.getItemMeta();
 
         meta.setDisplayName(item.getItemDisplayName());
-        List<String> lore = new LinkedList<>(item.getLore());
-        List<String> effectLore = new LinkedList<>();
+        SkillTooltipBuilder tooltipBuilder = item.getTooltipBuilder();
+        if (tooltipBuilder == null) {
+            tooltipBuilder = new SkillTooltipBuilder();
+        }
+
+        // if(!tooltipBuilder.isEmpty()&&!(tooltipBuilder.getLastLine()instanceof
+        // HorizontalLine)) {
+        // tooltipBuilder.add(new HorizontalLine());
+        // }
+
         for (ItemEffect effect : item.getItemEffects()) {
-            String effectText = effect.getTootipText();
-            if (!StringUtils.isEmpty(effectText)) {
-                effectLore.add(effectText);
-            }
+            tooltipBuilder.add(new ItemEffectLine(effect));
         }
 
-        int longestLine = -1;
-        for (String l : lore) {
-            longestLine = Math.max(longestLine, l.length());
-        }
-        for (String l : effectLore) {
-            longestLine = Math.max(longestLine, l.length());
-        }
+        meta.setLore(tooltipBuilder.build());
 
-        if (!effectLore.isEmpty()) {
-            lore.add(ChatColor.GRAY + StringUtils.repeat("-", longestLine));
-            lore.addAll(effectLore);
+        if (item.isUnbreakable()) {
+            meta.setUnbreakable(true);
+            meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
         }
-
-        meta.setLore(lore);
 
         result.setItemMeta(meta);
 

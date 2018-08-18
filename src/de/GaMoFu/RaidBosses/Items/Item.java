@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import de.GaMoFu.RaidBosses.RaidBosses;
 import de.GaMoFu.RaidBosses.Attributes.Attributes.Attribute;
 import de.GaMoFu.RaidBosses.Items.Effects.ItemEffect;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
 
 public abstract class Item {
 
@@ -55,6 +56,10 @@ public abstract class Item {
 
     public abstract Material getDisplayMaterial();
 
+    public boolean isUnbreakable() {
+        return true;
+    }
+
     public List<Attribute> getAttributes() {
         return Collections.emptyList();
     }
@@ -69,7 +74,5 @@ public abstract class Item {
         return 0;
     }
 
-    public List<String> getLore() {
-        return Collections.emptyList();
-    }
+    public abstract SkillTooltipBuilder getTooltipBuilder();
 }

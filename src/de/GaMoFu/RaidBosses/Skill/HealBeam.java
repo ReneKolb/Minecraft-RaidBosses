@@ -63,13 +63,11 @@ public abstract class HealBeam implements ISkill {
 
     public abstract int getNumTargets();
 
-    public abstract int getLevel();
-
     public abstract double getHealAmount();
 
     @Override
-    public String getSkillDisplayName() {
-        return "Healing Beam Lv." + getLevel();
+    public String getSkillDisplayNameWithoutLevel() {
+        return "Healing Beam";
     }
 
     @Override
@@ -186,6 +184,7 @@ public abstract class HealBeam implements ISkill {
     public SkillTooltipBuilder getTooltipBuilder() {
         
         //TODO:
+        //@formatter:off
         return new SkillTooltipBuilder()
                 .add(new DescriptionLine("TODO"))
                 .add(new EmptyLine())
@@ -196,6 +195,7 @@ public abstract class HealBeam implements ISkill {
                 .add(new HorizontalLine())
                 .add(new HungerCostLine(getBasicHungerCost()))
                 .add(new CooldownLine(getCooldownTicks()));
+        //@formatter:on
     }
     
 

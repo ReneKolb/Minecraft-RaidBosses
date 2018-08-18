@@ -22,7 +22,12 @@ import net.minecraft.server.v1_13_R1.EntityWitherSkull;
 public class DarkShot implements ISkill {
 
     @Override
-    public String getSkillDisplayName() {
+    public int getLevel() {
+        return -1;
+    }
+    
+    @Override
+    public String getSkillDisplayNameWithoutLevel() {
         return "Dark Shot";
     }
 

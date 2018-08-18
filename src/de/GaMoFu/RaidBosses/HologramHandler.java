@@ -61,6 +61,9 @@ public class HologramHandler {
     }
 
     public boolean isHologramEntity(Entity entity) {
+        if (!this.isEnabled)
+            return false;
+
         return HologramsAPI.isHologramEntity(entity);
     }
 

@@ -11,6 +11,7 @@ import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemFlag;
@@ -114,7 +115,7 @@ public class SkillFactory implements Listener {
         return Optional.of(result);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerItemHeld(PlayerItemHeldEvent event) {
         int newSlot = event.getNewSlot();
         Player player = event.getPlayer();

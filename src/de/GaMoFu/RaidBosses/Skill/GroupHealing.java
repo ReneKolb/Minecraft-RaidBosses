@@ -25,15 +25,13 @@ import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
 
 public abstract class GroupHealing implements ISkill {
 
-    protected abstract int getLevel();
-
     public abstract double getHealingAmount();
 
     public abstract float getHealingRange();
 
     @Override
-    public String getSkillDisplayName() {
-        return "Group Healing Lv." + getLevel();
+    public String getSkillDisplayNameWithoutLevel() {
+        return "Group Healing";
     }
 
     @Override
@@ -93,6 +91,7 @@ public abstract class GroupHealing implements ISkill {
 
     @Override
     public SkillTooltipBuilder getTooltipBuilder() {
+        //@formatter:off
         return new SkillTooltipBuilder()
                 .add(new DescriptionLine("Nearby players are healed by the inner power of the BIG potato."))
                 .add(new EmptyLine())
@@ -103,6 +102,7 @@ public abstract class GroupHealing implements ISkill {
                 .add(new HorizontalLine())
                 .add(new HungerCostLine(getBasicHungerCost()))
                 .add(new CooldownLine(getCooldownTicks()));
+        //@formatter:on
     }
 
     @Override

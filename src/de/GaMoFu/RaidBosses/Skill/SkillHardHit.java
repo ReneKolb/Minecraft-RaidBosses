@@ -1,7 +1,5 @@
 package de.GaMoFu.RaidBosses.Skill;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.SortedSet;
 
 import org.bukkit.Location;
@@ -22,8 +20,6 @@ import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
 
 public abstract class SkillHardHit implements ISkill {
 
-    public abstract int getLevel();
-
     public abstract float getKnockbackMulti();
 
     public abstract float getAttackRange();
@@ -31,8 +27,8 @@ public abstract class SkillHardHit implements ISkill {
     public abstract double getDamage();
 
     @Override
-    public String getSkillDisplayName() {
-        return "Hard Hit Lv." + getLevel();
+    public String getSkillDisplayNameWithoutLevel() {
+        return "Hard Hit";
     }
 
     @Override
@@ -102,27 +98,26 @@ public abstract class SkillHardHit implements ISkill {
     public Material getDisplayMaterial() {
         return Material.ANVIL;
     }
-    
+
     @Override
     public SkillTooltipBuilder getTooltipBuilder() {
-        
-        //TODO:
-        return new SkillTooltipBuilder()
-                .add(new DescriptionLine("TODO"))
-                .add(new EmptyLine())
-//                .add(new HealPerSecLine(0.2, 50))
-//                .add(new DurationLine(20 * 12))
-//                .add(new RadiusLine(getHealingRange()))
 
-                .add(new HorizontalLine())
-                .add(new HungerCostLine(getBasicHungerCost()))
+        // TODO:
+        //@formatter:off
+        return new SkillTooltipBuilder().add(new DescriptionLine("TODO")).add(new EmptyLine())
+                // .add(new HealPerSecLine(0.2, 50))
+                // .add(new DurationLine(20 * 12))
+                // .add(new RadiusLine(getHealingRange()))
+
+                .add(new HorizontalLine()).add(new HungerCostLine(getBasicHungerCost()))
                 .add(new CooldownLine(getCooldownTicks()));
+        //@formatter:on
     }
 
-//    @Override
-//    public List<String> getLore() {
-//        return Arrays.asList("Hard Hit");
-//    }
+    // @Override
+    // public List<String> getLore() {
+    // return Arrays.asList("Hard Hit");
+    // }
 
     @Override
     public boolean isTriggerGlobalCooldown() {

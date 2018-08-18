@@ -20,9 +20,14 @@ import net.minecraft.server.v1_13_R1.DamageSource;
 import net.minecraft.server.v1_13_R1.EntityHuman;
 
 public class FlameAuraDamage implements ISkill {
-
+    
     @Override
-    public String getSkillDisplayName() {
+    public int getLevel() {
+        return -1;
+    }
+    
+    @Override
+    public String getSkillDisplayNameWithoutLevel() {
         return "Flame Aura";
     }
 
@@ -57,7 +62,7 @@ public class FlameAuraDamage implements ISkill {
             if (p.getLocation().distanceSquared(targetLoc) <= 8 * 8) {
 
                 EntityHuman human = ((CraftPlayer) p).getHandle();
-                // dämlicher Umweg, aber so werden wenigstens alle Events richtig getriggert
+                // dï¿½mlicher Umweg, aber so werden wenigstens alle Events richtig getriggert
                 human.damageEntity(source, 5);
             }
         }

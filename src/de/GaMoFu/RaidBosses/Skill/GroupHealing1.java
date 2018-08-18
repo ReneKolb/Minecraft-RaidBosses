@@ -3,7 +3,7 @@ package de.GaMoFu.RaidBosses.Skill;
 public class GroupHealing1 extends GroupHealing {
 
     @Override
-    protected int getLevel() {
+    public int getLevel() {
         return 1;
     }
 

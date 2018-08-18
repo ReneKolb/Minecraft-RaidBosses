@@ -32,7 +32,12 @@ public class FrostAuraDamage implements ISkill {
     }
 
     @Override
-    public String getSkillDisplayName() {
+    public int getLevel() {
+        return -1;
+    }
+    
+    @Override
+    public String getSkillDisplayNameWithoutLevel() {
         return "Frost Aura";
     }
 
@@ -70,12 +75,12 @@ public class FrostAuraDamage implements ISkill {
             if (p.getLocation().distanceSquared(targetLoc) <= 8 * 8) {
 
                 EntityHuman human = ((CraftPlayer) p).getHandle();
-                // dämlicher Umweg, aber so werden wenigstens alle Events richtig getriggert
+                // dï¿½mlicher Umweg, aber so werden wenigstens alle Events richtig getriggert
                 human.damageEntity(source, 5);
 
                 PlayerSettings ps = RaidBosses.getPluginInstance().getPlayerSettings(p);
                 // Prevent FOV zoom shit... noooott ach is doch kacke... aber zumindest hat man
-                // so mehr kontrolle über den genauen wert
+                // so mehr kontrolle ï¿½ber den genauen wert
                 if (completeFreeze) {
                     ps.addSlowness(-1, Operation.MULTIPLY_SCALAR_1, 4 * 20);
                     p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 4 * 20, 128)); // disallow jump

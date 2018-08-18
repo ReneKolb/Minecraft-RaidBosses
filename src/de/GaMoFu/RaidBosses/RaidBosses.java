@@ -145,7 +145,7 @@ public final class RaidBosses extends JavaPlugin {
 
         this.areaCloudHandler = new AreaCloudHandler(this);
 
-        this.customDamageHandler = new CustomDamageHandler(this);
+//        this.customDamageHandler = new CustomDamageHandler(this);
 
         this.portalHandler = new PortalHandler(this);
 

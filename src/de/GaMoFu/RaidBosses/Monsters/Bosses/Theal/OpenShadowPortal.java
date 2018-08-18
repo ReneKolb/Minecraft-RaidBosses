@@ -22,7 +22,12 @@ public class OpenShadowPortal implements ISkill {
     private Random rnd = new Random();
 
     @Override
-    public String getSkillDisplayName() {
+    public int getLevel() {
+        return -1;
+    }
+    
+    @Override
+    public String getSkillDisplayNameWithoutLevel() {
         return "Open Shadow Portal";
     }
 

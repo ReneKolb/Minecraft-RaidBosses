@@ -1,10 +1,6 @@
 package de.GaMoFu.RaidBosses.Skill;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
@@ -13,25 +9,22 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
 
-import de.GaMoFu.RaidBosses.RaidBosses;
 import de.GaMoFu.RaidBosses.SpawnedMonster;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.CooldownLine;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.DescriptionLine;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.EmptyLine;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.HorizontalLine;
-import de.GaMoFu.RaidBosses.Skill.Tooltip.InstantHealLine;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.HungerCostLine;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.InstantHealLine;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
 
 public abstract class SkillHeal implements ISkill {
 
-    protected abstract int getLevel();
-
     protected abstract double getHealAmount();
 
     @Override
-    public String getSkillDisplayName() {
-        return ChatColor.AQUA + "Heal Lv." + getLevel();
+    public String getSkillDisplayNameWithoutLevel() {
+        return "Heal";
     }
 
     @Override
@@ -100,14 +93,16 @@ public abstract class SkillHeal implements ISkill {
 
     @Override
     public SkillTooltipBuilder getTooltipBuilder() {
+        //@formatter:off
         return new SkillTooltipBuilder()
                 .add(new DescriptionLine("The player is healed by the inner power of the potato."))
                 .add(new EmptyLine())
                 .add(new InstantHealLine(getHealAmount()))
-                
+
                 .add(new HorizontalLine())
                 .add(new HungerCostLine(getBasicHungerCost()))
                 .add(new CooldownLine(getCooldownTicks()));
+        //@formatter:on
     }
 
     @Override

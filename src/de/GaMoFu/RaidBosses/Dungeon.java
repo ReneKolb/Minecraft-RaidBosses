@@ -40,9 +40,14 @@ import org.bukkit.event.block.BlockIgniteEvent.IgniteCause;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
+import org.bukkit.event.inventory.InventoryAction;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
@@ -127,9 +132,10 @@ public abstract class Dungeon implements Listener {
         healthDisplayHead.setDisplaySlot(DisplaySlot.BELOW_NAME);
         healthDisplayHead.setDisplayName(org.bukkit.ChatColor.LIGHT_PURPLE + "% Health");
 
-        this.healthDisplaySide = scoreboard.registerNewObjective("HealthDispSide", "dummy",ChatColor.YELLOW + this.getDisplayName());
+        this.healthDisplaySide = scoreboard.registerNewObjective("HealthDispSide", "dummy",
+                ChatColor.YELLOW + this.getDisplayName());
         healthDisplaySide.setDisplaySlot(DisplaySlot.SIDEBAR);
-//        healthDisplaySide.setDisplayName(ChatColor.YELLOW + this.getDisplayName());
+        // healthDisplaySide.setDisplayName(ChatColor.YELLOW + this.getDisplayName());
 
         this.dungeonTeam = scoreboard.registerNewTeam("DungeonTeam");
         dungeonTeam.setAllowFriendlyFire(false);
@@ -600,6 +606,66 @@ public abstract class Dungeon implements Listener {
 
             }, 1);
         }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onPlayerItemHeld(PlayerItemHeldEvent event) {
+        // Since the player may equipped a sword with +HP Attribute, his health will
+        // change
+
+        final Player player = (Player) event.getPlayer();
+
+        if (!player.getWorld().getName().equals(this.getWorld().getName()))
+            return;
+
+        // Update in next server tick so the health actually changed
+        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+
+            @Override
+            public void run() {
+                updatePlayerHealthDisplay(player);
+            }
+
+        }, 1);
+    }
+
+    @EventHandler
+    public final void onInventoryClick(InventoryClickEvent event) {
+        //Update health if the player changed an armor slot
+        if (event.isCancelled())
+            return;
+
+        if (!(event.getWhoClicked() instanceof Player))
+            return;
+
+        if (event.getAction() == InventoryAction.NOTHING)
+            return;// Why does this get called if nothing happens??
+
+        if (event.getSlotType() != SlotType.ARMOR && event.getSlotType() != SlotType.QUICKBAR
+                && event.getSlotType() != SlotType.CONTAINER)
+            return;
+
+        if (event.getClickedInventory() != null && !event.getClickedInventory().getType().equals(InventoryType.PLAYER))
+            return;
+
+        if (!event.getInventory().getType().equals(InventoryType.CRAFTING)
+                && !event.getInventory().getType().equals(InventoryType.PLAYER))
+            return;
+
+        final Player player = (Player) event.getWhoClicked();
+
+        if (!player.getWorld().getName().equals(this.getWorld().getName()))
+            return;
+
+        // Update in next server tick so the health actually changed
+        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+
+            @Override
+            public void run() {
+                updatePlayerHealthDisplay(player);
+            }
+
+        }, 1);
     }
 
     @EventHandler

@@ -20,7 +20,7 @@ public class HorizontalLine implements ITooltipLine {
 
     @Override
     public List<String> formatLine() {
-        return Arrays.asList(color + StringUtils.repeat("-", SkillTooltipBuilder.MAX_LINE_LENGTH));
+        return Arrays.asList(color + StringUtils.repeat("-", SkillTooltipBuilder.MAX_LINE_LENGTH-4));
     }
 
 }

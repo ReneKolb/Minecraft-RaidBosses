@@ -21,7 +21,12 @@ import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
 public class WitherAura implements ISkill {
 
     @Override
-    public String getSkillDisplayName() {
+    public int getLevel() {
+        return -1;
+    }
+
+    @Override
+    public String getSkillDisplayNameWithoutLevel() {
         return "Wither Aura";
     }
 
