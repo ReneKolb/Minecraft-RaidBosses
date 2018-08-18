@@ -3,6 +3,8 @@ package de.GaMoFu.RaidBosses.Monsters;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Silverfish;
 
 import de.GaMoFu.RaidBosses.Skill.ISkill;
@@ -38,6 +40,11 @@ public class AnnoyingBug extends Monster<Silverfish> {
     @Override
     protected void afterSpawn() {
         // Hide in Block extends RandomStroll, so no need to extra remove it
+    }
+
+    @Override
+    protected void playOnFightStartSound(Location loc) {
+        loc.getWorld().playSound(loc, Sound.ENTITY_SILVERFISH_HURT, 1f, 1f);
     }
 
 }

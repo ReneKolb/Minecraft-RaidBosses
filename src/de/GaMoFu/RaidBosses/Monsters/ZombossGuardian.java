@@ -3,7 +3,9 @@ package de.GaMoFu.RaidBosses.Monsters;
 import java.util.Arrays;
 import java.util.List;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.PigZombie;
 import org.bukkit.entity.Player;
@@ -57,6 +59,11 @@ public class ZombossGuardian extends Monster<org.bukkit.entity.PigZombie> {
     @Override
     public List<ISkill> createSkillList() {
         return Arrays.asList(new SkillHardHit1());
+    }
+
+    @Override
+    protected void playOnFightStartSound(Location loc) {
+        loc.getWorld().playSound(loc, Sound.ENTITY_ZOMBIE_PIGMAN_ANGRY, 1f, 0.8f);
     }
 
 }

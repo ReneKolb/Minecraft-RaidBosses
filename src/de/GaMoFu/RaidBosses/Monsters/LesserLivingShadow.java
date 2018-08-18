@@ -5,6 +5,7 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.PigZombie;
 import org.bukkit.potion.PotionEffect;
@@ -70,6 +71,12 @@ public class LesserLivingShadow extends Monster<PigZombie> {
             Location loc = this.getEntity().getLocation();
             SphereEffect.doEffect(loc.add(0, 0.5, 0), Particle.SPELL_WITCH, 1, 0, 0, 0, 40, 1);
         }
+    }
+
+    @Override
+    protected void playOnFightStartSound(Location loc) {
+        loc.getWorld().playSound(loc, Sound.ENTITY_BLAZE_AMBIENT, 1f, 0.8f);
+        
     }
 
 }

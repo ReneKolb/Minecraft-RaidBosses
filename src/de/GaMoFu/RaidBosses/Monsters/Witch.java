@@ -2,6 +2,9 @@ package de.GaMoFu.RaidBosses.Monsters;
 
 import java.util.List;
 
+import org.bukkit.Location;
+import org.bukkit.Sound;
+
 import de.GaMoFu.RaidBosses.Skill.ISkill;
 
 public class Witch extends Monster<org.bukkit.entity.Witch> {
@@ -34,6 +37,11 @@ public class Witch extends Monster<org.bukkit.entity.Witch> {
 
     @Override
     protected void afterSpawn() {
+    }
+
+    @Override
+    protected void playOnFightStartSound(Location loc) {
+        loc.getWorld().playSound(loc, Sound.ENTITY_WITCH_AMBIENT, 1f, 1f);
     }
 
 }

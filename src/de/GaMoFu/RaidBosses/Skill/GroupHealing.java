@@ -48,7 +48,7 @@ public abstract class GroupHealing implements ISkill {
 
         // Healing per level (lvl1 = 0) in ticks per half Heart (Heart per sec):
         // 1->50(0.2), 2->25(0.4), 3->12(0.8), 4->6(1.66), 5->3(3.33), 6+->1(10)
-        cloud.addCustomEffect(new PotionEffect(PotionEffectType.REGENERATION, 25 + 1, 1/* 1 = lvl 2 */), true); // override
+        cloud.addCustomEffect(new PotionEffect(PotionEffectType.REGENERATION, 25 + 1, getLevel()/* 1 = lvl 2 */), true); // override
 
         cloud.setColor(Color.fromRGB(0, 255, 183)); // =00ffb7
         cloud.setDuration(20 * 12);
@@ -95,7 +95,7 @@ public abstract class GroupHealing implements ISkill {
         return new SkillTooltipBuilder()
                 .add(new DescriptionLine("Nearby players are healed by the inner power of the BIG potato."))
                 .add(new EmptyLine())
-                .add(new HealPerSecLine(0.2, 50))
+                .add(new HealPerSecLine(1, (int) (50.0 / (getLevel() + 1)))) // always heal 0.5 heart per (50 / level) seconds (with level from 1..inf)
                 .add(new DurationLine(20 * 12))
                 .add(new RadiusLine(getHealingRange()))
 

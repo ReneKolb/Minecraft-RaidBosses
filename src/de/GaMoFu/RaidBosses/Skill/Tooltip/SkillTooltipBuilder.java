@@ -22,7 +22,7 @@ public class SkillTooltipBuilder {
     private static final NumberFormat decimalFormatDistance;
     static {
         DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.US);
-        decimalFormatTimeSec = new DecimalFormat(ChatColor.WHITE + "0.#" + ChatColor.GRAY + "s", otherSymbols);
+        decimalFormatTimeSec = new DecimalFormat(ChatColor.WHITE + "0.##" + ChatColor.GRAY + "s", otherSymbols);
         decimalFormatHealth = new DecimalFormat(ChatColor.WHITE + "0.0" + ChatColor.RED + "♥", otherSymbols);
         decimalFormatDistance = new DecimalFormat(ChatColor.WHITE + "0.0" + ChatColor.GRAY + "m", otherSymbols);
     }

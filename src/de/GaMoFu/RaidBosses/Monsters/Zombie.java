@@ -3,6 +3,8 @@ package de.GaMoFu.RaidBosses.Monsters;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 
 import de.GaMoFu.RaidBosses.Skill.ISkill;
@@ -47,5 +49,10 @@ public class Zombie extends Monster<org.bukkit.entity.Zombie> {
     @Override
     public List<ISkill> createSkillList() {
         return new LinkedList<>();
+    }
+
+    @Override
+    protected void playOnFightStartSound(Location loc) {
+        loc.getWorld().playSound(loc, Sound.ENTITY_ZOMBIE_AMBIENT, 1f, 1f);
     }
 }

@@ -6,7 +6,9 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.attribute.AttributeModifier.Operation;
@@ -175,6 +177,11 @@ public class Theal extends Boss<Husk> {
         CraftHusk ch = (CraftHusk) this.entity;
         // increase (virtual) size and therefore attack range
         ch.getHandle().width += 0.5;
+    }
+
+    @Override
+    protected void playOnFightStartSound(Location loc) {
+        loc.getWorld().playSound(loc, Sound.ENTITY_HUSK_DEATH, 1f, 0.8f);
     }
 
 }

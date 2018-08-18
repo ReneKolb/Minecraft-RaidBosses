@@ -14,6 +14,9 @@ import org.bukkit.Color;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
@@ -37,8 +40,6 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
-import org.bukkit.map.MapRenderer;
-import org.bukkit.map.MapView;
 import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
@@ -229,7 +230,13 @@ public abstract class Monster<T extends Creature> implements Listener {
         afterSpawn();
     }
 
+    protected abstract void playOnFightStartSound(Location loc);
+    
     public void onFightStart() {
+        Location eyeLoc = this.entity.getEyeLocation();
+        World w = eyeLoc.getWorld();
+        w.spawnParticle(Particle.VILLAGER_ANGRY, eyeLoc, 5);
+        playOnFightStartSound(eyeLoc);
     };
 
     public void onFightEnd(boolean reasonIsBossDeath) {
