@@ -61,18 +61,12 @@ public class FontUtil {
     }
 
     public static String formatStringToWidth(String string, int fullCharacterWidth) {
-        // pixelWidth=65
-
         int pixelWidth = fullCharacterWidth * 6 - 1; // 5per Char + 1per inter-space
         int isWidth = getWidth(string);
 
-        System.out.println("string=" + string + " wid=" + isWidth + " target= " + pixelWidth);
-
         int mismatch = pixelWidth - isWidth;
-        System.out.println("mismatch=" + mismatch);
 
         int addSpaces = Math.round((float) mismatch / (getPlainWidth(' ') + 1));
-        System.out.println("spaces= " + addSpaces + " wid= " + getWidth(StringUtils.repeat(' ', addSpaces)));
         return string + StringUtils.repeat(' ', addSpaces);
     }
 
