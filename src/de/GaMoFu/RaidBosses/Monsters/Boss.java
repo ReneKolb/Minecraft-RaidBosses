@@ -1,7 +1,5 @@
 package de.GaMoFu.RaidBosses.Monsters;
 
-import java.util.List;
-
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.boss.BossBar;
@@ -10,7 +8,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.inventory.ItemStack;
 
 import de.GaMoFu.RaidBosses.RaidBosses;
 
@@ -25,13 +22,13 @@ public abstract class Boss<T extends Creature> extends Monster<T> {
 
     protected abstract BossBar createBossBar();
 
-    public abstract List<ItemStack> getLoot();
+    // public abstract List<ItemStack> getLoot();
 
-    public abstract int getDropLootAmount();
+    // public abstract int getDropLootAmount();
 
-    public abstract String getTokenName();
+    // public abstract String getTokenName();
 
-    public abstract int getTokenAmount();
+    // public abstract int getTokenAmount();
 
     protected void updateHealthBar() {
         if (this.entity == null)

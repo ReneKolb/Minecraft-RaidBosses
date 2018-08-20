@@ -1,11 +1,14 @@
 package de.GaMoFu.RaidBosses;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Creature;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.loot.LootTable;
 
 import de.GaMoFu.RaidBosses.Monsters.Monster;
 import de.GaMoFu.RaidBosses.Skill.ISkill;
@@ -42,6 +45,20 @@ public class SpawnedMonster {
 
         this.monsterEntity.loop();
         handleSkills();
+    }
+    
+    protected void dropLoot() {
+        LootTable lootTable = monsterEntity.getLootTable();
+        if (lootTable == null)
+            return;
+
+        Collection<ItemStack> loot = lootTable.populateLoot(RaidBosses.random, null);
+
+        Location loc = monsterEntity.getEntity().getLocation();
+
+        for (ItemStack itemStack : loot) {
+            loc.getWorld().dropItemNaturally(loc, itemStack);
+        }
     }
 
     /**

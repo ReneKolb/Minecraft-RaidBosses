@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.bukkit.Location;
 import org.bukkit.Sound;
+import org.bukkit.loot.LootTable;
 
 import de.GaMoFu.RaidBosses.Skill.ISkill;
 
@@ -43,6 +44,11 @@ public class Spider extends Monster<org.bukkit.entity.Spider> {
     @Override
     protected void playOnFightStartSound(Location loc) {
         loc.getWorld().playSound(loc, Sound.ENTITY_SPIDER_STEP, 1f, 1f);
+    }
+
+    @Override
+    public LootTable getLootTable() {
+        return null;
     }
 
 }

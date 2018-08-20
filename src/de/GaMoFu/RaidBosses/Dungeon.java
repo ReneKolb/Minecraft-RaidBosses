@@ -50,7 +50,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -67,6 +66,7 @@ import de.GaMoFu.RaidBosses.Config.IdleWalkStrollSettings;
 import de.GaMoFu.RaidBosses.Config.MonsterConfig;
 import de.GaMoFu.RaidBosses.Config.SaveConfig;
 import de.GaMoFu.RaidBosses.Events.BossDeathEvent;
+import de.GaMoFu.RaidBosses.Events.MonsterDeathEvent;
 import de.GaMoFu.RaidBosses.Monsters.Boss;
 import de.GaMoFu.RaidBosses.Monsters.BossType;
 import de.GaMoFu.RaidBosses.Monsters.Monster;
@@ -631,7 +631,7 @@ public abstract class Dungeon implements Listener {
 
     @EventHandler
     public final void onInventoryClick(InventoryClickEvent event) {
-        //Update health if the player changed an armor slot
+        // Update health if the player changed an armor slot
         if (event.isCancelled())
             return;
 
@@ -1010,62 +1010,23 @@ public abstract class Dungeon implements Listener {
     }
 
     @EventHandler
-    public void onBossDeath(BossDeathEvent event) {
-        SpawnedBoss boss = this.bosses.get(event.getBoss().getEntity().getUniqueId());
-        if (boss == null)
+    public void onSpawnedMonsterDeath(MonsterDeathEvent event) {
+        SpawnedMonster monster = null;
+        if (this.monsters.containsKey(event.getMonster().getEntity().getUniqueId())) {
+            monster = this.monsters.get(event.getMonster().getEntity().getUniqueId());
+        } else if (this.bosses.containsKey(event.getMonster().getEntity().getUniqueId())) {
+            monster = this.bosses.get(event.getMonster().getEntity().getUniqueId());
+        }
+        
+        if (monster == null)
             return;
 
-        List<ItemStack> possibleDrops = event.getBoss().getLoot();
-        int dropAmount = event.getBoss().getDropLootAmount();
+        monster.dropLoot();
+    }
 
-        String tokenName = event.getBoss().getTokenName();
-        int tokenAmount = event.getBoss().getTokenAmount();
-
-        Location lootChestLocation = boss.getLootChestLocation();
-        if (lootChestLocation != null) {
-            BlockState bs = lootChestLocation.getBlock().getState();
-            if (bs instanceof Chest) {
-
-                getWorld().spawnParticle(Particle.FLAME, lootChestLocation.clone().add(0.5, 0.5, 0.5), 30, 0.2d, 0.2d,
-                        0.2d);
-
-                Chest chest = (Chest) bs;
-                Inventory inv = chest.getBlockInventory();
-
-                for (int i = 0; i < dropAmount; i++) {
-
-                    ItemStack item = possibleDrops.get(rnd.nextInt(possibleDrops.size())).clone();
-                    inv.setItem(i, item);
-                }
-
-                Optional<ItemStack> tokenItemStack = plugin.getItemsFactory().buildItemItem(tokenName);
-                if (tokenItemStack.isPresent()) {
-                    ItemStack tokenStack = tokenItemStack.get();
-                    tokenStack.setAmount(tokenAmount);
-                    inv.addItem(tokenStack);
-                } else {
-                    plugin.getLogger().info("Cannot drop token item '" + tokenName + "'. Item not found");
-                }
-
-                return;
-            }
-        }
-
-        // drop loop directly (not into a chest)
-        for (int i = 0; i < dropAmount; i++) {
-            ItemStack item = possibleDrops.get(rnd.nextInt(possibleDrops.size())).clone();
-            world.dropItemNaturally(event.getBoss().getEntity().getLocation(), item);
-        }
-
-        Optional<ItemStack> tokenItemStack = plugin.getItemsFactory().buildItemItem(tokenName);
-        if (tokenItemStack.isPresent()) {
-            ItemStack tokenStack = tokenItemStack.get();
-            tokenStack.setAmount(tokenAmount);
-
-            world.dropItemNaturally(event.getBoss().getEntity().getLocation(), tokenStack);
-        } else {
-            plugin.getLogger().info("Cannot drop token item '" + tokenName + "'. Item not found");
-        }
+    @EventHandler
+    public void onBossDeath(BossDeathEvent event) {
+        // currently nothing to do here
     }
 
     @EventHandler

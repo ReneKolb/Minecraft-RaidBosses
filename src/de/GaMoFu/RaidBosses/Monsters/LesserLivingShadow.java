@@ -8,6 +8,7 @@ import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.PigZombie;
+import org.bukkit.loot.LootTable;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -77,6 +78,11 @@ public class LesserLivingShadow extends Monster<PigZombie> {
     protected void playOnFightStartSound(Location loc) {
         loc.getWorld().playSound(loc, Sound.ENTITY_BLAZE_AMBIENT, 1f, 0.8f);
         
+    }
+
+    @Override
+    public LootTable getLootTable() {
+        return null;
     }
 
 }

@@ -15,8 +15,6 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
-import org.bukkit.Sound;
-import org.bukkit.SoundCategory;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
@@ -40,6 +38,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.loot.LootTable;
 import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
@@ -49,6 +48,7 @@ import de.GaMoFu.RaidBosses.IdleWalk;
 import de.GaMoFu.RaidBosses.RaidBosses;
 import de.GaMoFu.RaidBosses.Config.IdleWalkSettings;
 import de.GaMoFu.RaidBosses.Events.BossDeathEvent;
+import de.GaMoFu.RaidBosses.Events.MonsterDeathEvent;
 import de.GaMoFu.RaidBosses.Skill.ISkill;
 import net.minecraft.server.v1_13_R1.PathfinderGoal;
 import net.minecraft.server.v1_13_R1.PathfinderGoalRandomStroll;
@@ -67,6 +67,8 @@ public abstract class Monster<T extends Creature> implements Listener {
     protected Class<T> type;
 
     protected T entity;
+
+    public abstract LootTable getLootTable();
 
     public abstract List<ISkill> createSkillList();
 
@@ -231,7 +233,7 @@ public abstract class Monster<T extends Creature> implements Listener {
     }
 
     protected abstract void playOnFightStartSound(Location loc);
-    
+
     public void onFightStart() {
         Location eyeLoc = this.entity.getEyeLocation();
         World w = eyeLoc.getWorld();
@@ -483,6 +485,8 @@ public abstract class Monster<T extends Creature> implements Listener {
             onDeath(event);
             onFightEnd(true);
 
+            Bukkit.getServer().getPluginManager().callEvent(new MonsterDeathEvent(this));
+            
             if (this instanceof Boss) {
                 Boss<? extends Creature> boss = (Boss<? extends Creature>) this;
                 Bukkit.getServer().getPluginManager().callEvent(new BossDeathEvent(boss));

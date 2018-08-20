@@ -19,9 +19,11 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.craftbukkit.v1_13_R1.entity.CraftHusk;
 import org.bukkit.entity.Husk;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.loot.LootTable;
 
 import de.GaMoFu.RaidBosses.RaidBosses;
 import de.GaMoFu.RaidBosses.Monsters.Boss;
+import de.GaMoFu.RaidBosses.Monsters.CustomLootTable;
 import de.GaMoFu.RaidBosses.Skill.ISkill;
 
 public class Theal extends Boss<Husk> {
@@ -100,29 +102,6 @@ public class Theal extends Boss<Husk> {
     }
 
     @Override
-    public List<ItemStack> getLoot() {
-        return lootList;
-    }
-
-    @Override
-    public int getDropLootAmount() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public String getTokenName() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public int getTokenAmount() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
     public List<ISkill> createSkillList() {
         return Arrays.asList();
     }
@@ -182,6 +161,11 @@ public class Theal extends Boss<Husk> {
     @Override
     protected void playOnFightStartSound(Location loc) {
         loc.getWorld().playSound(loc, Sound.ENTITY_HUSK_DEATH, 1f, 0.8f);
+    }
+
+    @Override
+    public LootTable getLootTable() {
+        return new CustomLootTable(4, 5).addSaveDrop("TOKEN_LVL_3", 20);
     }
 
 }

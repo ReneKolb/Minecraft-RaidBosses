@@ -6,6 +6,7 @@ import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.loot.LootTable;
 
 import de.GaMoFu.RaidBosses.Skill.ISkill;
 
@@ -54,5 +55,10 @@ public class Zombie extends Monster<org.bukkit.entity.Zombie> {
     @Override
     protected void playOnFightStartSound(Location loc) {
         loc.getWorld().playSound(loc, Sound.ENTITY_ZOMBIE_AMBIENT, 1f, 1f);
+    }
+
+    @Override
+    public LootTable getLootTable() {
+        return null;
     }
 }

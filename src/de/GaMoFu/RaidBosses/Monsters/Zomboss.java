@@ -19,6 +19,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.loot.LootTable;
 
 import de.GaMoFu.RaidBosses.RaidBosses;
 import de.GaMoFu.RaidBosses.Skill.ISkill;
@@ -27,18 +28,18 @@ public class Zomboss extends Boss<Zombie> {
 
     public static final String ALIAS = "zomboss";
 
-    private List<ItemStack> lootList;
+//    private List<ItemStack> lootList;
     private List<ISkill> skillList;
 
     public Zomboss() {
         super(Zombie.class);
-
-        this.lootList = new ArrayList<>();
-        this.lootList.add(new ItemStack(Material.COOKED_BEEF, 4));
-        this.lootList.add(new ItemStack(Material.CARROT, 5)); // Carrot Item?
-        this.lootList.add(new ItemStack(Material.BREAD, 4));
-        this.lootList.add(new ItemStack(Material.COOKED_CHICKEN, 5));
-        this.lootList.add(new ItemStack(Material.ROTTEN_FLESH, 6));
+//
+//        this.lootList = new ArrayList<>();
+//        this.lootList.add(new ItemStack(Material.COOKED_BEEF, 4));
+//        this.lootList.add(new ItemStack(Material.CARROT, 5)); // Carrot Item?
+//        this.lootList.add(new ItemStack(Material.BREAD, 4));
+//        this.lootList.add(new ItemStack(Material.COOKED_CHICKEN, 5));
+//        this.lootList.add(new ItemStack(Material.ROTTEN_FLESH, 6));
 
         this.skillList = new ArrayList<>();
         // TODO: add zomboss skills
@@ -166,26 +167,6 @@ public class Zomboss extends Boss<Zombie> {
     }
 
     @Override
-    public List<ItemStack> getLoot() {
-        return this.lootList;
-    }
-
-    @Override
-    public int getDropLootAmount() {
-        return 4;
-    }
-
-    @Override
-    public String getTokenName() {
-        return "TOKEN_LVL_1";
-    }
-
-    @Override
-    public int getTokenAmount() {
-        return 15;
-    }
-
-    @Override
     public List<ISkill> createSkillList() {
         return skillList;
     }
@@ -193,6 +174,11 @@ public class Zomboss extends Boss<Zombie> {
     @Override
     protected void playOnFightStartSound(Location loc) {
         loc.getWorld().playSound(loc, Sound.ENTITY_ZOMBIE_AMBIENT, 1f, 0.8f);
+    }
+
+    @Override
+    public LootTable getLootTable() {
+        return new CustomLootTable(4, 5).addSaveDrop("TOKEN_LVL_1", 15);
     }
 
 }

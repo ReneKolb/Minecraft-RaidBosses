@@ -9,6 +9,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.PigZombie;
 import org.bukkit.entity.Player;
+import org.bukkit.loot.LootTable;
 
 import de.GaMoFu.RaidBosses.Skill.ISkill;
 import de.GaMoFu.RaidBosses.Skill.SkillHardHit1;
@@ -64,6 +65,11 @@ public class ZombossGuardian extends Monster<org.bukkit.entity.PigZombie> {
     @Override
     protected void playOnFightStartSound(Location loc) {
         loc.getWorld().playSound(loc, Sound.ENTITY_ZOMBIE_PIGMAN_ANGRY, 1f, 0.8f);
+    }
+
+    @Override
+    public LootTable getLootTable() {
+        return new CustomLootTable(0, 0).addSaveDrop("TOKEN_LVL_1", 1);
     }
 
 }
