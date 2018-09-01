@@ -18,6 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import de.GaMoFu.RaidBosses.Dungeons.Dungeon;
 import de.GaMoFu.RaidBosses.Skill.ISkill;
 
 public class PlayerSettings {

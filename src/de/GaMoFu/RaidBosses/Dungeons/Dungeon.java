@@ -1,4 +1,4 @@
-package de.GaMoFu.RaidBosses;
+package de.GaMoFu.RaidBosses.Dungeons;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
@@ -50,6 +49,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -59,6 +59,14 @@ import org.bukkit.util.Vector;
 
 import com.google.gson.GsonBuilder;
 
+import de.GaMoFu.RaidBosses.IdleWalk;
+import de.GaMoFu.RaidBosses.IdleWalkPatrol;
+import de.GaMoFu.RaidBosses.IdleWalkStroll;
+import de.GaMoFu.RaidBosses.PatrolWaypoint;
+import de.GaMoFu.RaidBosses.RaidBosses;
+import de.GaMoFu.RaidBosses.SpawnedBoss;
+import de.GaMoFu.RaidBosses.SpawnedMonster;
+import de.GaMoFu.RaidBosses.Utils;
 import de.GaMoFu.RaidBosses.Config.IdleWalkPatrolSettings;
 import de.GaMoFu.RaidBosses.Config.IdleWalkSettings;
 import de.GaMoFu.RaidBosses.Config.IdleWalkSettingsClassAdapter;
@@ -81,7 +89,9 @@ public abstract class Dungeon implements Listener {
 
     protected File configFile;
 
-    public abstract Location getPlayerSpawnLocation();
+    public Location getPlayerSpawnLocation() {
+        return this.world.getSpawnLocation();
+    }
 
     protected BossBar bossBar;
 
@@ -103,13 +113,9 @@ public abstract class Dungeon implements Listener {
     protected Team dungeonTeam;
     protected ScoreboardSide healthDisplaySideHandler;
 
-    private Random rnd;
-
     public void init(RaidBosses plugin, World world) {
         this.plugin = plugin;
         this.world = world;
-
-        this.rnd = new Random();
 
         this.monsters = new HashMap<>();
         this.bosses = new HashMap<>();
@@ -142,7 +148,7 @@ public abstract class Dungeon implements Listener {
 
         this.healthDisplaySideHandler = new ScoreboardSide(plugin, this.scoreboard, this.healthDisplaySide, 7);
 
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        // plugin.getServer().getPluginManager().registerEvents(this, plugin);
 
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
 
@@ -424,6 +430,14 @@ public abstract class Dungeon implements Listener {
         }
 
         return addBoss(type.get(), loc);
+    }
+
+    public Optional<SpawnedBoss> getSpawnedBoss(UUID entityID) {
+        if (!this.bosses.containsKey(entityID)) {
+            return Optional.empty();
+        }
+
+        return Optional.of(this.bosses.get(entityID));
     }
 
     public void saveConfig() {
@@ -764,28 +778,28 @@ public abstract class Dungeon implements Listener {
      * @return
      */
     public boolean removeMonster(SpawnedMonster monster) {
-        if (!this.monsters.containsKey(monster.monsterEntity.getEntity().getUniqueId())) {
+        if (!this.monsters.containsKey(monster.getMonsterEntity().getEntity().getUniqueId())) {
             return false;
         }
 
-        if (!this.monstersConfiguration.containsKey(monster.configID)) {
+        if (!this.monstersConfiguration.containsKey(monster.getConfigID())) {
             return false;
         }
         // MonsterConfig mc = this.monstersConfiguration.get(sm.configID);
         monster.getMonsterEntity().getEntity().remove();
-        this.monstersConfiguration.remove(monster.configID);
-        this.monsters.remove(monster.monsterEntity.getEntity().getUniqueId());
+        this.monstersConfiguration.remove(monster.getConfigID());
+        this.monsters.remove(monster.getMonsterEntity().getEntity().getUniqueId());
 
         configChanged = true;
         return true;
     }
 
     public boolean updateStrollingRadius(SpawnedMonster monster, float randomStrollRadius) {
-        if (!this.monsters.containsKey(monster.monsterEntity.getEntity().getUniqueId())) {
+        if (!this.monsters.containsKey(monster.getMonsterEntity().getEntity().getUniqueId())) {
             return false;
         }
 
-        if (!this.monstersConfiguration.containsKey(monster.configID)) {
+        if (!this.monstersConfiguration.containsKey(monster.getConfigID())) {
             return false;
         }
 
@@ -815,11 +829,11 @@ public abstract class Dungeon implements Listener {
     }
 
     public boolean updateStrollingMinDelay(SpawnedMonster monster, int randomStrollMinDelay) {
-        if (!this.monsters.containsKey(monster.monsterEntity.getEntity().getUniqueId())) {
+        if (!this.monsters.containsKey(monster.getMonsterEntity().getEntity().getUniqueId())) {
             return false;
         }
 
-        if (!this.monstersConfiguration.containsKey(monster.configID)) {
+        if (!this.monstersConfiguration.containsKey(monster.getConfigID())) {
             return false;
         }
 
@@ -849,11 +863,11 @@ public abstract class Dungeon implements Listener {
     }
 
     public boolean updateStrollingMaxDelay(SpawnedMonster monster, int randomStrollMaxDelay) {
-        if (!this.monsters.containsKey(monster.monsterEntity.getEntity().getUniqueId())) {
+        if (!this.monsters.containsKey(monster.getMonsterEntity().getEntity().getUniqueId())) {
             return false;
         }
 
-        if (!this.monstersConfiguration.containsKey(monster.configID)) {
+        if (!this.monstersConfiguration.containsKey(monster.getConfigID())) {
             return false;
         }
 
@@ -883,11 +897,11 @@ public abstract class Dungeon implements Listener {
     }
 
     public boolean addPatrolWaypoint(SpawnedMonster monster, Location loc) {
-        if (!this.monsters.containsKey(monster.monsterEntity.getEntity().getUniqueId())) {
+        if (!this.monsters.containsKey(monster.getMonsterEntity().getEntity().getUniqueId())) {
             return false;
         }
 
-        if (!this.monstersConfiguration.containsKey(monster.configID)) {
+        if (!this.monstersConfiguration.containsKey(monster.getConfigID())) {
             return false;
         }
 
@@ -969,11 +983,11 @@ public abstract class Dungeon implements Listener {
     }
 
     public boolean highlightPatrolPath(SpawnedMonster monster) {
-        if (!this.monsters.containsKey(monster.monsterEntity.getEntity().getUniqueId())) {
+        if (!this.monsters.containsKey(monster.getMonsterEntity().getEntity().getUniqueId())) {
             return false;
         }
 
-        if (!this.monstersConfiguration.containsKey(monster.configID)) {
+        if (!this.monstersConfiguration.containsKey(monster.getConfigID())) {
             return false;
         }
 
@@ -1017,7 +1031,7 @@ public abstract class Dungeon implements Listener {
         } else if (this.bosses.containsKey(event.getMonster().getEntity().getUniqueId())) {
             monster = this.bosses.get(event.getMonster().getEntity().getUniqueId());
         }
-        
+
         if (monster == null)
             return;
 
@@ -1128,6 +1142,28 @@ public abstract class Dungeon implements Listener {
         default:
             break;
         }
+    }
+
+    @EventHandler
+    public void onPlayerRespawn(PlayerRespawnEvent event) {
+        Location deathLocation = event.getPlayer().getLocation();
+        World deathWorld = deathLocation.getWorld();
+
+        if (!deathWorld.getName().equals(this.world.getName())) {
+            return;
+        }
+
+        event.setRespawnLocation(this.getPlayerSpawnLocation());
+
+        // Update in next server tick so the health actually changed
+        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+
+            @Override
+            public void run() {
+                updatePlayerHealthDisplay(event.getPlayer());
+            }
+
+        }, 1);
     }
 
 }

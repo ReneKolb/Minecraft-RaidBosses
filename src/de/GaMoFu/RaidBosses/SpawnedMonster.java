@@ -10,6 +10,7 @@ import org.bukkit.entity.Creature;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.loot.LootTable;
 
+import de.GaMoFu.RaidBosses.Dungeons.Dungeon;
 import de.GaMoFu.RaidBosses.Monsters.Monster;
 import de.GaMoFu.RaidBosses.Skill.ISkill;
 
@@ -47,7 +48,7 @@ public class SpawnedMonster {
         handleSkills();
     }
     
-    protected void dropLoot() {
+    public void dropLoot() {
         LootTable lootTable = monsterEntity.getLootTable();
         if (lootTable == null)
             return;

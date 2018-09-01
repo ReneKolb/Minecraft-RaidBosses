@@ -21,6 +21,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import de.GaMoFu.RaidBosses.Commands.CommandManager;
+import de.GaMoFu.RaidBosses.Dungeons.Dungeons;
+import de.GaMoFu.RaidBosses.Dungeons.PortalHandler;
 import de.GaMoFu.RaidBosses.EventListeners.DungeonDesignListener;
 import de.GaMoFu.RaidBosses.EventListeners.PlayerJoinListener;
 import de.GaMoFu.RaidBosses.Items.ItemsFactory;

@@ -14,11 +14,10 @@ import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
-import org.bukkit.craftbukkit.v1_13_R1.entity.CraftZombie;
+import org.bukkit.craftbukkit.v1_13_R2.entity.CraftZombie;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.loot.LootTable;
 
 import de.GaMoFu.RaidBosses.RaidBosses;

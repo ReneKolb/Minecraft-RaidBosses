@@ -1,4 +1,4 @@
-package de.GaMoFu.RaidBosses;
+package de.GaMoFu.RaidBosses.Dungeons;
 
 public class DungeonConfig {
 

@@ -2,6 +2,8 @@ package de.GaMoFu.RaidBosses;
 
 import org.bukkit.Location;
 
+import de.GaMoFu.RaidBosses.Dungeons.Dungeon;
+
 public class IntroDungeon extends Dungeon {
 
     public static final String ALIAS = "intro";

@@ -1,4 +1,4 @@
-package de.GaMoFu.RaidBosses;
+package de.GaMoFu.RaidBosses.Dungeons;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,8 @@ import java.util.Random;
 import org.bukkit.ChatColor;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
+
+import de.GaMoFu.RaidBosses.RaidBosses;
 
 public class ScoreboardSide {
 

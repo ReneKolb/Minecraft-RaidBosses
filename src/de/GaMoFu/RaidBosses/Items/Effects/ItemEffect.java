@@ -1,6 +1,5 @@
 package de.GaMoFu.RaidBosses.Items.Effects;
 
-import org.bukkit.World;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public abstract class ItemEffect {

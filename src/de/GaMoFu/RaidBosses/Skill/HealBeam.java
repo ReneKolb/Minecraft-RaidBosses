@@ -1,7 +1,6 @@
 package de.GaMoFu.RaidBosses.Skill;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.UUID;
@@ -18,16 +17,13 @@ import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
 import org.bukkit.util.Vector;
 
-import de.GaMoFu.RaidBosses.Dungeon;
 import de.GaMoFu.RaidBosses.SpawnedMonster;
+import de.GaMoFu.RaidBosses.Dungeons.Dungeon;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.CooldownLine;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.DescriptionLine;
-import de.GaMoFu.RaidBosses.Skill.Tooltip.DurationLine;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.EmptyLine;
-import de.GaMoFu.RaidBosses.Skill.Tooltip.HealPerSecLine;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.HorizontalLine;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.HungerCostLine;
-import de.GaMoFu.RaidBosses.Skill.Tooltip.RadiusLine;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
 
 public abstract class HealBeam implements ISkill {

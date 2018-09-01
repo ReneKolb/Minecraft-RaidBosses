@@ -1,4 +1,4 @@
-package de.GaMoFu.RaidBosses;
+package de.GaMoFu.RaidBosses.Dungeons;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,6 +10,9 @@ import java.util.stream.Collectors;
 
 import org.bukkit.World;
 
+import de.GaMoFu.RaidBosses.FirstInstance;
+import de.GaMoFu.RaidBosses.IntroDungeon;
+import de.GaMoFu.RaidBosses.RaidBosses;
 import net.md_5.bungee.api.ChatColor;
 
 public class Dungeons {

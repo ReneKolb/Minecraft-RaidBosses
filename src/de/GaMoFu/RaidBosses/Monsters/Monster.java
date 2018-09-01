@@ -18,7 +18,7 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_13_R1.entity.CraftCreature;
+import org.bukkit.craftbukkit.v1_13_R2.entity.CraftCreature;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
@@ -48,11 +48,13 @@ import de.GaMoFu.RaidBosses.IdleWalk;
 import de.GaMoFu.RaidBosses.RaidBosses;
 import de.GaMoFu.RaidBosses.Config.IdleWalkSettings;
 import de.GaMoFu.RaidBosses.Events.BossDeathEvent;
+import de.GaMoFu.RaidBosses.Events.FightEndEvent;
+import de.GaMoFu.RaidBosses.Events.FightStartEvent;
 import de.GaMoFu.RaidBosses.Events.MonsterDeathEvent;
 import de.GaMoFu.RaidBosses.Skill.ISkill;
-import net.minecraft.server.v1_13_R1.PathfinderGoal;
-import net.minecraft.server.v1_13_R1.PathfinderGoalRandomStroll;
-import net.minecraft.server.v1_13_R1.PathfinderGoalSelector;
+import net.minecraft.server.v1_13_R2.PathfinderGoal;
+import net.minecraft.server.v1_13_R2.PathfinderGoalRandomStroll;
+import net.minecraft.server.v1_13_R2.PathfinderGoalSelector;
 
 public abstract class Monster<T extends Creature> implements Listener {
 
@@ -131,7 +133,7 @@ public abstract class Monster<T extends Creature> implements Listener {
             Set<?> fieldB = (Set<?>) b.get(entity.getHandle().goalSelector);
 
             Class<?> clazz = Class
-                    .forName("net.minecraft.server.v1_13_R1.PathfinderGoalSelector$PathfinderGoalSelectorItem");
+                    .forName("net.minecraft.server.v1_13_R2.PathfinderGoalSelector$PathfinderGoalSelectorItem");
             Field a = clazz.getField("a");
             a.setAccessible(true); // Since "a" is public final
 
@@ -235,6 +237,8 @@ public abstract class Monster<T extends Creature> implements Listener {
     protected abstract void playOnFightStartSound(Location loc);
 
     public void onFightStart() {
+        Bukkit.getPluginManager().callEvent(new FightStartEvent(this));
+        
         Location eyeLoc = this.entity.getEyeLocation();
         World w = eyeLoc.getWorld();
         w.spawnParticle(Particle.VILLAGER_ANGRY, eyeLoc, 5);
@@ -242,6 +246,7 @@ public abstract class Monster<T extends Creature> implements Listener {
     };
 
     public void onFightEnd(boolean reasonIsBossDeath) {
+        Bukkit.getPluginManager().callEvent(new FightEndEvent(this, reasonIsBossDeath));
     };
 
     public void onLoseTarget(Entity oldTarget) {

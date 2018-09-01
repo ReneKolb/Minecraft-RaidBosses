@@ -1,10 +1,10 @@
-package de.GaMoFu.RaidBosses;
+package de.GaMoFu.RaidBosses.Worlds;
 
 import java.util.Random;
 
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_13_R1.generator.CraftChunkData;
+import org.bukkit.craftbukkit.v1_13_R2.generator.CraftChunkData;
 import org.bukkit.generator.ChunkGenerator;
 
 public class RaidInstanceWorldGenerator extends ChunkGenerator {

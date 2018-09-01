@@ -6,8 +6,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_13_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_13_R1.entity.CraftCreature;
+import org.bukkit.craftbukkit.v1_13_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_13_R2.entity.CraftCreature;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -17,7 +17,7 @@ import de.GaMoFu.RaidBosses.RaidBosses;
 import de.GaMoFu.RaidBosses.SpawnedMonster;
 import de.GaMoFu.RaidBosses.Skill.ISkill;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
-import net.minecraft.server.v1_13_R1.EntityWitherSkull;
+import net.minecraft.server.v1_13_R2.EntityWitherSkull;
 
 public class DarkShot implements ISkill {
 

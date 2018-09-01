@@ -4,7 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_13_R1.entity.CraftCreature;
+import org.bukkit.craftbukkit.v1_13_R2.entity.CraftCreature;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;

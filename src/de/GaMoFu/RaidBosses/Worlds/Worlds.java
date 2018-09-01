@@ -27,7 +27,6 @@ import org.bukkit.event.hanging.HangingBreakEvent.RemoveCause;
 import org.bukkit.inventory.ItemStack;
 
 import de.GaMoFu.RaidBosses.RaidBosses;
-import de.GaMoFu.RaidBosses.RaidInstanceWorldGenerator;
 import de.GaMoFu.RaidBosses.Items.Item;
 import net.md_5.bungee.api.ChatColor;
 

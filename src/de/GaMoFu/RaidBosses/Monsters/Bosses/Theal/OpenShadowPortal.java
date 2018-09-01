@@ -7,9 +7,9 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import de.GaMoFu.RaidBosses.Portal;
 import de.GaMoFu.RaidBosses.RaidBosses;
 import de.GaMoFu.RaidBosses.SpawnedMonster;
+import de.GaMoFu.RaidBosses.Dungeons.Portal;
 import de.GaMoFu.RaidBosses.Monsters.MonsterType;
 import de.GaMoFu.RaidBosses.Skill.ISkill;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;

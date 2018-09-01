@@ -7,8 +7,8 @@ import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.attribute.AttributeModifier.Operation;
-import org.bukkit.craftbukkit.v1_13_R1.entity.CraftCreature;
-import org.bukkit.craftbukkit.v1_13_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_13_R2.entity.CraftCreature;
+import org.bukkit.craftbukkit.v1_13_R2.entity.CraftPlayer;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -20,8 +20,8 @@ import de.GaMoFu.RaidBosses.SpawnedMonster;
 import de.GaMoFu.RaidBosses.ParticleEffects.RingEffect;
 import de.GaMoFu.RaidBosses.Skill.ISkill;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
-import net.minecraft.server.v1_13_R1.DamageSource;
-import net.minecraft.server.v1_13_R1.EntityHuman;
+import net.minecraft.server.v1_13_R2.DamageSource;
+import net.minecraft.server.v1_13_R2.EntityHuman;
 
 public class FrostAuraDamage implements ISkill {
 

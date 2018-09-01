@@ -22,10 +22,10 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import de.GaMoFu.RaidBosses.Dungeon;
 import de.GaMoFu.RaidBosses.PlayerSettings;
 import de.GaMoFu.RaidBosses.RaidBosses;
 import de.GaMoFu.RaidBosses.SpawnedMonster;
+import de.GaMoFu.RaidBosses.Dungeons.Dungeon;
 
 public class DungeonDesignListener implements Listener {
 

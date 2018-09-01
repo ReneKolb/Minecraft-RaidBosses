@@ -8,6 +8,8 @@ import org.bukkit.block.Chest;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.loot.LootTable;
 
+import de.GaMoFu.RaidBosses.Dungeons.Dungeon;
+
 public class SpawnedBoss extends SpawnedMonster {
 
     protected Location lootChestLocation;
@@ -32,7 +34,7 @@ public class SpawnedBoss extends SpawnedMonster {
     }
 
     @Override
-    protected void dropLoot() {
+    public void dropLoot() {
         if (this.getLootChestLocation() == null) {
             super.dropLoot();
             return;

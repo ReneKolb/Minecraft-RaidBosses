@@ -1,4 +1,4 @@
-package de.GaMoFu.RaidBosses;
+package de.GaMoFu.RaidBosses.Dungeons;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -9,6 +9,7 @@ import java.util.UUID;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import de.GaMoFu.RaidBosses.RaidBosses;
 import de.GaMoFu.RaidBosses.Events.BossDeathEvent;
 
 public class PortalHandler implements Listener {

@@ -1,6 +1,6 @@
 package de.GaMoFu.RaidBosses;
 
-import org.bukkit.craftbukkit.v1_13_R1.entity.CraftCreature;
+import org.bukkit.craftbukkit.v1_13_R2.entity.CraftCreature;
 import org.bukkit.entity.Creature;
 
 import de.GaMoFu.RaidBosses.Config.IdleWalkSettings;

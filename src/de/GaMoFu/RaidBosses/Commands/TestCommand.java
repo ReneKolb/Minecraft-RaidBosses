@@ -14,19 +14,21 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Phantom;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.PolarBear;
+import org.bukkit.entity.Spider;
 import org.bukkit.entity.Stray;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import de.GaMoFu.RaidBosses.Dungeon;
 import de.GaMoFu.RaidBosses.PlayerSettings;
 import de.GaMoFu.RaidBosses.PlayerSettings.MonsterSelection;
 import de.GaMoFu.RaidBosses.RaidBosses;
+import de.GaMoFu.RaidBosses.Dungeons.Dungeon;
 import de.GaMoFu.RaidBosses.Monsters.Zombie;
 import de.GaMoFu.RaidBosses.Monsters.Zomboss;
 import de.GaMoFu.RaidBosses.ParticleEffects.RingEffect;
@@ -200,15 +202,25 @@ public class TestCommand implements ICommandHandler {
             ItemStack i = new ItemStack(Material.ACACIA_BOAT);
             ItemMeta m = i.getItemMeta();
             List<String> lore = new ArrayList<>();
-            lore.add(ChatColor.WHITE+"ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-            lore.add(ChatColor.WHITE+"abcdefghijklmnopqrstuvwxyz");
-            lore.add(ChatColor.WHITE+",;.:-_<>| #'+*~@");
-            lore.add(ChatColor.WHITE+"1234567890");
-            lore.add(ChatColor.WHITE+"^°!\"§$%&/{([)]=}?\\ß´`*+");
+            lore.add(ChatColor.WHITE + "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+            lore.add(ChatColor.WHITE + "abcdefghijklmnopqrstuvwxyz");
+            lore.add(ChatColor.WHITE + ",;.:-_<>| #'+*~@");
+            lore.add(ChatColor.WHITE + "1234567890");
+            lore.add(ChatColor.WHITE + "^ï¿½!\"ï¿½$%&/{([)]=}?\\ß´`*+");
 
             m.setLore(lore);
             i.setItemMeta(m);
             player.getInventory().addItem(i);
+        } else if (args.length == 1 && args[0].equalsIgnoreCase("spider")) {
+            Spider s = (Spider) player.getWorld().spawnEntity(player.getLocation().add(1, 0, 1), EntityType.SPIDER);
+
+            Item i = player.getWorld().dropItem(player.getLocation(), new ItemStack(Material.SUNFLOWER));
+            i.setPickupDelay(Integer.MAX_VALUE);
+            s.addPassenger(i);
+//
+//            Item i2 = player.getWorld().dropItem(player.getLocation(), new ItemStack(Material.ROSE_RED));
+//            i2.setPickupDelay(Integer.MAX_VALUE);
+//            s.addPassenger(i2);
         }
 
         return false;

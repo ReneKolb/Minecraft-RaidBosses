@@ -1,4 +1,4 @@
-package de.GaMoFu.RaidBosses;
+package de.GaMoFu.RaidBosses.Dungeons;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -19,6 +19,9 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
+import de.GaMoFu.RaidBosses.ParticleEffect;
+import de.GaMoFu.RaidBosses.RaidBosses;
+import de.GaMoFu.RaidBosses.SpawnedMonster;
 import de.GaMoFu.RaidBosses.Monsters.Monster;
 import de.GaMoFu.RaidBosses.Monsters.MonsterType;
 import de.GaMoFu.RaidBosses.ParticleEffects.CubeEffect;
@@ -143,7 +146,7 @@ public class Portal implements Listener {
                     spawnLoc.add(r * Math.cos(phi), 0, r * Math.sin(phi));
 
                     SpawnedMonster spawnedMonster = dungeon.addCustomSpawnedMonster(spawnType, spawnLoc);
-                    this.spawnedMonsters.add(spawnedMonster.monsterEntity);
+                    this.spawnedMonsters.add(spawnedMonster.getMonsterEntity());
 
                     PointEffect.doEffect(loc.getWorld(), spawnLoc.clone().add(0, 1, 0).toVector(), spawnEffect);
                     loc.getWorld().playSound(loc, Sound.ENTITY_ENDERMAN_AMBIENT, 1, 0.5f);

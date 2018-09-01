@@ -10,7 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 
-import net.minecraft.server.v1_13_R1.DamageSource;
+import net.minecraft.server.v1_13_R2.DamageSource;
 
 public class Utils {
 
