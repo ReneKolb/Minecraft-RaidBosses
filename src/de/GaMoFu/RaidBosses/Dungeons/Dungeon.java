@@ -17,6 +17,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -29,6 +30,7 @@ import org.bukkit.block.Chest;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -36,6 +38,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockGrowEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockIgniteEvent.IgniteCause;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
@@ -51,6 +54,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
@@ -79,7 +84,6 @@ import de.GaMoFu.RaidBosses.Monsters.Boss;
 import de.GaMoFu.RaidBosses.Monsters.BossType;
 import de.GaMoFu.RaidBosses.Monsters.Monster;
 import de.GaMoFu.RaidBosses.Monsters.MonsterType;
-import net.md_5.bungee.api.ChatColor;
 
 public abstract class Dungeon implements Listener {
 
@@ -110,7 +114,11 @@ public abstract class Dungeon implements Listener {
     protected Scoreboard scoreboard;
     protected Objective healthDisplayHead;
     protected Objective healthDisplaySide;
-    protected Team dungeonTeam;
+
+    protected Team greenTeam;
+    protected Team goldTeam;
+    protected Team redTeam;
+
     protected ScoreboardSide healthDisplaySideHandler;
 
     public void init(RaidBosses plugin, World world) {
@@ -136,15 +144,23 @@ public abstract class Dungeon implements Listener {
         // only 16 characters are allowed for names
         this.healthDisplayHead = scoreboard.registerNewObjective("HealthDispHead", "dummy", "Health");
         healthDisplayHead.setDisplaySlot(DisplaySlot.BELOW_NAME);
-        healthDisplayHead.setDisplayName(org.bukkit.ChatColor.LIGHT_PURPLE + "% Health");
+        healthDisplayHead.setDisplayName(ChatColor.LIGHT_PURPLE + "% Health");
 
         this.healthDisplaySide = scoreboard.registerNewObjective("HealthDispSide", "dummy",
                 ChatColor.YELLOW + this.getDisplayName());
         healthDisplaySide.setDisplaySlot(DisplaySlot.SIDEBAR);
         // healthDisplaySide.setDisplayName(ChatColor.YELLOW + this.getDisplayName());
 
-        this.dungeonTeam = scoreboard.registerNewTeam("DungeonTeam");
-        dungeonTeam.setAllowFriendlyFire(false);
+        this.greenTeam = scoreboard.registerNewTeam("DungeonTeam-G");
+        this.greenTeam.setColor(ChatColor.GREEN);
+        this.goldTeam = scoreboard.registerNewTeam("DungeonTeam-Y");
+        this.goldTeam.setColor(ChatColor.GOLD);
+        this.redTeam = scoreboard.registerNewTeam("DungeonTeam-R");
+        this.redTeam.setColor(ChatColor.RED);
+
+        // this.dungeonTeam.setColor(ChatColor.BLUE);
+        // this.dungeonTeam.setAllowFriendlyFire(false);
+        // this.dungeonTeam.setCanSeeFriendlyInvisibles(true);
 
         this.healthDisplaySideHandler = new ScoreboardSide(plugin, this.scoreboard, this.healthDisplaySide, 7);
 
@@ -600,6 +616,20 @@ public abstract class Dungeon implements Listener {
 
         this.healthDisplaySideHandler.updateLine(index + 1,
                 player.getName() + ": " + (int) health + "/" + (int) maxHealth);
+        
+        if(healthPercent>50) {
+            greenTeam.addEntry(player.getName());
+            goldTeam.removeEntry(player.getName());
+            redTeam.removeEntry(player.getName());
+        }else if(healthPercent>20) {
+            greenTeam.removeEntry(player.getName());
+            goldTeam.addEntry(player.getName());
+            redTeam.removeEntry(player.getName());
+        }else {
+            greenTeam.removeEntry(player.getName());
+            goldTeam.removeEntry(player.getName());
+            redTeam.addEntry(player.getName());
+        }
     }
 
     @EventHandler
@@ -619,6 +649,26 @@ public abstract class Dungeon implements Listener {
                 }
 
             }, 1);
+        }
+    }
+    
+    @EventHandler(ignoreCancelled=true)
+    public void onDamageEntityByEntity(EntityDamageByEntityEvent event) {
+        // Prevent Friendly Fire
+        if(!(event.getEntity() instanceof Player)) {
+            return;
+        }
+        
+//        Player player = (Player) event.getEntity();
+        
+        if(event.getDamager() instanceof Player) {
+//            Player damager = (Player) event.getDamager();
+            event.setCancelled(true);
+        }else if(event.getDamager() instanceof Projectile) {
+            Projectile projectile = (Projectile) event.getDamager();
+            if(projectile.getShooter() instanceof Player) {
+                event.setCancelled(true);
+            }
         }
     }
 
@@ -737,28 +787,33 @@ public abstract class Dungeon implements Listener {
         if (this.players.contains(p.getUniqueId())) {
             return;
         }
-        System.out.println("Add Player " + p.getName());
+        // System.out.println("Add Player " + p.getName());
 
         this.players.add(p.getUniqueId());
-        this.dungeonTeam.addEntry(p.getName());
+//        this.dungeonTeam.addEntry(p.getName());
         p.setScoreboard(this.scoreboard);
         updatePlayerHealthDisplay(p);
+
+        p.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, Integer.MAX_VALUE, 0, false, false), true);
     }
 
     public void removePlayer(Player p) {
         if (!this.players.contains(p.getUniqueId())) {
             return;
         }
-        System.out.println("remove Player: " + p.getName());
+        // System.out.println("remove Player: " + p.getName());
 
         int index = this.players.indexOf(p.getUniqueId());
 
         this.players.remove(p.getUniqueId());
-        this.dungeonTeam.removeEntry(p.getName());
+        this.greenTeam.removeEntry(p.getName());
+        this.goldTeam.removeEntry(p.getName());
+        this.redTeam.removeEntry(p.getName());
         p.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
 
         // this.healthDisplaySideHandler.updateLine(index + 1, p.getName() + ": left");
         this.healthDisplaySideHandler.removeLine(index + 1);
+        p.removePotionEffect(PotionEffectType.GLOWING);
     }
 
     public Optional<SpawnedMonster> findMonsterByID(UUID monsterID) {

@@ -55,7 +55,7 @@ public class OpenShadowPortal implements ISkill {
     @Override
     public boolean execute(SpawnedMonster executer, Location targetLoc) {
 
-        System.out.println("spawn portal");
+//        System.out.println("spawn portal");
 
         Portal portal = new Portal(RaidBosses.getPluginInstance(), executer.getDungeon(), targetLoc, PORTAL_HEALTH,
                 20 * 7, 2, 6, Arrays.asList(MonsterType.LESSER_LIVING_SHADOW));

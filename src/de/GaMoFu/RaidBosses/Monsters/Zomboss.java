@@ -51,7 +51,7 @@ public class Zomboss extends Boss<Zombie> {
 
     @Override
     protected void afterSpawn() {
-        System.out.println("Zomboss just spawned");
+//        System.out.println("Zomboss just spawned");
 
         this.entity.setBaby(false);
 
@@ -92,12 +92,12 @@ public class Zomboss extends Boss<Zombie> {
 
     @Override
     public void onLoseTarget(Entity oldTarget) {
-        System.out.println("lose target");
+//        System.out.println("lose target");
     }
 
     @Override
     public void onChangeTarget(Entity oldTarget, Entity newTarget) {
-        System.out.println("change target");
+//        System.out.println("change target");
     }
 
     // @Override

@@ -141,7 +141,7 @@ public abstract class Monster<T extends Creature> implements Listener {
                 PathfinderGoal goal = (PathfinderGoal) a.get(o);
                 if (goalClass.isInstance(goal)) {
                     fieldB.remove(o);
-                    System.out.println("Removed: " + goal);
+//                    System.out.println("Removed: " + goal);
                 }
             }
         } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException
@@ -205,7 +205,7 @@ public abstract class Monster<T extends Creature> implements Listener {
     }
 
     public void spawn(Location location) {
-        System.out.println("Spawning monster");
+//        System.out.println("Spawning monster");
 
         Bukkit.getServer().getPluginManager().registerEvents(this, RaidBosses.getPluginInstance());
         aggroRangeCheck = 0;

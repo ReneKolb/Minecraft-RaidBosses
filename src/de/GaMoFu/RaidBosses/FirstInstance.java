@@ -72,7 +72,6 @@ public class FirstInstance extends Dungeon {
 
     @EventHandler
     public void onBossFightStartEvent(FightStartEvent onFightStart) {
-        System.out.println("fight start: "+onFightStart.getMonster().getEntity().getClass().getSimpleName());
         Optional<SpawnedBoss> oBoss = this.getSpawnedBoss(onFightStart.getMonster().getEntity().getUniqueId());
 
         if (!oBoss.isPresent())
@@ -87,7 +86,6 @@ public class FirstInstance extends Dungeon {
 
     @EventHandler
     public void onBossFightEndEvent(FightEndEvent onFightEnd) {
-        System.out.println("fight end: "+onFightEnd.getMonster().getEntity().getClass().getSimpleName());
         Optional<SpawnedBoss> oBoss = this.getSpawnedBoss(onFightEnd.getMonster().getEntity().getUniqueId());
 
         if (!oBoss.isPresent())
