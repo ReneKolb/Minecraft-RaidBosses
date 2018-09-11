@@ -38,7 +38,7 @@ public class FrostPool implements ISkill {
     public int getLevel() {
         return -1;
     }
-    
+
     @Override
     public String getSkillDisplayNameWithoutLevel() {
         return "Frost Pool";
@@ -70,7 +70,7 @@ public class FrostPool implements ISkill {
 
     @Override
     public boolean execute(SpawnedMonster executer, Location targetLoc) {
-//        System.out.println("Execute Frost Pool");
+        // System.out.println("Execute Frost Pool");
         // cd=400, r=8
         Creature c = executer.getMonsterEntity().getEntity();
         World w = c.getWorld();

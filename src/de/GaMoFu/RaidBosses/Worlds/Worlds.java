@@ -18,11 +18,10 @@ import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockFadeEvent;
 import org.bukkit.event.block.BlockGrowEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
-import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.block.BlockIgniteEvent.IgniteCause;
+import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -45,9 +44,9 @@ public class Worlds implements Listener {
 
     private boolean configChanged;
 
-    public  void applyGameRules(World world) {
-        plugin.getLogger().info("Applying World Rules to world "+world.getName());
-        
+    public void applyGameRules(World world) {
+        plugin.getLogger().info("Applying World Rules to world " + world.getName());
+
         world.setGameRule(GameRule.DO_FIRE_TICK, false); // disable fire spread and extinguish
         world.setGameRule(GameRule.DO_MOB_LOOT, false); // disable mob naturally drop items
         world.setGameRule(GameRule.DO_WEATHER_CYCLE, false); // disable weather cycle
@@ -121,7 +120,7 @@ public class Worlds implements Listener {
         // temporary set the spawn location to 0,1,0 since this is the only available
         // block in the world due to RaidInstanceWorldGenerator
         world.setSpawnLocation(0, 2, 0);
-        
+
         applyGameRules(world);
 
         plugin.getServer().getConsoleSender().sendMessage(ChatColor.BLUE + "done");
@@ -201,7 +200,7 @@ public class Worlds implements Listener {
         // prevent players and explosions to break paintings and item frames
         event.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onBlockIgnite(BlockIgniteEvent event) {
         if (event.getCause() == IgniteCause.SPREAD) {
@@ -213,18 +212,18 @@ public class Worlds implements Listener {
     public void onBlockGrowEvent(BlockGrowEvent event) {
         event.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onLeavesDecay(LeavesDecayEvent event) {
         event.setCancelled(true);
     }
-    
-//    @EventHandler
-//    public void onBlockFade(BlockFadeEvent event) {
-//        System.out.println("Fade: "+event.getBlock().getType());
-//        System.out.println("New:  "+event.getNewState().getType());
-//        
-//    }
+
+    // @EventHandler
+    // public void onBlockFade(BlockFadeEvent event) {
+    // System.out.println("Fade: "+event.getBlock().getType());
+    // System.out.println("New: "+event.getNewState().getType());
+    //
+    // }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
@@ -240,13 +239,13 @@ public class Worlds implements Listener {
                 damagerPlayer = (Player) projectile.getShooter();
             }
         }
-        
-        if(event.getEntity() instanceof Villager){
-            //TODO use a merchant Class, to check if this villager is an actual Trader or a spawned monster. But for now assume Villager = Trader
+
+        if (event.getEntity() instanceof Villager) {
+            // TODO use a merchant Class, to check if this villager is an actual Trader or a
+            // spawned monster. But for now assume Villager = Trader
             event.setCancelled(true);
             return;
         }
-        
 
         if (damagerPlayer != null) {
             if (damagerPlayer.getGameMode() != GameMode.CREATIVE) {

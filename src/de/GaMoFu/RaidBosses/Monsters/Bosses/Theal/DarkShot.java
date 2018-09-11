@@ -25,7 +25,7 @@ public class DarkShot implements ISkill {
     public int getLevel() {
         return -1;
     }
-    
+
     @Override
     public String getSkillDisplayNameWithoutLevel() {
         return "Dark Shot";

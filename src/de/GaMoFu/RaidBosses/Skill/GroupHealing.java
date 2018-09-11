@@ -36,7 +36,7 @@ public abstract class GroupHealing implements ISkill {
 
     @Override
     public String getSkillInternalName() {
-        return "GROUP_HEALING_LVL_"+getLevel();
+        return "GROUP_HEALING_LVL_" + getLevel();
     }
 
     @Override

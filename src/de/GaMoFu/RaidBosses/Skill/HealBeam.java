@@ -175,11 +175,11 @@ public abstract class HealBeam implements ISkill {
     public short getDisplayDurability() {
         return 0;
     }
-    
+
     @Override
     public SkillTooltipBuilder getTooltipBuilder() {
-        
-        //TODO:
+
+        // TODO:
         //@formatter:off
         return new SkillTooltipBuilder()
                 .add(new DescriptionLine("TODO"))
@@ -193,16 +193,15 @@ public abstract class HealBeam implements ISkill {
                 .add(new CooldownLine(getCooldownTicks()));
         //@formatter:on
     }
-    
 
-//    @Override
-//    public List<String> getLore() {
-//        List<String> result = new LinkedList<>();
-//        if (getNumTargets() > 1) {
-//            result.add("The healing beam hits up to " + getNumTargets() + " targets");
-//        }
-//        return null;
-//    }
+    // @Override
+    // public List<String> getLore() {
+    // List<String> result = new LinkedList<>();
+    // if (getNumTargets() > 1) {
+    // result.add("The healing beam hits up to " + getNumTargets() + " targets");
+    // }
+    // return null;
+    // }
 
     @Override
     public boolean isTriggerGlobalCooldown() {

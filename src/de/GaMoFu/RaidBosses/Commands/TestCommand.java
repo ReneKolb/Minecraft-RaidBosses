@@ -221,42 +221,45 @@ public class TestCommand implements ICommandHandler {
             Item i = player.getWorld().dropItem(player.getLocation(), new ItemStack(Material.SUNFLOWER));
             i.setPickupDelay(Integer.MAX_VALUE);
             s.addPassenger(i);
-//
-//            Item i2 = player.getWorld().dropItem(player.getLocation(), new ItemStack(Material.ROSE_RED));
-//            i2.setPickupDelay(Integer.MAX_VALUE);
-//            s.addPassenger(i2);
-        }else if(args.length==1&&args[0].equalsIgnoreCase("beam")) {
-            org.bukkit.entity.Zombie z = (org.bukkit.entity.Zombie) player.getWorld().spawnEntity(player.getLocation().add(5, 0, 0), EntityType.ZOMBIE);
-            
-           final Guardian g = (Guardian) player.getWorld().spawnEntity(player.getLocation().add(5, 0, 0), EntityType.GUARDIAN);
-            
-//            g.setAI(false);
+            //
+            // Item i2 = player.getWorld().dropItem(player.getLocation(), new
+            // ItemStack(Material.ROSE_RED));
+            // i2.setPickupDelay(Integer.MAX_VALUE);
+            // s.addPassenger(i2);
+        } else if (args.length == 1 && args[0].equalsIgnoreCase("beam")) {
+            org.bukkit.entity.Zombie z = (org.bukkit.entity.Zombie) player.getWorld()
+                    .spawnEntity(player.getLocation().add(5, 0, 0), EntityType.ZOMBIE);
+
+            final Guardian g = (Guardian) player.getWorld().spawnEntity(player.getLocation().add(5, 0, 0),
+                    EntityType.GUARDIAN);
+
+            // g.setAI(false);
             g.setSilent(true);
             g.setInvulnerable(true);
-            g.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY,Integer.MAX_VALUE,0,false,false),true);
-            
+            g.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0, false, false),
+                    true);
+
             g.setTarget(player);
-          
+
             z.addPassenger(g);
-            
+
             Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
 
                 @Override
                 public void run() {
                     g.setTarget(player);
                 }
-                
+
             }, 80, 80);
-            
-        }else if(args.length==2&&args[0].equalsIgnoreCase("skull")) {
+
+        } else if (args.length == 2 && args[0].equalsIgnoreCase("skull")) {
             OfflinePlayer op = Bukkit.getOfflinePlayer(args[1]);
-            
-            
+
             ItemStack item = new ItemStack(Material.PLAYER_HEAD);
             SkullMeta meta = (SkullMeta) item.getItemMeta();
             meta.setOwningPlayer(op);
             item.setItemMeta(meta);
-            
+
             player.getInventory().addItem(item);
         }
 

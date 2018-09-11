@@ -15,13 +15,14 @@ public class DescriptionLine implements ITooltipLine {
 
     @Override
     public List<String> formatLine() {
-        String[] lines =  WordUtils.wrap(this.totalDescription, SkillTooltipBuilder.MAX_LINE_LENGTH, "\n", true).split("\\n");
-        
+        String[] lines = WordUtils.wrap(this.totalDescription, SkillTooltipBuilder.MAX_LINE_LENGTH, "\n", true)
+                .split("\\n");
+
         List<String> result = new LinkedList<>();
-        for(String line : lines) {
-            result.add(Colors.DESCRIPTION+line);
+        for (String line : lines) {
+            result.add(Colors.DESCRIPTION + line);
         }
-        
+
         return result;
     }
 

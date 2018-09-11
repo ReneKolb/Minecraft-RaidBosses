@@ -49,7 +49,7 @@ public abstract class Boss<T extends Creature> extends Monster<T> {
     @Override
     public void onFindTarget(Entity newTarget) {
         super.onFindTarget(newTarget);
-        
+
         updateHealthBar();
         for (Player p : this.entity.getWorld().getPlayers()) {
             bossBar.addPlayer(p);
@@ -60,14 +60,14 @@ public abstract class Boss<T extends Creature> extends Monster<T> {
     @Override
     public void onDeath(EntityDeathEvent event) {
         super.onDeath(event);
-        
+
         bossBar.setProgress(0);
     }
 
     @Override
     public void onDamage(EntityDamageEvent event) {
         super.onDamage(event);
-        
+
         RaidBosses.getPluginInstance().getServer().getScheduler()
                 .scheduleSyncDelayedTask(RaidBosses.getPluginInstance(), new Runnable() {
 
@@ -82,7 +82,7 @@ public abstract class Boss<T extends Creature> extends Monster<T> {
     @Override
     public void onFightStart() {
         super.onFightStart();
-        
+
         updateHealthBar();
         for (Player p : this.entity.getWorld().getPlayers()) {
             bossBar.addPlayer(p);
@@ -92,7 +92,7 @@ public abstract class Boss<T extends Creature> extends Monster<T> {
     @Override
     public void onFightEnd(boolean reasonIsBossDeath) {
         super.onFightEnd(reasonIsBossDeath);
-        
+
         // Hide the health bar after 1.5sec
         Bukkit.getScheduler().scheduleSyncDelayedTask(RaidBosses.getPluginInstance(), new Runnable() {
 

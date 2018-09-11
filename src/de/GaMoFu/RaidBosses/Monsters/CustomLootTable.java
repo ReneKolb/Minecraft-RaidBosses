@@ -97,7 +97,7 @@ public class CustomLootTable implements LootTable {
         }
 
         int amount = globalQuantityMin + rnd.nextInt(globalQuantityMax - globalQuantityMin + 1);
-        if(this.internalMap.isEmpty()) {
+        if (this.internalMap.isEmpty()) {
             // if no random items specified, no items can be added
             amount = 0;
         }

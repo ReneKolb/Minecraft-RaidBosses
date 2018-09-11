@@ -23,7 +23,7 @@ import de.GaMoFu.RaidBosses.Skill.Tooltip.HungerCostLine;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.RadiusLine;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
 
-public abstract class Regrow implements ISkill{
+public abstract class Regrow implements ISkill {
 
     @Override
     public String getSkillDisplayNameWithoutLevel() {
@@ -32,22 +32,23 @@ public abstract class Regrow implements ISkill{
 
     @Override
     public String getSkillInternalName() {
-        return "REGROW_LVL_"+getLevel();
+        return "REGROW_LVL_" + getLevel();
     }
-    
+
     public abstract int getEffectDurationTicks();
-    
+
     public abstract float getRadius();
 
     @Override
     public boolean execute(Player executer) {
         World world = executer.getWorld();
         Location loc = executer.getLocation();
-        
+
         AreaEffectCloud cloud = (AreaEffectCloud) world.spawnEntity(loc, EntityType.AREA_EFFECT_CLOUD);
         cloud.setBasePotionData(new PotionData(PotionType.WATER)); // no effect
-        
-        cloud.addCustomEffect(new PotionEffect(PotionEffectType.REGENERATION, getEffectDurationTicks(), getLevel()-1), true); // override
+
+        cloud.addCustomEffect(new PotionEffect(PotionEffectType.REGENERATION, getEffectDurationTicks(), getLevel() - 1),
+                true); // override
 
         cloud.setColor(Color.fromRGB(0, 255, 204));
         cloud.setDuration(10);
@@ -78,7 +79,7 @@ public abstract class Regrow implements ISkill{
 
     @Override
     public int getCooldownTicks() {
-        return 20*4;
+        return 20 * 4;
     }
 
     @Override

@@ -20,12 +20,12 @@ import net.minecraft.server.v1_13_R2.DamageSource;
 import net.minecraft.server.v1_13_R2.EntityHuman;
 
 public class FlameAuraDamage implements ISkill {
-    
+
     @Override
     public int getLevel() {
         return -1;
     }
-    
+
     @Override
     public String getSkillDisplayNameWithoutLevel() {
         return "Flame Aura";

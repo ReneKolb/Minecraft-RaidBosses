@@ -108,11 +108,13 @@ public abstract class Refreshment implements ISkill {
                 .add(new CooldownLine(getCooldownTicks()));
         //@formatter:on
     }
-//    @Override
-//    public List<String> getLore() {
-//        return Arrays.asList(ChatColor.GRAY + "Regenerates Hunger", "  " + ChatColor.WHITE + "1 " + ChatColor.DARK_RED
-//                + " Hunger" + ChatColor.GRAY + " per " + ChatColor.WHITE + "1 " + ChatColor.YELLOW + " sec");
-//    }
+    // @Override
+    // public List<String> getLore() {
+    // return Arrays.asList(ChatColor.GRAY + "Regenerates Hunger", " " +
+    // ChatColor.WHITE + "1 " + ChatColor.DARK_RED
+    // + " Hunger" + ChatColor.GRAY + " per " + ChatColor.WHITE + "1 " +
+    // ChatColor.YELLOW + " sec");
+    // }
 
     @Override
     public boolean isTriggerGlobalCooldown() {

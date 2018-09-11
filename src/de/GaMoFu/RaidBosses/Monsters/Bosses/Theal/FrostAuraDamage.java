@@ -35,7 +35,7 @@ public class FrostAuraDamage implements ISkill {
     public int getLevel() {
         return -1;
     }
-    
+
     @Override
     public String getSkillDisplayNameWithoutLevel() {
         return "Frost Aura";
@@ -60,7 +60,7 @@ public class FrostAuraDamage implements ISkill {
 
     @Override
     public boolean execute(SpawnedMonster executer, Location targetLoc) {
-//        System.out.println("Execute FrostAura");
+        // System.out.println("Execute FrostAura");
         Creature damager = executer.getMonsterEntity().getEntity();
         CraftCreature cDamager = (CraftCreature) damager;
         World w = targetLoc.getWorld();

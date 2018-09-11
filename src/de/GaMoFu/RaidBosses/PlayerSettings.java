@@ -93,7 +93,7 @@ public class PlayerSettings {
     private BlockSelection blockSelection;
 
     private Dungeon currentDungeon;
-    
+
     private RaidBosses plugin;
 
     private int cooldownTimerID;
@@ -222,7 +222,7 @@ public class PlayerSettings {
         }
 
     };
-    
+
     /**
      * @return the currentDungeon
      */
@@ -231,7 +231,8 @@ public class PlayerSettings {
     }
 
     /**
-     * @param currentDungeon the currentDungeon to set
+     * @param currentDungeon
+     *            the currentDungeon to set
      */
     public void setCurrentDungeon(Dungeon currentDungeon) {
         this.currentDungeon = currentDungeon;

@@ -1,9 +1,9 @@
 package de.GaMoFu.RaidBosses.Dungeons.Events;
 
 public class DungeonEvent {
-    
-//    EventTrigger trigger;
-//    
-//    EventAction action;
+
+    // EventTrigger trigger;
+    //
+    // EventAction action;
 
 }

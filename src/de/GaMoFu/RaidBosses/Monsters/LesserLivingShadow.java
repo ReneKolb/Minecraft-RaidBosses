@@ -77,7 +77,7 @@ public class LesserLivingShadow extends Monster<PigZombie> {
     @Override
     protected void playOnFightStartSound(Location loc) {
         loc.getWorld().playSound(loc, Sound.ENTITY_BLAZE_AMBIENT, 1f, 0.8f);
-        
+
     }
 
     @Override

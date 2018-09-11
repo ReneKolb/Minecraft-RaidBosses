@@ -6,7 +6,7 @@ import de.GaMoFu.RaidBosses.Skill.Tooltip.DescriptionLine;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.EmptyLine;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
 
-public class Sword1 extends Item{
+public class Sword1 extends Item {
 
     @Override
     public ItemTier getItemTier() {

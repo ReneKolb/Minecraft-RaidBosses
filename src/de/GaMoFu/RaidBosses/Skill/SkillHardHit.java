@@ -49,11 +49,11 @@ public abstract class SkillHardHit implements ISkill {
     @Override
     public boolean execute(Player executer) {
         ItemStack stack = executer.getInventory().getItemInMainHand();
-        
+
         // Resulting damage is WeaponDamage + SkillDamage
         double damage = Item.getItemStackDamage(stack);
         damage += getDamage();
-        
+
         SortedSet<Distance<LivingEntity>> targets = getEntitiesInFront(executer, true, getAttackRange());
         for (Distance<LivingEntity> le : targets) {
             applyKnockback(le.getObject(),

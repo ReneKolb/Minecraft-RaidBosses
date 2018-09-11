@@ -55,8 +55,8 @@ public class ShowTabCompleter implements TabCompleter {
                 return null;
             }
 
-            return d.getLocationGroupings().stream().filter(groupingName -> groupingName.toUpperCase().startsWith(input))
-                    .collect(Collectors.toList());
+            return d.getLocationGroupings().stream()
+                    .filter(groupingName -> groupingName.toUpperCase().startsWith(input)).collect(Collectors.toList());
 
         }
 

@@ -141,7 +141,7 @@ public abstract class Monster<T extends Creature> implements Listener {
                 PathfinderGoal goal = (PathfinderGoal) a.get(o);
                 if (goalClass.isInstance(goal)) {
                     fieldB.remove(o);
-//                    System.out.println("Removed: " + goal);
+                    // System.out.println("Removed: " + goal);
                 }
             }
         } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException
@@ -163,7 +163,7 @@ public abstract class Monster<T extends Creature> implements Listener {
         }
 
     }
-    
+
     public static void clearGoalSelectors(CraftCreature entity) {
         try {
             Field b = PathfinderGoalSelector.class.getDeclaredField("b");
@@ -182,7 +182,7 @@ public abstract class Monster<T extends Creature> implements Listener {
             e.printStackTrace();
         }
     }
-    
+
     public static void clearTargetSelectors(CraftCreature entity) {
         try {
             Field b = PathfinderGoalSelector.class.getDeclaredField("b");
@@ -195,7 +195,7 @@ public abstract class Monster<T extends Creature> implements Listener {
         } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
             e.printStackTrace();
         }
-        
+
     }
 
     /**
@@ -228,7 +228,7 @@ public abstract class Monster<T extends Creature> implements Listener {
     }
 
     public void spawn(Location location) {
-//        System.out.println("Spawning monster");
+        // System.out.println("Spawning monster");
 
         Bukkit.getServer().getPluginManager().registerEvents(this, RaidBosses.getPluginInstance());
         aggroRangeCheck = 0;
@@ -261,7 +261,7 @@ public abstract class Monster<T extends Creature> implements Listener {
 
     public void onFightStart() {
         Bukkit.getPluginManager().callEvent(new FightStartEvent(this));
-        
+
         Location eyeLoc = this.entity.getEyeLocation();
         World w = eyeLoc.getWorld();
         w.spawnParticle(Particle.VILLAGER_ANGRY, eyeLoc, 5);
@@ -514,7 +514,7 @@ public abstract class Monster<T extends Creature> implements Listener {
             onFightEnd(true);
 
             Bukkit.getServer().getPluginManager().callEvent(new MonsterDeathEvent(this));
-            
+
             if (this instanceof Boss) {
                 Boss<? extends Creature> boss = (Boss<? extends Creature>) this;
                 Bukkit.getServer().getPluginManager().callEvent(new BossDeathEvent(boss));

@@ -43,7 +43,7 @@ public final class RaidBosses extends JavaPlugin {
     private Worlds worlds;
 
     private Dungeons instances;
-    
+
     private CraftingHandler craftingHandler;
 
     private SkillFactory skillFactory;
@@ -65,7 +65,7 @@ public final class RaidBosses extends JavaPlugin {
     private PortalHandler portalHandler;
 
     private Map<UUID, PlayerSettings> playerSettings;
-    
+
     public static final Random random = new Random();
 
     public static DecimalFormat df;
@@ -85,8 +85,9 @@ public final class RaidBosses extends JavaPlugin {
             return;
         }
 
-//        System.out.println("\033[31;1mHello\033[0m, \033[32;1;2mworld!\033[0m");
-//        System.out.println("\033[31mRed\033[32m, Green\033[33m, Yellow\033[34m, Blue\033[0m");
+        // System.out.println("\033[31;1mHello\033[0m, \033[32;1;2mworld!\033[0m");
+        // System.out.println("\033[31mRed\033[32m, Green\033[33m, Yellow\033[34m,
+        // Blue\033[0m");
 
         String useName = enabledFiles.get(new Random().nextInt(enabledFiles.size()));
 
@@ -124,9 +125,8 @@ public final class RaidBosses extends JavaPlugin {
 
         pluginInstance = this;
 
-
         this.craftingHandler = new CraftingHandler(this);
-        
+
         // must be initialized before instances
         this.worlds = new Worlds(this);
 
@@ -152,7 +152,7 @@ public final class RaidBosses extends JavaPlugin {
 
         this.areaCloudHandler = new AreaCloudHandler(this);
 
-//        this.customDamageHandler = new CustomDamageHandler(this);
+        // this.customDamageHandler = new CustomDamageHandler(this);
 
         this.portalHandler = new PortalHandler(this);
 

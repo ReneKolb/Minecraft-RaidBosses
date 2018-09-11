@@ -16,7 +16,7 @@ import de.GaMoFu.RaidBosses.Monsters.Zomboss;
 public class FirstInstance extends Dungeon {
 
     public static final String ALIAS = "first";
-    
+
     @Override
     public void init(RaidBosses plugin, World world) {
         super.init(plugin, world);

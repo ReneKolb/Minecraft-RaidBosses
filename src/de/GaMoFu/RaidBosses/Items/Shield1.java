@@ -12,7 +12,7 @@ import de.GaMoFu.RaidBosses.Skill.Tooltip.DescriptionLine;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.EmptyLine;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
 
-public class Shield1 extends Item{
+public class Shield1 extends Item {
 
     @Override
     public ItemTier getItemTier() {
@@ -42,7 +42,7 @@ public class Shield1 extends Item{
                 .add(new EmptyLine());
         //@formatter:on
     }
-    
+
     @Override
     public List<Attribute> getAttributes() {
         List<Attribute> result = new LinkedList<>();

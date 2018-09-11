@@ -92,14 +92,14 @@ public abstract class Item {
     }
 
     public abstract SkillTooltipBuilder getTooltipBuilder();
-    
+
     public String getNMSTagForTexturepackModel() {
         return null;
     }
 
     public static double getItemStackDamage(ItemStack stack) {
         double baseDamage = 1;
-        
+
         switch (stack.getType()) {
         case WOODEN_SHOVEL:
             baseDamage = 1;

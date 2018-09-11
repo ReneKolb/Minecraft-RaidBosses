@@ -37,7 +37,7 @@ public class FlamePool implements ISkill {
     public int getLevel() {
         return -1;
     }
-    
+
     @Override
     public String getSkillDisplayNameWithoutLevel() {
         return "Flame pool";

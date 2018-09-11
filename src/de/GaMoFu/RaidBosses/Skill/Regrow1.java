@@ -1,6 +1,6 @@
 package de.GaMoFu.RaidBosses.Skill;
 
-public class Regrow1 extends Regrow{
+public class Regrow1 extends Regrow {
 
     @Override
     public int getLevel() {
@@ -9,7 +9,7 @@ public class Regrow1 extends Regrow{
 
     @Override
     public int getEffectDurationTicks() {
-        return 20*60;
+        return 20 * 60;
     }
 
     @Override

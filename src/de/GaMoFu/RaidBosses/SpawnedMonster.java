@@ -47,7 +47,7 @@ public class SpawnedMonster {
         this.monsterEntity.loop();
         handleSkills();
     }
-    
+
     public void dropLoot() {
         LootTable lootTable = monsterEntity.getLootTable();
         if (lootTable == null)

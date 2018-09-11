@@ -13,14 +13,14 @@ public class HorizontalLine implements ITooltipLine {
     public HorizontalLine(ChatColor color) {
         this.color = color;
     }
-    
+
     public HorizontalLine() {
         this.color = ChatColor.GRAY;
     }
 
     @Override
     public List<String> formatLine() {
-        return Arrays.asList(color + StringUtils.repeat("-", SkillTooltipBuilder.MAX_LINE_LENGTH-4));
+        return Arrays.asList(color + StringUtils.repeat("-", SkillTooltipBuilder.MAX_LINE_LENGTH - 4));
     }
 
 }

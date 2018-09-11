@@ -359,17 +359,17 @@ public class Attributes {
     public Attribute get(int index) {
         return new Attribute((NBTTagCompound) attributes.get(index));
     }
-    
+
     public List<Attribute> get(AttributeType type) {
         List<Attribute> result = new LinkedList<>();
-        
-        for(NBTBase att : attributes) {
+
+        for (NBTBase att : attributes) {
             Attribute attribute = new Attribute((NBTTagCompound) att);
-            if(attribute.getAttributeType().equals(type)) {
+            if (attribute.getAttributeType().equals(type)) {
                 result.add(attribute);
             }
         }
-        
+
         return result;
     }
 

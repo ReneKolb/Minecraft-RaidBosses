@@ -25,7 +25,7 @@ public class FontUtil {
         fontWidth.put('|', 1);
         fontWidth.put('\'', 1);
         fontWidth.put('*', 3);
-        fontWidth.put('°', 3);
+        fontWidth.put('ï¿½', 3);
         fontWidth.put('!', 1);
         fontWidth.put('"', 3);
         fontWidth.put('{', 3);
@@ -34,7 +34,7 @@ public class FontUtil {
         fontWidth.put(')', 3);
         fontWidth.put('[', 3);
         fontWidth.put(']', 3);
-        fontWidth.put('´', 2);
+        fontWidth.put('ï¿½', 2);
         fontWidth.put('`', 2);
 
     }
@@ -62,9 +62,11 @@ public class FontUtil {
 
     public static String formatStringToWidth(String string, int fullCharacterWidth) {
         // IMPROVE IDEA:
-        // calibrate method: Send the client various chat messages: XXXXXXXX, each X is clickable. The user has to click the X, where the linebreak in chat is. so this marks the 219px.
+        // calibrate method: Send the client various chat messages: XXXXXXXX, each X is
+        // clickable. The user has to click the X, where the linebreak in chat is. so
+        // this marks the 219px.
         // Then calibrate 'space' width
-        
+
         int pixelWidth = fullCharacterWidth * 6 - 1; // 5per Char + 1per inter-space
         int isWidth = getWidth(string);
 
