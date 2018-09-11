@@ -43,6 +43,8 @@ public final class RaidBosses extends JavaPlugin {
     private Worlds worlds;
 
     private Dungeons instances;
+    
+    private CraftingHandler craftingHandler;
 
     private SkillFactory skillFactory;
 
@@ -122,6 +124,9 @@ public final class RaidBosses extends JavaPlugin {
 
         pluginInstance = this;
 
+
+        this.craftingHandler = new CraftingHandler(this);
+        
         // must be initialized before instances
         this.worlds = new Worlds(this);
 
@@ -217,7 +222,9 @@ public final class RaidBosses extends JavaPlugin {
     }
 
     public void addNewPlayerSettings(Player player) {
-        this.playerSettings.put(player.getUniqueId(), new PlayerSettings(this, player));
+        PlayerSettings playerSettings = new PlayerSettings(this, player);
+        this.playerSettings.put(player.getUniqueId(), playerSettings);
+        playerSettings.sendWelcomeMessage();
     }
 
     public PlayerSettings getPlayerSettings(Player player) {

@@ -27,7 +27,7 @@ public class DungeonControlCommands {
             return true;
         }
 
-        if (args.length != 1) {
+        if (args.length == 0 || args.length > 2) {
             return false;
         }
 
@@ -39,6 +39,25 @@ public class DungeonControlCommands {
             player.sendMessage(
                     "You have to selected a Block with your " + DungeonDesignListener.MAGIC_WAND_ITEM_DISPLAY);
             return true;
+        }
+
+        if (args[0].equalsIgnoreCase("loc")) {
+            if (args.length != 2) {
+                return false;
+            }
+
+            boolean success = selection.getDungeon().addLocation(args[1], selection.getBlock().getLocation());
+            if (success) {
+                sender.sendMessage(ChatColor.GREEN + "ok");
+            } else {
+                sender.sendMessage(ChatColor.RED + "The entered name already exist");
+            }
+
+            return true;
+        }
+
+        if (args.length != 1) {
+            return false;
         }
 
         Optional<MonsterType> type = MonsterType.fromAliasName(args[0]);

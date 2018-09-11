@@ -8,10 +8,13 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import de.GaMoFu.RaidBosses.SpawnedMonster;
+import de.GaMoFu.RaidBosses.Items.Item;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.CooldownLine;
+import de.GaMoFu.RaidBosses.Skill.Tooltip.DamageLine;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.DescriptionLine;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.EmptyLine;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.HorizontalLine;
@@ -45,11 +48,17 @@ public abstract class SkillHardHit implements ISkill {
 
     @Override
     public boolean execute(Player executer) {
+        ItemStack stack = executer.getInventory().getItemInMainHand();
+        
+        // Resulting damage is WeaponDamage + SkillDamage
+        double damage = Item.getItemStackDamage(stack);
+        damage += getDamage();
+        
         SortedSet<Distance<LivingEntity>> targets = getEntitiesInFront(executer, true, getAttackRange());
         for (Distance<LivingEntity> le : targets) {
             applyKnockback(le.getObject(),
                     le.getObject().getLocation().toVector().subtract(executer.getLocation().toVector()));
-            le.getObject().damage(getDamage(), executer);
+            le.getObject().damage(damage, executer);
         }
 
         if (!targets.isEmpty()) {
@@ -104,12 +113,16 @@ public abstract class SkillHardHit implements ISkill {
 
         // TODO:
         //@formatter:off
-        return new SkillTooltipBuilder().add(new DescriptionLine("TODO")).add(new EmptyLine())
+        return new SkillTooltipBuilder()
+                .add(new DescriptionLine("TODO"))
+                .add(new EmptyLine())
+                .add(new DamageLine(getDamage()))
                 // .add(new HealPerSecLine(0.2, 50))
                 // .add(new DurationLine(20 * 12))
                 // .add(new RadiusLine(getHealingRange()))
 
-                .add(new HorizontalLine()).add(new HungerCostLine(getBasicHungerCost()))
+                .add(new HorizontalLine())
+                .add(new HungerCostLine(getBasicHungerCost()))
                 .add(new CooldownLine(getCooldownTicks()));
         //@formatter:on
     }

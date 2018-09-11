@@ -18,6 +18,11 @@ import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockFadeEvent;
+import org.bukkit.event.block.BlockGrowEvent;
+import org.bukkit.event.block.BlockIgniteEvent;
+import org.bukkit.event.block.LeavesDecayEvent;
+import org.bukkit.event.block.BlockIgniteEvent.IgniteCause;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -196,6 +201,30 @@ public class Worlds implements Listener {
         // prevent players and explosions to break paintings and item frames
         event.setCancelled(true);
     }
+    
+    @EventHandler
+    public void onBlockIgnite(BlockIgniteEvent event) {
+        if (event.getCause() == IgniteCause.SPREAD) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onBlockGrowEvent(BlockGrowEvent event) {
+        event.setCancelled(true);
+    }
+    
+    @EventHandler
+    public void onLeavesDecay(LeavesDecayEvent event) {
+        event.setCancelled(true);
+    }
+    
+//    @EventHandler
+//    public void onBlockFade(BlockFadeEvent event) {
+//        System.out.println("Fade: "+event.getBlock().getType());
+//        System.out.println("New:  "+event.getNewState().getType());
+//        
+//    }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {

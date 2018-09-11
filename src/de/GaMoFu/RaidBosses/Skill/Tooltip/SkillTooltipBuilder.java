@@ -19,11 +19,13 @@ public class SkillTooltipBuilder {
 
     private static final NumberFormat decimalFormatTimeSec;
     private static final NumberFormat decimalFormatHealth;
+    private static final NumberFormat decimalFormatDamage;
     private static final NumberFormat decimalFormatDistance;
     static {
         DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.US);
         decimalFormatTimeSec = new DecimalFormat(ChatColor.WHITE + "0.##" + ChatColor.GRAY + "s", otherSymbols);
         decimalFormatHealth = new DecimalFormat(ChatColor.WHITE + "0.0" + ChatColor.RED + "♥", otherSymbols);
+        decimalFormatDamage = new DecimalFormat(ChatColor.WHITE + "0.#" + ChatColor.GRAY + "♥", otherSymbols);
         decimalFormatDistance = new DecimalFormat(ChatColor.WHITE + "0.0" + ChatColor.GRAY + "m", otherSymbols);
     }
 
@@ -33,6 +35,10 @@ public class SkillTooltipBuilder {
 
     public static String formatHealth(double halfHearts) {
         return decimalFormatHealth.format(halfHearts / 2.0);
+    }
+
+    public static String formatDamage(double halfHearts) {
+        return decimalFormatDamage.format(halfHearts / 2.0);
     }
 
     public static String formatDistance(double meters) {
@@ -61,7 +67,7 @@ public class SkillTooltipBuilder {
     public boolean isEmpty() {
         return this.lines.isEmpty();
     }
-    
+
     public ITooltipLine getLastLine() {
         if (lines.size() == 0)
             return null;

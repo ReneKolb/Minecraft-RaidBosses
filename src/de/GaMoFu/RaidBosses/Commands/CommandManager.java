@@ -1,5 +1,6 @@
 package de.GaMoFu.RaidBosses.Commands;
 
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -18,6 +19,7 @@ public class CommandManager {
     private SkillCommands skillCommands;
     private ItemCommands itemCommands;
     private TraderCommands traderCommands;
+    private ShowCommands showCommands;
 
     public CommandManager(RaidBosses plugin) {
         this.worldCommand = new WorldCommand();
@@ -37,6 +39,9 @@ public class CommandManager {
 
         this.traderCommands = new TraderCommands();
         plugin.getCommand("trader").setTabCompleter(new TraderTabComplete(plugin));
+
+        this.showCommands = new ShowCommands();
+        plugin.getCommand("show").setTabCompleter(new ShowTabCompleter(plugin));
     }
 
     public boolean onCommand(RaidBosses plugin, CommandSender sender, Command command, String label, String[] args) {
@@ -70,6 +75,10 @@ public class CommandManager {
 
         if (command.getName().equalsIgnoreCase("trader")) {
             return this.traderCommands.handleCommand(plugin, sender, command, label, args);
+        }
+
+        if (command.getName().equalsIgnoreCase("show")) {
+            return this.showCommands.handleCommand(plugin, sender, command, label, args);
         }
 
         if (command.getName().equalsIgnoreCase("/mw")) {
@@ -131,6 +140,7 @@ public class CommandManager {
 
         }
 
+        sender.sendMessage(ChatColor.RED + "Command is not handled!");
         return false;
     }
 

@@ -5,10 +5,13 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+
+import com.google.common.collect.Streams;
 
 import de.GaMoFu.RaidBosses.RaidBosses;
 import de.GaMoFu.RaidBosses.Monsters.BossType;
@@ -65,8 +68,13 @@ public class DungeonControlTabComplete implements TabCompleter {
         if (arguments.length == 1) {
             String input = arguments[0].toUpperCase();
 
-            return getValidMonsterTypes().stream().filter(type -> type.toUpperCase().startsWith(input))
-                    .collect(Collectors.toList());
+            Stream<String> values = Streams.concat(Stream.of("loc"), getValidMonsterTypes().stream());
+
+            return values.filter(type -> type.toUpperCase().startsWith(input)).collect(Collectors.toList());
+        }
+
+        if (arguments.length == 2 && arguments[0].equalsIgnoreCase("loc")) {
+            return Arrays.asList(arguments[1], "[<Group>].[<Name>]", "[Name>]");
         }
 
         return null;

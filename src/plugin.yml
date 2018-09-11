@@ -38,3 +38,6 @@ commands:
   nv:
     description: Toogle player nightvision (only in creative mode)
     usage: /nv
+  show:
+    description: Access to various commands to display locations ingame
+    usage: /show [loc] [GroupingName]

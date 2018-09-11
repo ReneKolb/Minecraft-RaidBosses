@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.attribute.AttributeModifier.Operation;
@@ -91,6 +92,8 @@ public class PlayerSettings {
     private MonsterSelection monsterSelection;
     private BlockSelection blockSelection;
 
+    private Dungeon currentDungeon;
+    
     private RaidBosses plugin;
 
     private int cooldownTimerID;
@@ -219,6 +222,20 @@ public class PlayerSettings {
         }
 
     };
+    
+    /**
+     * @return the currentDungeon
+     */
+    public Dungeon getCurrentDungeon() {
+        return currentDungeon;
+    }
+
+    /**
+     * @param currentDungeon the currentDungeon to set
+     */
+    public void setCurrentDungeon(Dungeon currentDungeon) {
+        this.currentDungeon = currentDungeon;
+    }
 
     public void addSlowness(double amount, Operation op, int durationTicks) {
         // TODO Auto-generated method stub
@@ -234,6 +251,14 @@ public class PlayerSettings {
 
         }, durationTicks);
 
+    }
+
+    public void sendWelcomeMessage() {
+        player.sendMessage("=========== " + ChatColor.BLUE + ChatColor.BOLD + "Welcome to Raid Bosses" + ChatColor.WHITE
+                + ChatColor.RESET + " ============");
+        player.sendMessage(
+                "For the best possible experience use the ResourcePack Conquest and OptiFine with connected textures.");
+        player.sendMessage("===============================================");
     }
 
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.bukkit.craftbukkit.v1_13_R2.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -16,8 +17,11 @@ import de.GaMoFu.RaidBosses.Attributes.Attributes.Attribute;
 import de.GaMoFu.RaidBosses.Items.Effects.ItemEffect;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.ItemEffectLine;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
+import net.minecraft.server.v1_13_R2.NBTTagCompound;
 
 public class ItemsFactory {
+
+    private static final String TEXTUREPACK_CUSTOM_MODEL_TAG_NAME = "modelname";
 
     private RaidBosses plugin;
 
@@ -83,6 +87,8 @@ public class ItemsFactory {
 
         ItemStack result = new ItemStack(item.getDisplayMaterial(), amount, item.getDisplayDurability());
 
+        result.addUnsafeEnchantments(item.getEnchantments());
+
         ItemMeta meta = result.getItemMeta();
 
         meta.setDisplayName(item.getItemDisplayName());
@@ -118,6 +124,27 @@ public class ItemsFactory {
             result = resultWithAttributes.getStack();
         }
 
+        if (item.getNMSTagForTexturepackModel() != null) {
+            // Since the custom texture pack can define a custom model & texture (using
+            // OptiFine / MCPatcher) for specific nms tags, this tag will be set here
+            result = setTexturepackTag(result, item.getNMSTagForTexturepackModel());
+        }
+
+        item.postProcessItemStack(result);
+
         return Optional.of(result);
+    }
+
+    private ItemStack setTexturepackTag(ItemStack item, String texturePackTag) {
+        net.minecraft.server.v1_13_R2.ItemStack nmsStack = CraftItemStack.asNMSCopy(item);
+
+        if (nmsStack.getTag() == null) {
+            nmsStack.setTag(new NBTTagCompound());
+        }
+        NBTTagCompound parentTag = nmsStack.getTag();
+
+        parentTag.setString(TEXTUREPACK_CUSTOM_MODEL_TAG_NAME, texturePackTag);
+
+        return CraftItemStack.asCraftMirror(nmsStack);
     }
 }

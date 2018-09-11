@@ -163,6 +163,40 @@ public abstract class Monster<T extends Creature> implements Listener {
         }
 
     }
+    
+    public static void clearGoalSelectors(CraftCreature entity) {
+        try {
+            Field b = PathfinderGoalSelector.class.getDeclaredField("b");
+            b.setAccessible(true); // since "b" is private final
+
+            Set<?> fieldB = (Set<?>) b.get(entity.getHandle().goalSelector);
+
+            Class<?> clazz = Class
+                    .forName("net.minecraft.server.v1_13_R2.PathfinderGoalSelector$PathfinderGoalSelectorItem");
+            Field a = clazz.getField("a");
+            a.setAccessible(true); // Since "a" is public final
+
+            fieldB.clear();
+        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException
+                | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public static void clearTargetSelectors(CraftCreature entity) {
+        try {
+            Field b = PathfinderGoalSelector.class.getDeclaredField("b");
+
+            b.setAccessible(true); // since "b" is private final
+
+            Set<?> fieldB = (Set<?>) b.get(entity.getHandle().targetSelector);
+
+            fieldB.clear();
+        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        
+    }
 
     /**
      * Clears the automatic target selection of vanilla minecraft entity.
@@ -175,18 +209,7 @@ public abstract class Monster<T extends Creature> implements Listener {
 
         CraftCreature entity = (CraftCreature) this.entity;
 
-        try {
-            Field b = PathfinderGoalSelector.class.getDeclaredField("b");
-
-            b.setAccessible(true); // since "b" is private final
-
-            Set<?> fieldB = (Set<?>) b.get(entity.getHandle().targetSelector);
-
-            fieldB.clear();
-        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
+        clearTargetSelectors(entity);
     }
 
     protected void removeRandomMovement() {

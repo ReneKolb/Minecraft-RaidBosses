@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -35,9 +36,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockGrowEvent;
-import org.bukkit.event.block.BlockIgniteEvent;
-import org.bukkit.event.block.BlockIgniteEvent.IgniteCause;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
@@ -52,10 +50,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerResourcePackStatusEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
@@ -78,6 +75,7 @@ import de.GaMoFu.RaidBosses.Config.IdleWalkSettingsClassAdapter;
 import de.GaMoFu.RaidBosses.Config.IdleWalkStrollSettings;
 import de.GaMoFu.RaidBosses.Config.MonsterConfig;
 import de.GaMoFu.RaidBosses.Config.SaveConfig;
+import de.GaMoFu.RaidBosses.Config.SaveLocation;
 import de.GaMoFu.RaidBosses.Events.BossDeathEvent;
 import de.GaMoFu.RaidBosses.Events.MonsterDeathEvent;
 import de.GaMoFu.RaidBosses.Monsters.Boss;
@@ -86,6 +84,8 @@ import de.GaMoFu.RaidBosses.Monsters.Monster;
 import de.GaMoFu.RaidBosses.Monsters.MonsterType;
 
 public abstract class Dungeon implements Listener {
+
+    private static final String GENERAL_LOCATION_GROUPING = "GENERAL";
 
     protected RaidBosses plugin;
 
@@ -106,6 +106,10 @@ public abstract class Dungeon implements Listener {
 
     protected Map<Long, MonsterConfig> bossesConfiguration;
     protected Map<UUID, SpawnedBoss> bosses;
+
+    protected Map<String, Map<String, Location>> namedLocations;
+
+    protected String resourcePackPath;
 
     protected List<UUID> players;
 
@@ -197,6 +201,41 @@ public abstract class Dungeon implements Listener {
         return this.world;
     }
 
+    private Map<String, Map<String, Location>> mapSavedLocations(
+            Map<String, Map<String, SaveLocation>> savedLocations) {
+        Map<String, Map<String, Location>> result = new HashMap<>();
+
+        for (Entry<String, Map<String, SaveLocation>> group : savedLocations.entrySet()) {
+            Map<String, Location> groupings = new HashMap<>();
+
+            for (Entry<String, SaveLocation> name : group.getValue().entrySet()) {
+                groupings.put(name.getKey().toUpperCase(), new Location(this.world, name.getValue().getX(),
+                        name.getValue().getY(), name.getValue().getZ()));
+            }
+
+            result.put(group.getKey().toUpperCase(), groupings);
+        }
+
+        return result;
+    }
+
+    private Map<String, Map<String, SaveLocation>> mapLocationToSave(Map<String, Map<String, Location>> locations) {
+        Map<String, Map<String, SaveLocation>> result = new HashMap<>();
+
+        for (Entry<String, Map<String, Location>> group : locations.entrySet()) {
+            Map<String, SaveLocation> groupings = new HashMap<>();
+
+            for (Entry<String, Location> name : group.getValue().entrySet()) {
+                groupings.put(name.getKey().toUpperCase(), new SaveLocation(name.getValue().getBlockX(),
+                        name.getValue().getBlockY(), name.getValue().getBlockZ()));
+            }
+
+            result.put(group.getKey().toUpperCase(), groupings);
+        }
+
+        return result;
+    }
+
     protected void loadConfig() {
         this.configFile = new File(plugin.getDataFolder(), world.getName() + ".yml");
         try {
@@ -224,9 +263,13 @@ public abstract class Dungeon implements Listener {
             if (savedConfig == null) {
                 monsters = new ArrayList<>();
                 bosses = new ArrayList<>();
+                this.resourcePackPath = "";
+                this.namedLocations = new HashMap<>();
             } else {
                 monsters = savedConfig.getMonsterConfig();
                 bosses = savedConfig.getBossesConfig();
+                this.resourcePackPath = savedConfig.getResourcePackPath();
+                this.namedLocations = mapSavedLocations(savedConfig.getNamedLocations());
             }
 
             if (monsters == null || monsters.isEmpty()) {
@@ -464,7 +507,8 @@ public abstract class Dungeon implements Listener {
 
         plugin.getLogger().info("Saving monster spawns for instance " + this.getAlias());
 
-        SaveConfig saveConfig = new SaveConfig(this.monstersConfiguration.values(), this.bossesConfiguration.values());
+        SaveConfig saveConfig = new SaveConfig(this.monstersConfiguration.values(), this.bossesConfiguration.values(),
+                this.resourcePackPath, mapLocationToSave(this.namedLocations));
 
         FileWriter writer;
         try {
@@ -616,16 +660,16 @@ public abstract class Dungeon implements Listener {
 
         this.healthDisplaySideHandler.updateLine(index + 1,
                 player.getName() + ": " + (int) health + "/" + (int) maxHealth);
-        
-        if(healthPercent>50) {
+
+        if (healthPercent > 50) {
             greenTeam.addEntry(player.getName());
             goldTeam.removeEntry(player.getName());
             redTeam.removeEntry(player.getName());
-        }else if(healthPercent>20) {
+        } else if (healthPercent > 20) {
             greenTeam.removeEntry(player.getName());
             goldTeam.addEntry(player.getName());
             redTeam.removeEntry(player.getName());
-        }else {
+        } else {
             greenTeam.removeEntry(player.getName());
             goldTeam.removeEntry(player.getName());
             redTeam.addEntry(player.getName());
@@ -651,22 +695,22 @@ public abstract class Dungeon implements Listener {
             }, 1);
         }
     }
-    
-    @EventHandler(ignoreCancelled=true)
+
+    @EventHandler(ignoreCancelled = true)
     public void onDamageEntityByEntity(EntityDamageByEntityEvent event) {
         // Prevent Friendly Fire
-        if(!(event.getEntity() instanceof Player)) {
+        if (!(event.getEntity() instanceof Player)) {
             return;
         }
-        
-//        Player player = (Player) event.getEntity();
-        
-        if(event.getDamager() instanceof Player) {
-//            Player damager = (Player) event.getDamager();
+
+        // Player player = (Player) event.getEntity();
+
+        if (event.getDamager() instanceof Player) {
+            // Player damager = (Player) event.getDamager();
             event.setCancelled(true);
-        }else if(event.getDamager() instanceof Projectile) {
+        } else if (event.getDamager() instanceof Projectile) {
             Projectile projectile = (Projectile) event.getDamager();
-            if(projectile.getShooter() instanceof Player) {
+            if (projectile.getShooter() instanceof Player) {
                 event.setCancelled(true);
             }
         }
@@ -783,18 +827,34 @@ public abstract class Dungeon implements Listener {
         }
     }
 
+    @EventHandler
+    public void onPlayerResourcePackStatus(PlayerResourcePackStatusEvent event) {
+        Player p = event.getPlayer();
+        System.out.println(p.getName() + " -> " + event.getStatus());
+    }
+
     public void addPlayer(Player p) {
         if (this.players.contains(p.getUniqueId())) {
             return;
         }
         // System.out.println("Add Player " + p.getName());
 
+        if (this.resourcePackPath != null && !this.resourcePackPath.isEmpty()) {
+            // The resource pack file size is limited to 52428800 bytes (50 MB)
+            // client-sided.
+            p.setResourcePack(this.resourcePackPath);
+        }
+
+        plugin.getPlayerSettings(p).setCurrentDungeon(this);
+
         this.players.add(p.getUniqueId());
-//        this.dungeonTeam.addEntry(p.getName());
+        // this.dungeonTeam.addEntry(p.getName());
         p.setScoreboard(this.scoreboard);
         updatePlayerHealthDisplay(p);
 
-        p.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, Integer.MAX_VALUE, 0, false, false), true);
+        p.setGlowing(true);
+        // p.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING,
+        // Integer.MAX_VALUE, 0, false, false), true);
     }
 
     public void removePlayer(Player p) {
@@ -802,6 +862,8 @@ public abstract class Dungeon implements Listener {
             return;
         }
         // System.out.println("remove Player: " + p.getName());
+
+        plugin.getPlayerSettings(p).setCurrentDungeon(null);
 
         int index = this.players.indexOf(p.getUniqueId());
 
@@ -813,7 +875,8 @@ public abstract class Dungeon implements Listener {
 
         // this.healthDisplaySideHandler.updateLine(index + 1, p.getName() + ": left");
         this.healthDisplaySideHandler.removeLine(index + 1);
-        p.removePotionEffect(PotionEffectType.GLOWING);
+        p.setGlowing(false);
+        // p.removePotionEffect(PotionEffectType.GLOWING);
     }
 
     public Optional<SpawnedMonster> findMonsterByID(UUID monsterID) {
@@ -1098,27 +1161,6 @@ public abstract class Dungeon implements Listener {
         // currently nothing to do here
     }
 
-    @EventHandler
-    public void onBlockIgnite(BlockIgniteEvent event) {
-
-        if (!event.getBlock().getWorld().getName().equals(this.getWorld().getName())) {
-            return;
-        }
-
-        if (event.getCause() == IgniteCause.SPREAD) {
-            event.setCancelled(true);
-        }
-    }
-
-    @EventHandler
-    public void onBlockGrowEvent(BlockGrowEvent event) {
-        if (!event.getBlock().getWorld().getName().equals(this.getWorld().getName())) {
-            return;
-        }
-
-        event.setCancelled(true);
-    }
-
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player p = event.getPlayer();
@@ -1219,6 +1261,94 @@ public abstract class Dungeon implements Listener {
             }
 
         }, 1);
+    }
+
+    public boolean addLocation(String locationName, Location location) {
+        String name = locationName.toUpperCase();
+
+        String groupName;
+        String locName;
+        if (name.contains(".")) {
+            String[] splitted = name.split("\\.", 2);
+            groupName = splitted[0];
+            locName = splitted[1];
+        } else {
+            groupName = GENERAL_LOCATION_GROUPING;
+            locName = name;
+        }
+
+        Map<String, Location> names;
+        if (this.namedLocations.containsKey(groupName)) {
+            names = this.namedLocations.get(groupName);
+        } else {
+            names = new HashMap<>();
+            this.namedLocations.put(groupName, names);
+        }
+
+        if (names.containsKey(locName)) {
+            return false;
+        }
+
+        names.put(locName, location);
+        this.configChanged = true;
+
+        return true;
+    }
+
+    /**
+     * 
+     * @param groupingName
+     *            Specifies the Grouping name. If null, the General Group is assumed
+     * @param material
+     */
+    public void setBlocksInGrouping(String groupingName, Material material) {
+        Map<String, Location> group = getLocationGroupings(groupingName);
+
+        if (group == null) {
+            plugin.getServer().getLogger().warning("Cannot set blocks. Grouping not found: " + groupingName);
+            return;
+        }
+
+        for (Location loc : group.values()) {
+            loc.getBlock().setType(material);
+        }
+    }
+
+    /**
+     * 
+     * @param groupingName
+     *            Specifies the Grouping name. If null, the General Group is assumed
+     * @param locName
+     *            Specifies the location name within the grouping
+     * @param material
+     */
+    public void setBlock(String groupingName, String locName, Material material) {
+        Map<String, Location> group = getLocationGroupings(groupingName);
+
+        if (group == null) {
+            plugin.getServer().getLogger().warning("Cannot set block. Grouping not found: " + groupingName);
+            return;
+        }
+
+        Location loc = group.get(locName.toUpperCase());
+        if (loc == null) {
+            plugin.getServer().getLogger().warning("Cannot set block. Location not found in Grouping: " + locName);
+            return;
+        }
+
+        loc.getBlock().setType(material);
+    }
+
+    public Set<String> getLocationGroupings() {
+        return this.namedLocations.keySet();
+    }
+
+    public Map<String, Location> getLocationGroupings(String groupingName) {
+        if (groupingName == null) {
+            return this.namedLocations.get(GENERAL_LOCATION_GROUPING);
+        } else {
+            return this.namedLocations.get(groupingName.toUpperCase());
+        }
     }
 
 }

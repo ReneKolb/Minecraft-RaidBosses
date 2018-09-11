@@ -32,7 +32,7 @@ public class WaterMageTrader1 extends Trader {
                 plugin.getItemsFactory().buildItemItem("TOKEN_LVL_1", 10)).get());
 
         // Group Healing
-        result.add(this.buildRecipe(plugin.getSkillFactory().buildSkillItem("GROUP_HEALING_LVL_1"),
+        result.add(this.buildRecipe(plugin.getSkillFactory().buildSkillItem("REGROW_LVL_1"),
                 plugin.getItemsFactory().buildItemItem("TOKEN_LVL_1", 10), null).get());
 
         return result;

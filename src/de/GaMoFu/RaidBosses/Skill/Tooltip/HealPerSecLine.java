@@ -9,8 +9,8 @@ public class HealPerSecLine implements ITooltipLine {
 
     private int tickDelay;
 
-    public HealPerSecLine(double healAmount, int tickDelay) {
-        this.healAmount = healAmount;
+    public HealPerSecLine(double healHalfHeartsAmount, int tickDelay) {
+        this.healAmount = healHalfHeartsAmount;
         this.tickDelay = tickDelay;
     }
 

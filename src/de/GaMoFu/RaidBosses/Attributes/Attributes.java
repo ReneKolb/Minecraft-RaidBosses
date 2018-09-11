@@ -2,6 +2,7 @@ package de.GaMoFu.RaidBosses.Attributes;
 
 import java.lang.reflect.Field;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentMap;
@@ -357,6 +358,19 @@ public class Attributes {
      */
     public Attribute get(int index) {
         return new Attribute((NBTTagCompound) attributes.get(index));
+    }
+    
+    public List<Attribute> get(AttributeType type) {
+        List<Attribute> result = new LinkedList<>();
+        
+        for(NBTBase att : attributes) {
+            Attribute attribute = new Attribute((NBTTagCompound) att);
+            if(attribute.getAttributeType().equals(type)) {
+                result.add(attribute);
+            }
+        }
+        
+        return result;
     }
 
     // We can't make Attributes itself iterable without splitting it up into

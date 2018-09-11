@@ -21,13 +21,14 @@ public class PlayerJoinListener implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler
+    // Call this event with low priority, so the playerSettings is added prior to other eventHandlers
+    @EventHandler(priority=EventPriority.LOWEST)
     public void onPlayerJoin(PlayerJoinEvent event) {
+        this.plugin.addNewPlayerSettings(event.getPlayer());
+        
         World world = event.getPlayer().getLocation().getWorld();
 
         event.getPlayer().teleport(world.getSpawnLocation());
-
-        this.plugin.addNewPlayerSettings(event.getPlayer());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
