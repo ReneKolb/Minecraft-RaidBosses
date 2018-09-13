@@ -47,7 +47,7 @@ public class WorldTabComplete implements TabCompleter {
             if (subCommand.equals("create")) {
                 return Arrays.asList(arguments[1], "[<name>]");
 
-            } else if (subCommand.equals("teleport")) {
+            } else if (subCommand.equals("teleport") || subCommand.equals("tp")) {
                 return getWorldsListWithHome().stream().filter(world -> world.toUpperCase().startsWith(input))
                         .collect(Collectors.toList());
             } else if (subCommand.equals("remove")) {
