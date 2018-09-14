@@ -7,6 +7,8 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.loot.LootTable;
@@ -21,6 +23,8 @@ public class LesserLivingShadow extends Monster<org.bukkit.entity.Zombie> {
     public static final String ALIAS = "LesserLivingShadow";
 
     private int effectTmr;
+
+    private ArmorStand nameTagEntity;
 
     public LesserLivingShadow() {
         super(org.bukkit.entity.Zombie.class);
@@ -48,6 +52,20 @@ public class LesserLivingShadow extends Monster<org.bukkit.entity.Zombie> {
     }
 
     @Override
+    protected void setCustomName(String customName) {
+        if (this.nameTagEntity == null)
+            return;
+        this.nameTagEntity.setCustomName(customName);
+    }
+
+    @Override
+    protected void setCustomNameVisible(boolean visible) {
+        if (this.nameTagEntity == null)
+            return;
+        this.nameTagEntity.setCustomNameVisible(visible);
+    }
+
+    @Override
     protected void afterSpawn() {
         this.entity.setBaby(false);
 
@@ -62,6 +80,13 @@ public class LesserLivingShadow extends Monster<org.bukkit.entity.Zombie> {
         this.entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.35);
         this.entity.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(1);
 
+        this.nameTagEntity = (ArmorStand) this.entity.getWorld().spawnEntity(this.entity.getLocation(),
+                EntityType.ARMOR_STAND);
+        this.nameTagEntity.setVisible(false);
+        this.nameTagEntity.setMarker(true); // very small collision box
+        this.nameTagEntity.setCustomName(this.getDisplayName());
+
+        this.entity.addPassenger(nameTagEntity);
     }
 
     @Override
@@ -81,17 +106,18 @@ public class LesserLivingShadow extends Monster<org.bukkit.entity.Zombie> {
     @Override
     public void onDamage(EntityDamageEvent event) {
         super.onDamage(event);
-        
+
         this.entity.getWorld().playSound(this.entity.getLocation(), Sound.ENTITY_ENDER_DRAGON_HURT, 1, 1.3f);
         SphereEffect.doEffect(this.entity.getLocation().add(0, 1.4, 0), Particle.CLOUD, 1, 0, 0, 0, 15, 0.35);
     }
-    
+
     @Override
-   public void onDeath(EntityDeathEvent event) {
+    public void onDeath(EntityDeathEvent event) {
         super.onDeath(event);
-        
+        this.nameTagEntity.remove();
+
         this.entity.getWorld().playSound(this.entity.getLocation(), Sound.ENTITY_VEX_DEATH, 1, 1);
-        
+
     }
 
     @Override

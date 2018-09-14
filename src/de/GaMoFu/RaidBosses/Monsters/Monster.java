@@ -250,7 +250,7 @@ public abstract class Monster<T extends Creature> implements Listener {
         this.entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(getMaxHealth());
         this.entity.setHealth(getMaxHealth());
 
-        this.entity.setCustomName(this.getDisplayName());
+        this.setCustomName(this.getDisplayName());
 
         this.inFight = false;
 
@@ -401,6 +401,14 @@ public abstract class Monster<T extends Creature> implements Listener {
 
         return false;
     }
+    
+    protected void setCustomName(String customName) {
+        this.entity.setCustomName(customName);
+    }
+    
+    protected void setCustomNameVisible(boolean visible) {
+        this.entity.setCustomNameVisible(visible);
+    }
 
     /**
      * 
@@ -422,19 +430,19 @@ public abstract class Monster<T extends Creature> implements Listener {
             return;
 
         if (showHealth) {
-            this.entity.setCustomNameVisible(true);
+            this.setCustomNameVisible(true);
             Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(RaidBosses.getPluginInstance(), new Runnable() {
 
                 @Override
                 public void run() {
-                    entity.setCustomName(buildHealthDisplayName(getHealthBarSize()));
+                    setCustomName(buildHealthDisplayName(getHealthBarSize()));
                 }
 
             });
 
         } else {
-            this.entity.setCustomName(this.getDisplayName());
-            this.entity.setCustomNameVisible(false);
+            this.setCustomName(this.getDisplayName());
+            this.setCustomNameVisible(false);
         }
     }
 
