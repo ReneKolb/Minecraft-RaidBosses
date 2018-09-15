@@ -89,7 +89,9 @@ public abstract class Monster<T extends Creature> implements Listener {
 
     protected void updateSkills(List<ISkill> newSkills) {
         this.internalSkillList.clear();
-        this.internalSkillList.addAll(newSkills);
+        if (newSkills != null) {
+            this.internalSkillList.addAll(newSkills);
+        }
     }
 
     public Monster(Class<T> type) {
@@ -401,11 +403,11 @@ public abstract class Monster<T extends Creature> implements Listener {
 
         return false;
     }
-    
+
     protected void setCustomName(String customName) {
         this.entity.setCustomName(customName);
     }
-    
+
     protected void setCustomNameVisible(boolean visible) {
         this.entity.setCustomNameVisible(visible);
     }

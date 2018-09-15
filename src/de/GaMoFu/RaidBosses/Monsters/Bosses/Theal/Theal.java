@@ -48,6 +48,27 @@ public class Theal extends Boss<Husk> {
         this.phase = 1;
     }
 
+    private void reset() {
+        this.phase = 1;
+
+        setItemInMainHand(Material.BLAZE_ROD, true);
+
+        setChestplate(Color.fromRGB(182, 184, 179), false);
+        setLeggings(Color.fromRGB(182, 184, 179), false);
+        setBoots(Color.fromRGB(182, 184, 179), false);
+
+        this.updateSkills(null);
+    }
+
+    @Override
+    public void onFightEnd(boolean reasonIsBossDeath) {
+        super.onFightEnd(reasonIsBossDeath);
+
+        if (!reasonIsBossDeath) {
+            reset();
+        }
+    }
+
     @Override
     public void loop() {
         super.loop();
@@ -127,15 +148,7 @@ public class Theal extends Boss<Husk> {
 
         this.entity.setCustomNameVisible(true);
 
-        setItemInMainHand(Material.BLAZE_ROD, true);
-
-        // ItemStack head = new ItemStack(Material.SKULL_ITEM, 1, (short) 5);
-        // this.entity.getEquipment().setHelmet(head);
-        // this.entity.getEquipment().setHelmetDropChance(0f);
-
-        setChestplate(Color.fromRGB(182, 184, 179), false);
-        setLeggings(Color.fromRGB(182, 184, 179), false);
-        setBoots(Color.fromRGB(182, 184, 179), false);
+        reset();
 
         // immune to knockback
         this.entity.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE)
