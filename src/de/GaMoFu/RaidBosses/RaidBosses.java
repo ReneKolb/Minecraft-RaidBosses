@@ -26,6 +26,7 @@ import de.GaMoFu.RaidBosses.Dungeons.PortalHandler;
 import de.GaMoFu.RaidBosses.EventListeners.DungeonDesignListener;
 import de.GaMoFu.RaidBosses.EventListeners.PlayerJoinListener;
 import de.GaMoFu.RaidBosses.Items.ItemsFactory;
+import de.GaMoFu.RaidBosses.Items.Effects.LightningEffect;
 import de.GaMoFu.RaidBosses.Skill.SkillFactory;
 import de.GaMoFu.RaidBosses.Trader.TraderFactory;
 import de.GaMoFu.RaidBosses.Worlds.Worlds;
@@ -159,6 +160,8 @@ public final class RaidBosses extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
 
         this.getServer().getPluginManager().registerEvents(new DungeonDesignListener(this), this);
+
+        this.getServer().getPluginManager().registerEvents(LightningEffect.INSTANCE, this);
 
         this.getLogger().info("RaidBosses has benn enabled");
 
