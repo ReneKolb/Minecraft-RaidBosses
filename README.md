@@ -33,9 +33,9 @@ title Spigot Server Console
 java -Xmx1G -jar spigot-1.13.1.jar
 PAUSE
 ```
-3. start run.bat
-4. edit eula.text, set eula=true
-5. start run.bat
+3. start ```run.bat```
+4. edit ```eula.txt```, set eula=true
+5. start ```run.bat```
 6. enter stop
 7. edit ```server.properties```
 ```
@@ -43,7 +43,7 @@ gamemode=2
 ```
 8. Copy the HolographicDisplays plugin into the "/plugins" folder
 9. Copy the RaidBosses plugin into the "/plugins" folder
-10. start run.bat
+10. start ```run.bat```
 
 NOTE: Because of the map, ask the plugin creator if he is kind enough to make it available to you ;-)
 
