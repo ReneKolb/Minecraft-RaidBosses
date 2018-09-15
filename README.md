@@ -25,7 +25,8 @@
 2. The plugin.jar file must be placed in the server's subfolder  "/plugins"
 
 ### Initial start of the server
-1. It is best to copy the server file into a folder
+1. It is best to copy the server file ```spigot-1.13.1.jar```
+ into a folder
 2. Create a "run.bat" file in it.
 ```bat
 @echo off
