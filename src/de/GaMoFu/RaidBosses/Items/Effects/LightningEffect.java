@@ -54,8 +54,8 @@ public class LightningEffect extends ItemEffect implements Listener {
 
     @Override
     public String getTootipText() {
-        return ChatColor.YELLOW + "Strikes a bolt of lightning on hit ("
-                + SkillTooltipBuilder.formatDamage(DAMAGE_AMOUNT)+")";
+        return ChatColor.YELLOW + "Strikes a bolt of lightning on hit " + ChatColor.GRAY + "("
+                + SkillTooltipBuilder.formatDamage(DAMAGE_AMOUNT) + ChatColor.GRAY + ")";
     }
 
     @Override
