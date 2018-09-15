@@ -17,7 +17,7 @@
 4. Set Directory to e.g. ```C:\git\Minecraft-RaidBosses```
 5. Create new Java Project, uncheck "use default location" and set to ```C:\git\Minecraft-RaidBosses```
 6. Set Dependencies (Libraries): click on "Add External JARs..." and select the created server ```spigot-1.13.1.jar```
-7. Also a the HolographicDisplays as dependency
+7. Also add the HolographicDisplays as dependency
 8. After "Finish", there should appear a folder "resources" below the packages. Right-click > Build Path > Use as source folder
 
 ### Build the plugin
