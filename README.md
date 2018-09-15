@@ -45,7 +45,7 @@ gamemode=2
 9. Copy the RaidBosses plugin into the "/plugins" folder
 10. start ```run.bat```
 
-NOTE: Because of the map, ask the plugin creator if he is kind enough to make it available to you ;-)
+NOTE: Because of the **map** and plugin **config file**, ask the plugin creator if he is kind enough to make it available to you ;-)
 
 ## Other helpful plugins
 - FastAsyncWorldEdit
