@@ -20,6 +20,8 @@
 7. Also add the HolographicDisplays as dependency
 8. After "Finish", there should appear a folder "resources" below the packages. Right-click > Build Path > Use as source folder
 
+9. Please use the provided formatter: ```RaidBosses-formatter.xml```: Window > Preferences > Java > Code Style > Formatter > Import...
+
 ### Build the plugin
 1. Right click on the project > Export... > General > JAR file
 2. The plugin.jar file must be placed in the server's subfolder  "/plugins"
