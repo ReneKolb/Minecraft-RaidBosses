@@ -51,6 +51,7 @@ import de.GaMoFu.RaidBosses.Events.BossDeathEvent;
 import de.GaMoFu.RaidBosses.Events.FightEndEvent;
 import de.GaMoFu.RaidBosses.Events.FightStartEvent;
 import de.GaMoFu.RaidBosses.Events.MonsterDeathEvent;
+import de.GaMoFu.RaidBosses.Items.ItemsFactory;
 import de.GaMoFu.RaidBosses.Skill.ISkill;
 import net.minecraft.server.v1_13_R2.PathfinderGoal;
 import net.minecraft.server.v1_13_R2.PathfinderGoalRandomStroll;
@@ -678,7 +679,7 @@ public abstract class Monster<T extends Creature> implements Listener {
     public void onReceiveDamage() {
     }
 
-    public void setItemInMainHand(Material mat, boolean glow) {
+    public void setItemInMainHand(Material mat, boolean glow, String texturePackTag) {
         ItemStack s = new ItemStack(mat);
         ItemMeta meta = s.getItemMeta();
         meta.setUnbreakable(true);
@@ -686,7 +687,16 @@ public abstract class Monster<T extends Creature> implements Listener {
             meta.addEnchant(Enchantment.DURABILITY, 0, true);
         }
         s.setItemMeta(meta);
+
+        if (texturePackTag != null) {
+            ItemsFactory.setTexturepackTag(s, texturePackTag);
+        }
+
         this.setItemInMainHand(s);
+    }
+
+    public void setItemInMainHand(Material mat, boolean glow) {
+        this.setItemInMainHand(mat, glow, null);
     }
 
     public void setItemInMainHand(ItemStack stack) {
@@ -695,6 +705,10 @@ public abstract class Monster<T extends Creature> implements Listener {
     }
 
     public void setItemInOffHand(Material mat, boolean glow) {
+        this.setItemInOffHand(mat, glow, null);
+    }
+
+    public void setItemInOffHand(Material mat, boolean glow, String texturePackTag) {
         ItemStack s = new ItemStack(mat);
         ItemMeta meta = s.getItemMeta();
         meta.setUnbreakable(true);
@@ -702,6 +716,11 @@ public abstract class Monster<T extends Creature> implements Listener {
             meta.addEnchant(Enchantment.DURABILITY, 0, true);
         }
         s.setItemMeta(meta);
+
+        if (texturePackTag != null) {
+            ItemsFactory.setTexturepackTag(s, texturePackTag);
+        }
+
         this.setItemInOffHand(s);
     }
 
@@ -718,6 +737,7 @@ public abstract class Monster<T extends Creature> implements Listener {
             meta.addEnchant(Enchantment.DURABILITY, 0, true);
         }
         s.setItemMeta(meta);
+
         this.setHelmet(s);
     }
 
@@ -730,6 +750,7 @@ public abstract class Monster<T extends Creature> implements Listener {
             meta.addEnchant(Enchantment.DURABILITY, 0, true);
         }
         s.setItemMeta(meta);
+
         this.setHelmet(s);
     }
 
@@ -746,6 +767,7 @@ public abstract class Monster<T extends Creature> implements Listener {
             meta.addEnchant(Enchantment.DURABILITY, 0, true);
         }
         s.setItemMeta(meta);
+
         this.setChestplate(s);
     }
 
@@ -758,6 +780,7 @@ public abstract class Monster<T extends Creature> implements Listener {
             meta.addEnchant(Enchantment.DURABILITY, 0, true);
         }
         s.setItemMeta(meta);
+
         this.setChestplate(s);
     }
 
@@ -774,6 +797,7 @@ public abstract class Monster<T extends Creature> implements Listener {
             meta.addEnchant(Enchantment.DURABILITY, 0, true);
         }
         s.setItemMeta(meta);
+
         this.setLeggings(s);
     }
 
@@ -786,6 +810,7 @@ public abstract class Monster<T extends Creature> implements Listener {
             meta.addEnchant(Enchantment.DURABILITY, 0, true);
         }
         s.setItemMeta(meta);
+
         this.setLeggings(s);
     }
 
@@ -802,6 +827,7 @@ public abstract class Monster<T extends Creature> implements Listener {
             meta.addEnchant(Enchantment.DURABILITY, 0, true);
         }
         s.setItemMeta(meta);
+
         this.setBoots(s);
     }
 
@@ -814,6 +840,7 @@ public abstract class Monster<T extends Creature> implements Listener {
             meta.addEnchant(Enchantment.DURABILITY, 0, true);
         }
         s.setItemMeta(meta);
+
         this.setBoots(s);
     }
 

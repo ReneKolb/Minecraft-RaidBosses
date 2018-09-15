@@ -51,7 +51,7 @@ public class Theal extends Boss<Husk> {
     private void reset() {
         this.phase = 1;
 
-        setItemInMainHand(Material.BLAZE_ROD, true);
+        setItemInMainHand(Material.DIAMOND_HOE, true, "Scepter of the Dragonlord");
 
         setChestplate(Color.fromRGB(182, 184, 179), false);
         setLeggings(Color.fromRGB(182, 184, 179), false);

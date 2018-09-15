@@ -135,7 +135,7 @@ public class ItemsFactory {
         return Optional.of(result);
     }
 
-    private ItemStack setTexturepackTag(ItemStack item, String texturePackTag) {
+    public static ItemStack setTexturepackTag(ItemStack item, String texturePackTag) {
         net.minecraft.server.v1_13_R2.ItemStack nmsStack = CraftItemStack.asNMSCopy(item);
 
         if (nmsStack.getTag() == null) {
