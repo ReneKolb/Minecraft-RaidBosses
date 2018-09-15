@@ -89,9 +89,9 @@ public abstract class Monster<T extends Creature> implements Listener {
     }
 
     protected void updateSkills(List<ISkill> newSkills) {
-        this.internalSkillList.clear();
+        getSkills().clear();
         if (newSkills != null) {
-            this.internalSkillList.addAll(newSkills);
+            getSkills().addAll(newSkills);
         }
     }
 
