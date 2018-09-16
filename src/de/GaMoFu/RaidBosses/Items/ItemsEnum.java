@@ -8,6 +8,7 @@ public enum ItemsEnum {
 	
 	STAFF_1(Staff1.class),
 	STAFF_2(Staff2.class),
+	STAFF_3(Staff3.class),
     
 	TOKEN_1(Token1.class),
 	TOKEN_2(Token2.class),

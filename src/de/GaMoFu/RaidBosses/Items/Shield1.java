@@ -14,6 +14,8 @@ import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
 
 public class Shield1 extends Item {
 
+    public static final String INTERNAL_NAME = "BASIC_SHIELD";
+
     @Override
     public ItemTier getItemTier() {
         return ItemTier.TIER_1;
@@ -26,7 +28,7 @@ public class Shield1 extends Item {
 
     @Override
     public String getItemInternalName() {
-        return "BASIC_SHIELD";
+        return INTERNAL_NAME;
     }
 
     @Override

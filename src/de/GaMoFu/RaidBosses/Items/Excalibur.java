@@ -17,6 +17,8 @@ import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
 
 public class Excalibur extends Item {
 
+    public static final String INTERNAL_NAME = "EXCALIBUR";
+
     @Override
     public ItemTier getItemTier() {
         return ItemTier.TIER_RAINBOW;
@@ -29,7 +31,7 @@ public class Excalibur extends Item {
 
     @Override
     public String getItemInternalName() {
-        return "EXCALIBUR";
+        return INTERNAL_NAME;
     }
 
     @Override

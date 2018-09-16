@@ -13,6 +13,8 @@ import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
 
 public class Staff1 extends Item {
 
+    public static final String INTERNAL_NAME = "BASIC_STAFF";
+
     @Override
     public ItemTier getItemTier() {
         return ItemTier.TIER_1;
@@ -25,12 +27,12 @@ public class Staff1 extends Item {
 
     @Override
     public String getItemInternalName() {
-        return "BASIC_STAFF";
+        return INTERNAL_NAME;
     }
 
     @Override
     public Material getDisplayMaterial() {
-        return Material.IRON_HOE;
+        return Material.WOODEN_AXE;
     }
 
     @Override

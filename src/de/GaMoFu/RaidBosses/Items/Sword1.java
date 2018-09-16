@@ -8,6 +8,8 @@ import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
 
 public class Sword1 extends Item {
 
+    public static final String INTERNAL_NAME = "BASIC_SWORD";
+
     @Override
     public ItemTier getItemTier() {
         return ItemTier.TIER_1;
@@ -20,7 +22,7 @@ public class Sword1 extends Item {
 
     @Override
     public String getItemInternalName() {
-        return "BASIC_SWORD";
+        return INTERNAL_NAME;
     }
 
     @Override

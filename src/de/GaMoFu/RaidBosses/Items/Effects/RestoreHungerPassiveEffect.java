@@ -1,6 +1,5 @@
 package de.GaMoFu.RaidBosses.Items.Effects;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class RestoreHungerPassiveEffect extends ItemEffect {
@@ -13,7 +12,7 @@ public class RestoreHungerPassiveEffect extends ItemEffect {
 
     @Override
     public String getTootipText() {
-        return ChatColor.YELLOW + "Restore 1 Hunger every second";
+        return "Restore 1 Hunger every second";
     }
 
     @Override

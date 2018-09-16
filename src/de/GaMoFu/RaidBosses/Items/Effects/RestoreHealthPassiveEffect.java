@@ -1,8 +1,11 @@
 package de.GaMoFu.RaidBosses.Items.Effects;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityRegainHealthEvent;
+import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
 
 import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
 
@@ -16,7 +19,7 @@ public class RestoreHealthPassiveEffect extends ItemEffect {
 
     @Override
     public String getTootipText() {
-        return ChatColor.YELLOW + "Restore " + SkillTooltipBuilder.formatHealth(1) + ChatColor.YELLOW
+        return "Restore " + SkillTooltipBuilder.formatHealth(1) + ChatColor.YELLOW
                 + " every 2 second";
     }
 
@@ -27,8 +30,12 @@ public class RestoreHealthPassiveEffect extends ItemEffect {
 
     @Override
     public void onTick(Player player) {
-        player.setHealth(
-                Math.min(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue(), player.getHealth() + 1));
+        double playerMaxHealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+        if (player.getHealth() < playerMaxHealth) {
+            player.setHealth(Math.min(playerMaxHealth, player.getHealth() + 1));
+
+            Bukkit.getServer().getPluginManager().callEvent(new EntityRegainHealthEvent(player, 1, RegainReason.MAGIC));
+        }
     }
 
     @Override

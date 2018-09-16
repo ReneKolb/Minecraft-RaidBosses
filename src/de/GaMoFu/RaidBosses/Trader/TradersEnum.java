@@ -3,7 +3,9 @@ package de.GaMoFu.RaidBosses.Trader;
 public enum TradersEnum {
 
     //@formatter:off
-	WATER_MAGE_TRADER(WaterMageTrader1.class);
+	WATER_MAGE_TRADER(WaterMageTrader1.class),
+    
+    MAGE_WEAPON_TRADER(MageWeaponTrader.class);
 	//@formatter:on
 
     private Class<? extends Trader> skillClass;

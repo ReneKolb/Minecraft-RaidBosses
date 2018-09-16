@@ -265,6 +265,10 @@ public class PlayerSettings {
 
         @Override
         public void run() {
+            if (player.isDead()) {
+                return;
+            }
+
             PlayerInventory inventory = player.getInventory();
 
             Optional<Item> helmet = plugin.getItemsFactory().getItemFromItemStack(inventory.getHelmet());
