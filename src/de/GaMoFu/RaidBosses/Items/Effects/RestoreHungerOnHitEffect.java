@@ -34,4 +34,9 @@ public class RestoreHungerOnHitEffect extends ItemEffect {
         damager.setFoodLevel(Math.min(20, damager.getFoodLevel() + 3));
     }
 
+    @Override
+    public String getUniqueEffectID() {
+        return "0cbf5838-f81f-4b8e-8c96-64b3c677ad71";
+    }
+
 }

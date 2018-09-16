@@ -13,7 +13,7 @@ public class RestoreHungerPassiveEffect extends ItemEffect {
 
     @Override
     public String getTootipText() {
-        return ChatColor.YELLOW + "Restore 2 Hunger every second";
+        return ChatColor.YELLOW + "Restore 1 Hunger every second";
     }
 
     @Override
@@ -23,6 +23,11 @@ public class RestoreHungerPassiveEffect extends ItemEffect {
 
     @Override
     public void onTick(Player player) {
-        player.setFoodLevel(Math.min(20, player.getFoodLevel() + 2));
+        player.setFoodLevel(Math.min(20, player.getFoodLevel() + 1));
+    }
+
+    @Override
+    public String getUniqueEffectID() {
+        return "62b3be62-e7c2-4155-9971-637f06d24e97";
     }
 }

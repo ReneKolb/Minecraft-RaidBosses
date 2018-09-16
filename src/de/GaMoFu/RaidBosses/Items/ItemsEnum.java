@@ -5,7 +5,9 @@ public enum ItemsEnum {
     //@formatter:off
 	SHIELD_1(Shield1.class),
 	SWORD_1(Sword1.class),
+	
 	STAFF_1(Staff1.class),
+	STAFF_2(Staff2.class),
     
 	TOKEN_1(Token1.class),
 	TOKEN_2(Token2.class),

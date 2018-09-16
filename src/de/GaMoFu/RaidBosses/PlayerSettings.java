@@ -97,10 +97,24 @@ public class PlayerSettings {
     }
 
     private class ItemEffectTime {
-        public int counter;
 
-        public ItemEffectTime() {
-            this.counter = 0;
+        private Map<String, Integer> internalMap = new HashMap<>();
+
+        public int getCounter(String effectID) {
+            if (internalMap.containsKey(effectID)) {
+                return internalMap.get(effectID).intValue();
+            }
+
+            return 0;
+        }
+
+        public void setCounter(String effectID, int counter) {
+            internalMap.put(effectID, counter);
+        }
+
+        public void decCounter(String uniqueEffectID) {
+            int val = getCounter(uniqueEffectID);
+            setCounter(uniqueEffectID, Math.max(0, val - 1));
         }
 
     }
@@ -284,14 +298,13 @@ public class PlayerSettings {
 
             for (ItemEffect effect : item.get().getItemEffects()) {
                 if (effect.getTickDelay() > 0) {
-                    if (effTime.counter == 0) {
+                    if (effTime.getCounter(effect.getUniqueEffectID()) <= 0) {
                         effect.onTick(player);
-                        effTime.counter = effect.getTickDelay();
+                        effTime.setCounter(effect.getUniqueEffectID(), effect.getTickDelay());
                     } else {
-                        effTime.counter--;
+                        effTime.decCounter(effect.getUniqueEffectID());
                     }
-                    // Only one passive effect per itemSlot (for now)
-                    break;
+
                 }
             }
 

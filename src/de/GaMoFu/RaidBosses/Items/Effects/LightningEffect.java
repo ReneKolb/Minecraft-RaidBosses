@@ -82,4 +82,9 @@ public class LightningEffect extends ItemEffect implements Listener {
         event.setDamage(info.getDamage());
     }
 
+    @Override
+    public String getUniqueEffectID() {
+        return "6010bc5c-da65-4cc5-83e1-d95a1937e6f2";
+    }
+
 }

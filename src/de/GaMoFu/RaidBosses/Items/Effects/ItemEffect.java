@@ -20,5 +20,7 @@ public abstract class ItemEffect {
     public void onTick(Player player) {
         
     }
+    
+    public abstract String getUniqueEffectID();
 
 }
