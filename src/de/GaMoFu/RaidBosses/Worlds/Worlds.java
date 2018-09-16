@@ -156,22 +156,16 @@ public class Worlds implements Listener {
         // prevent any monster from natural spawning in an instance world.
         // only custom spawns are allowed.
 
-        if (event.getSpawnReason() == SpawnReason.SLIME_SPLIT) {
-            plugin.getLogger().info("Spawning splitted slimes is cancelled in instance worlds.");
-        }
-
-        if (event.getSpawnReason() != SpawnReason.NATURAL) {
-            System.out.println("Spawn entity: " + event.getEntityType() + " Reason: " + event.getSpawnReason());
-        }
-
+        
+        // Allow spawning an armor_stand
         if (event.getEntityType() == EntityType.ARMOR_STAND) {
-            // Let an armor_stand spawn
             return;
         }
 
         // Allow spawner eggs
-        if (event.getSpawnReason() == SpawnReason.SPAWNER_EGG)
+        if (event.getSpawnReason() == SpawnReason.SPAWNER_EGG) {
             return;
+        }
 
         String worldName = event.getLocation().getWorld().getName();
         if (worldExists(worldName) && event.getSpawnReason() != SpawnReason.CUSTOM) {
