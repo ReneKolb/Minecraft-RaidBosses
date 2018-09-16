@@ -44,6 +44,11 @@ public class FirstInstance extends Dungeon {
         return "First Dungeon";
     }
 
+    @Override
+    public String getSubDisplayName() {
+        return "The shitty mines of shit";
+    }
+
     private void startZomboss() {
         // Close entrance
 

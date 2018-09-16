@@ -196,6 +196,12 @@ public abstract class Dungeon implements Listener {
     public abstract String getAlias();
 
     public abstract String getDisplayName();
+    
+    /**
+     * 
+     * @return The subDispaly name which will be displayed as second line in Title when a player joins the Dungeon. MUST NOT BE null!
+     */
+    public abstract String getSubDisplayName();
 
     public World getWorld() {
         return this.world;
@@ -853,8 +859,8 @@ public abstract class Dungeon implements Listener {
         updatePlayerHealthDisplay(p);
 
         p.setGlowing(true);
-        // p.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING,
-        // Integer.MAX_VALUE, 0, false, false), true);
+
+        p.sendTitle(this.getDisplayName(), this.getSubDisplayName(), 10, 70, 20);
     }
 
     public void removePlayer(Player p) {

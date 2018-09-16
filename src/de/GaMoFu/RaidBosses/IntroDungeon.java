@@ -25,6 +25,11 @@ public class IntroDungeon extends Dungeon {
     }
 
     @Override
+    public String getSubDisplayName() {
+        return "Brave exterminators wanted";
+    }
+
+    @Override
     public void loop() {
         // TODO Auto-generated method stub
 
