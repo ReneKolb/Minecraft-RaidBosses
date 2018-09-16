@@ -11,6 +11,7 @@ import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.WorldCreator;
 import org.bukkit.entity.Creature;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -28,6 +29,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.hanging.HangingBreakEvent.RemoveCause;
+import org.bukkit.event.vehicle.VehicleDestroyEvent;
 import org.bukkit.inventory.ItemStack;
 
 import de.GaMoFu.RaidBosses.RaidBosses;
@@ -225,20 +227,27 @@ public class Worlds implements Listener {
     //
     // }
 
+    @EventHandler
+    public void onVehicleDestroy(VehicleDestroyEvent event) {
+        Player player = getSourceDamager(event.getAttacker());
+
+        if (player == null) {
+            event.setCancelled(true);
+            return;
+        }
+
+        // Only Creative Players are allowed to break MineCarts / Vehicles
+        if (!player.getGameMode().equals(GameMode.CREATIVE)) {
+            event.setCancelled(true);
+            return;
+        }
+    }
+
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
 
-        Player damagerPlayer = null;
+        Player damagerPlayer = getSourceDamager(event.getDamager());
         // Creative Players are allowed to break entities
-        if (event.getDamager() instanceof Player) {
-            damagerPlayer = (Player) event.getDamager();
-
-        } else if (event.getDamager() instanceof Projectile) {
-            Projectile projectile = (Projectile) event.getDamager();
-            if (projectile.getShooter() instanceof Player) {
-                damagerPlayer = (Player) projectile.getShooter();
-            }
-        }
 
         if (event.getEntity() instanceof Villager) {
             // TODO use a merchant Class, to check if this villager is an actual Trader or a
@@ -279,6 +288,21 @@ public class Worlds implements Listener {
         default:
         }
 
+    }
+
+    private Player getSourceDamager(Entity damager) {
+        if (damager instanceof Player) {
+            return (Player) damager;
+        }
+
+        if (damager instanceof Projectile) {
+            Projectile projectile = (Projectile) damager;
+            if (projectile.getShooter() instanceof Player) {
+                return (Player) projectile.getShooter();
+            }
+        }
+
+        return null;
     }
 
 }
