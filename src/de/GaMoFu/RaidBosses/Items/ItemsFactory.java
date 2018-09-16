@@ -69,7 +69,7 @@ public class ItemsFactory {
         if (itemStack == null || !itemStack.hasItemMeta()) {
             return Optional.empty();
         }
-        
+
         String displayName = itemStack.getItemMeta().getDisplayName();
         return getItemFromDisplayName(displayName);
     }

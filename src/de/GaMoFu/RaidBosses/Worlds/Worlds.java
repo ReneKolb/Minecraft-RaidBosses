@@ -156,7 +156,6 @@ public class Worlds implements Listener {
         // prevent any monster from natural spawning in an instance world.
         // only custom spawns are allowed.
 
-        
         // Allow spawning an armor_stand
         if (event.getEntityType() == EntityType.ARMOR_STAND) {
             return;

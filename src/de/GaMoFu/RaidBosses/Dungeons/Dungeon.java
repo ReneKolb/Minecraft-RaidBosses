@@ -196,10 +196,11 @@ public abstract class Dungeon implements Listener {
     public abstract String getAlias();
 
     public abstract String getDisplayName();
-    
+
     /**
      * 
-     * @return The subDispaly name which will be displayed as second line in Title when a player joins the Dungeon. MUST NOT BE null!
+     * @return The subDispaly name which will be displayed as second line in Title
+     *         when a player joins the Dungeon. MUST NOT BE null!
      */
     public abstract String getSubDisplayName();
 

@@ -12,15 +12,15 @@ public abstract class ItemEffect {
     public void onDamageEntity(EntityDamageByEntityEvent event) {
 
     }
-    
+
     public int getTickDelay() {
         return -1;
     }
-    
+
     public void onTick(Player player) {
-        
+
     }
-    
+
     public abstract String getUniqueEffectID();
 
 }

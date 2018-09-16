@@ -46,7 +46,7 @@ public class Staff1 extends Item {
     public List<ItemEffect> getItemEffects() {
         return Arrays.asList(RestoreHungerPassiveEffect.INSTANCE);
     }
-    
+
     @Override
     public String getNMSTagForTexturepackModel() {
         return "Angelic Fork";

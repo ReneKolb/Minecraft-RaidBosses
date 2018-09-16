@@ -16,7 +16,8 @@ public class RestoreHealthPassiveEffect extends ItemEffect {
 
     @Override
     public String getTootipText() {
-        return ChatColor.YELLOW + "Restore " + SkillTooltipBuilder.formatHealth(1) + ChatColor.YELLOW + " every 2 second";
+        return ChatColor.YELLOW + "Restore " + SkillTooltipBuilder.formatHealth(1) + ChatColor.YELLOW
+                + " every 2 second";
     }
 
     @Override
