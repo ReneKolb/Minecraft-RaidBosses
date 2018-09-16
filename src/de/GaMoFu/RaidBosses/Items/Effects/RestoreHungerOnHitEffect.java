@@ -6,11 +6,11 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import de.GaMoFu.RaidBosses.RaidBosses;
 
-public class RestoreHungerEffect extends ItemEffect {
+public class RestoreHungerOnHitEffect extends ItemEffect {
 
-    public static final RestoreHungerEffect INSTANCE = new RestoreHungerEffect();
+    public static final RestoreHungerOnHitEffect INSTANCE = new RestoreHungerOnHitEffect();
 
-    private RestoreHungerEffect() {
+    private RestoreHungerOnHitEffect() {
 
     }
 

@@ -6,7 +6,7 @@ import java.util.List;
 import org.bukkit.Material;
 
 import de.GaMoFu.RaidBosses.Items.Effects.ItemEffect;
-import de.GaMoFu.RaidBosses.Items.Effects.RestoreHungerEffect;
+import de.GaMoFu.RaidBosses.Items.Effects.RestoreHungerPassiveEffect;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.DescriptionLine;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.EmptyLine;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
@@ -44,7 +44,7 @@ public class Staff1 extends Item {
 
     @Override
     public List<ItemEffect> getItemEffects() {
-        return Arrays.asList(RestoreHungerEffect.INSTANCE);
+        return Arrays.asList(RestoreHungerPassiveEffect.INSTANCE);
     }
 
 }

@@ -17,9 +17,12 @@ import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import de.GaMoFu.RaidBosses.Dungeons.Dungeon;
+import de.GaMoFu.RaidBosses.Items.Item;
+import de.GaMoFu.RaidBosses.Items.Effects.ItemEffect;
 import de.GaMoFu.RaidBosses.Skill.ISkill;
 
 public class PlayerSettings {
@@ -89,6 +92,19 @@ public class PlayerSettings {
         }
     }
 
+    private enum ItemSlot {
+        MAIN_HAND, OFF_HAND, HELMET, CHEST, LEGGINGS, BOOTS
+    }
+
+    private class ItemEffectTime {
+        public int counter;
+
+        public ItemEffectTime() {
+            this.counter = 0;
+        }
+
+    }
+
     private MonsterSelection monsterSelection;
     private BlockSelection blockSelection;
 
@@ -98,24 +114,32 @@ public class PlayerSettings {
 
     private int cooldownTimerID;
 
+    private int loopTimerID;
+
     private Player player;
 
     // private Set<String> skillCooldowns;
     private Map<String, SkillCooldown> skillCooldowns;
 
+    private Map<ItemSlot, ItemEffectTime> itemEffectTimes;
+
     public boolean selectLootchest;
 
     public PlayerSettings(RaidBosses plugin, Player player) {
         this.skillCooldowns = new HashMap<>();
+        this.itemEffectTimes = new HashMap<>();
+
         this.player = player;
         this.plugin = plugin;
         this.selectLootchest = false;
 
         this.cooldownTimerID = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this.updateCooldowns, 1, 20);
+        this.loopTimerID = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this.loopTimer, 1, 1);
     }
 
     public void onQuit() {
         Bukkit.getScheduler().cancelTask(this.cooldownTimerID);
+        Bukkit.getScheduler().cancelTask(this.loopTimerID);
     }
 
     public void setMonsterSelection(SpawnedMonster monster, Dungeon dungeon) {
@@ -217,6 +241,58 @@ public class PlayerSettings {
             for (ISkill skill : finishedCooldowns) {
                 removeCooldownEffect(getSkillItemSlots(skill));
                 skillCooldowns.remove(skill.getSkillInternalName());
+            }
+
+        }
+
+    };
+
+    private Runnable loopTimer = new Runnable() {
+
+        @Override
+        public void run() {
+            PlayerInventory inventory = player.getInventory();
+
+            Optional<Item> helmet = plugin.getItemsFactory().getItemFromItemStack(inventory.getHelmet());
+            Optional<Item> chest = plugin.getItemsFactory().getItemFromItemStack(inventory.getChestplate());
+            Optional<Item> leggings = plugin.getItemsFactory().getItemFromItemStack(inventory.getLeggings());
+            Optional<Item> boots = plugin.getItemsFactory().getItemFromItemStack(inventory.getBoots());
+            Optional<Item> mainHand = plugin.getItemsFactory().getItemFromItemStack(inventory.getItemInMainHand());
+            Optional<Item> offHand = plugin.getItemsFactory().getItemFromItemStack(inventory.getItemInOffHand());
+
+            handlePassiveEffect(helmet, ItemSlot.HELMET);
+            handlePassiveEffect(chest, ItemSlot.CHEST);
+            handlePassiveEffect(leggings, ItemSlot.LEGGINGS);
+            handlePassiveEffect(boots, ItemSlot.BOOTS);
+            handlePassiveEffect(mainHand, ItemSlot.MAIN_HAND);
+            handlePassiveEffect(offHand, ItemSlot.OFF_HAND);
+
+        }
+
+        private void handlePassiveEffect(Optional<Item> item, ItemSlot itemSlot) {
+            if (!item.isPresent()) {
+                return;
+            }
+
+            ItemEffectTime effTime;
+            if (itemEffectTimes.containsKey(itemSlot)) {
+                effTime = itemEffectTimes.get(itemSlot);
+            } else {
+                effTime = new ItemEffectTime();
+                itemEffectTimes.put(itemSlot, effTime);
+            }
+
+            for (ItemEffect effect : item.get().getItemEffects()) {
+                if (effect.getTickDelay() > 0) {
+                    if (effTime.counter == 0) {
+                        effect.onTick(player);
+                        effTime.counter = effect.getTickDelay();
+                    } else {
+                        effTime.counter--;
+                    }
+                    // Only one passive effect per itemSlot (for now)
+                    break;
+                }
             }
 
         }

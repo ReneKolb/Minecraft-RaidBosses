@@ -65,6 +65,15 @@ public class ItemsFactory {
         }
     }
 
+    public Optional<Item> getItemFromItemStack(ItemStack itemStack) {
+        if (itemStack == null || !itemStack.hasItemMeta()) {
+            return Optional.empty();
+        }
+        
+        String displayName = itemStack.getItemMeta().getDisplayName();
+        return getItemFromDisplayName(displayName);
+    }
+
     public Optional<Item> getItemFromDisplayName(String itemDisplayName) {
         if (this.itemDisplayNameLookup.containsKey(itemDisplayName))
             return Optional.of(this.itemDisplayNameLookup.get(itemDisplayName));
