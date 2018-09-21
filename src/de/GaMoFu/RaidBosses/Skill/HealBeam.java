@@ -55,6 +55,7 @@ public abstract class HealBeam implements ISkill {
     }
 
     protected static final float HEAL_JUMP_TARGET_DISTANCE = 5f;
+
     protected static final float HEAL_FIRST_RANGE = 8f;
 
     public abstract int getNumTargets();

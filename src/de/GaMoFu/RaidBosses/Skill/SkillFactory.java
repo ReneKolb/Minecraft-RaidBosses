@@ -13,6 +13,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -20,6 +22,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import de.GaMoFu.RaidBosses.PlayerSettings;
 import de.GaMoFu.RaidBosses.RaidBosses;
+import de.GaMoFu.RaidBosses.Items.Item;
+import de.GaMoFu.RaidBosses.Items.Effects.ItemEffect;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
 
 public class SkillFactory implements Listener {
@@ -48,6 +52,10 @@ public class SkillFactory implements Listener {
             internalSkillNames = new LinkedList<>(skillNameLookup.keySet());
         }
         return internalSkillNames;
+    }
+
+    public ISkill getSkillFromInternalName(String skillName) {
+        return skillNameLookup.get(skillName);
     }
 
     private void init() {
@@ -136,25 +144,39 @@ public class SkillFactory implements Listener {
 
         PlayerSettings ps = plugin.getPlayerSettings(player);
 
-        if (!ps.isSkillReady(skill)) {
-            player.sendMessage("Skill is not ready");
+        ps.handleUseSkill(skill);
+    }
+
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        Player p = event.getPlayer();
+        if (!p.getGameMode().equals(GameMode.ADVENTURE))
+            return;
+
+        ItemStack itemInHand = event.getItem();
+        if (plugin.getSkillFactory().isSkillItem(itemInHand)) {
+
+            int currentSlot = p.getInventory().getHeldItemSlot();
+            ItemStack i = p.getInventory().getItem(currentSlot);
+            p.getWorld().dropItemNaturally(p.getLocation(), i);
+            p.getInventory().setItem(currentSlot, null);
+
+            p.getInventory().setHeldItemSlot(0);
+            p.sendMessage("Your first item slot must not be a skill!");
+            event.setCancelled(true);
             return;
         }
 
-        int foodCost = skill.getBasicHungerCost();
+        if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+            Optional<Item> item = plugin.getItemsFactory().getItemFromItemStack(itemInHand);
+            if (item.isPresent()) {
+                for (ItemEffect effect : item.get().getItemEffects()) {
+                    effect.onInteract(p);
+                }
 
-        if (player.getFoodLevel() < foodCost) {
-            player.playSound(player.getLocation(), Sound.BLOCK_GLASS_BREAK, 1f, 1f);
-            player.sendMessage("Cannot use skill. Too few food");
-            return;
+                event.setCancelled(true);
+            }
         }
-
-        boolean success = skill.execute(player);
-        if (success) {
-            player.setFoodLevel(player.getFoodLevel() - foodCost);
-            ps.startSkillCooldown(skill);
-        }
-
     }
 
 }

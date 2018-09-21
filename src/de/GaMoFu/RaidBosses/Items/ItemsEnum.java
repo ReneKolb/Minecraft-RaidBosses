@@ -9,6 +9,8 @@ public enum ItemsEnum {
 	STAFF_1(Staff1.class),
 	STAFF_2(Staff2.class),
 	STAFF_3(Staff3.class),
+	
+	WAR_STAFF_1(WarStaff1.class),
     
 	TOKEN_1(Token1.class),
 	TOKEN_2(Token2.class),
@@ -17,7 +19,6 @@ public enum ItemsEnum {
 	TOKEN_5(Token5.class),
     TOKEN_6(Token6.class),
     TOKEN_7(Token7.class),
-    TOKEN_8(Token8.class),
     
     EXCALIBUR(Excalibur.class);
 	//@formatter:on

@@ -13,6 +13,10 @@ public abstract class ItemEffect {
 
     }
 
+    public void onInteract(Player player) {
+
+    }
+
     public int getTickDelay() {
         return -1;
     }

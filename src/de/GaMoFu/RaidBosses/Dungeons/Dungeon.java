@@ -1174,20 +1174,6 @@ public abstract class Dungeon implements Listener {
         if (!p.getGameMode().equals(GameMode.ADVENTURE))
             return;
 
-        ItemStack itemInHand = event.getItem();
-        if (plugin.getSkillFactory().isSkillItem(itemInHand)) {
-
-            int currentSlot = p.getInventory().getHeldItemSlot();
-            ItemStack i = p.getInventory().getItem(currentSlot);
-            p.getWorld().dropItemNaturally(p.getLocation(), i);
-            p.getInventory().setItem(currentSlot, null);
-
-            p.getInventory().setHeldItemSlot(0);
-            p.sendMessage("Your first item slot must not be a skill!");
-            event.setCancelled(true);
-            return;
-        }
-
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK)
             return;
 

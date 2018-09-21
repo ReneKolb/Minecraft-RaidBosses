@@ -1,6 +1,5 @@
 package de.GaMoFu.RaidBosses.Items.Effects;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
@@ -16,7 +15,7 @@ public class RestoreHungerOnHitEffect extends ItemEffect {
 
     @Override
     public String getTootipText() {
-        return ChatColor.YELLOW + "Hitting an enemy has a chance of 40% of restoring 3 Hunger";
+        return "Hitting an enemy has a chance of 40% of restoring 3 Hunger";
     }
 
     @Override

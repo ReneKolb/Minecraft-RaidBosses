@@ -19,7 +19,7 @@ public class RestoreHealthOverhealPassiveEffect extends ItemEffect {
 
     @Override
     public String getTootipText() {
-        return  "Restore " + SkillTooltipBuilder.formatHealth(1) + ChatColor.YELLOW
+        return "Restore " + SkillTooltipBuilder.formatHealth(1) + ChatColor.YELLOW
                 + " every 2 second. Overheal will heal the lowest group member within 10m.";
     }
 

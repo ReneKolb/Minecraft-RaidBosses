@@ -5,14 +5,14 @@ import org.bukkit.ChatColor;
 public enum ItemTier {
 
     //@formatter:off
-    TIER_1(ChatColor.WHITE),
-    TIER_2(ChatColor.GREEN),
-    TIER_3(ChatColor.BLUE),
-    TIER_4(ChatColor.DARK_PURPLE),
-    TIER_5(ChatColor.GOLD),
-    TIER_6(ChatColor.YELLOW),
-    TIER_7(ChatColor.AQUA),
-    TIER_8(ChatColor.RED),
+    // ChatColor.White is not allowed. The color will be removed in item's meta.getDisplayName so the lookups by DisplayName will fail, since the lookup expects the ColorCode but the ItemMeta does not contain it anymore.
+    TIER_1(ChatColor.GREEN),
+    TIER_2(ChatColor.BLUE),
+    TIER_3(ChatColor.DARK_PURPLE),
+    TIER_4(ChatColor.GOLD),
+    TIER_5(ChatColor.YELLOW),
+    TIER_6(ChatColor.AQUA),
+    TIER_7(ChatColor.RED),
     
     TIER_RAINBOW(ChatColor.MAGIC);
     //@formatter:on

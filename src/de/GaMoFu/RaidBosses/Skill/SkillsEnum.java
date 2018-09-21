@@ -14,7 +14,9 @@ public enum SkillsEnum {
 	
 //	GROUP_HEALING_1(GroupHealing1.class),
 	
-	HARD_HIT_1(SkillHardHit1.class);
+	HARD_HIT_1(SkillHardHit1.class),
+    
+    FIREBALL_1(Fireball1.class);
 	//@formatter:on
 
     // REMEMBER TO CALL event(EntityRegainHealthEvent) WHEN MANUALLY CHANGING

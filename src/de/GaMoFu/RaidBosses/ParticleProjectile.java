@@ -1,5 +1,6 @@
 package de.GaMoFu.RaidBosses;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -53,7 +54,13 @@ public class ParticleProjectile {
             double maxFlyDistance, double damage, boolean ignoreArmor, LivingEntity shooter, Vector dir,
             Location location) {
         this.onFlyingTick = onFlyingTick;
+        if (this.onFlyingTick == null) {
+            this.onFlyingTick = Collections.emptyList();
+        }
         this.onHit = onHit;
+        if (this.onHit == null) {
+            this.onHit = Collections.emptyList();
+        }
         this.hitRadius = hitRadius;
         this.maxFlyDistance = maxFlyDistance;
         this.damage = damage;

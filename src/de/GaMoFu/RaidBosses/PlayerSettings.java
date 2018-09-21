@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.attribute.AttributeModifier.Operation;
@@ -174,6 +175,27 @@ public class PlayerSettings {
         this.blockSelection = new BlockSelection(block, dungeon);
         this.monsterSelection = null;
         this.selectLootchest = false;
+    }
+
+    public void handleUseSkill(ISkill skill) {
+        if (!isSkillReady(skill)) {
+            player.sendMessage("Skill is not ready");
+            return;
+        }
+
+        int foodCost = skill.getBasicHungerCost();
+
+        if (player.getFoodLevel() < foodCost) {
+            player.playSound(player.getLocation(), Sound.BLOCK_GLASS_BREAK, 1f, 1f);
+            player.sendMessage("Cannot use skill. Too few food");
+            return;
+        }
+
+        boolean success = skill.execute(player);
+        if (success) {
+            player.setFoodLevel(player.getFoodLevel() - foodCost);
+            startSkillCooldown(skill);
+        }
     }
 
     public boolean isSkillReady(ISkill skill) {

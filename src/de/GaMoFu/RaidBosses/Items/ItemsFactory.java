@@ -99,7 +99,6 @@ public class ItemsFactory {
         result.addUnsafeEnchantments(item.getEnchantments());
 
         ItemMeta meta = result.getItemMeta();
-
         meta.setDisplayName(item.getItemDisplayName());
         SkillTooltipBuilder tooltipBuilder = item.getTooltipBuilder();
         if (tooltipBuilder == null) {
