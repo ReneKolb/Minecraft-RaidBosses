@@ -19,12 +19,9 @@ import de.GaMoFu.RaidBosses.ParticleEffects.PointEffect;
 import net.minecraft.server.v1_13_R2.DamageSource;
 import net.minecraft.server.v1_13_R2.EntityLiving;
 
-public class ParticleProjectile {
+public class ParticleProjectile extends CustomProjectile{
 
     private List<ParticleEffect> onFlyingTick;
-
-    // FIXME: maybe a patterned Effect
-    private List<ParticleEffect> onHit;
 
     private float hitRadius;
 
@@ -32,13 +29,7 @@ public class ParticleProjectile {
 
     private double flyedDistance;
 
-    private double damage;
-
-    private boolean ignoreArmor;
-
     private LivingEntity shooter;
-
-    private UUID uuid;
 
     private Vector dir;
 
@@ -53,18 +44,14 @@ public class ParticleProjectile {
     public ParticleProjectile(List<ParticleEffect> onFlyingTick, List<ParticleEffect> onHit, float hitRadius,
             double maxFlyDistance, double damage, boolean ignoreArmor, LivingEntity shooter, Vector dir,
             Location location) {
+        super(damage, ignoreArmor, UUID.randomUUID(), false,onHit);
+        
         this.onFlyingTick = onFlyingTick;
         if (this.onFlyingTick == null) {
             this.onFlyingTick = Collections.emptyList();
         }
-        this.onHit = onHit;
-        if (this.onHit == null) {
-            this.onHit = Collections.emptyList();
-        }
         this.hitRadius = hitRadius;
         this.maxFlyDistance = maxFlyDistance;
-        this.damage = damage;
-        this.ignoreArmor = ignoreArmor;
         this.shooter = shooter;
         this.dir = dir;
         this.location = location;
@@ -74,7 +61,6 @@ public class ParticleProjectile {
         this.die = false;
 
         this.flyedDistance = 0;
-        this.uuid = UUID.randomUUID();
     }
 
     /**
@@ -106,25 +92,12 @@ public class ParticleProjectile {
     }
 
     /**
-     * @return the damage
-     */
-    public double getDamage() {
-        return damage;
-    }
-
-    /**
      * @return the shooter
      */
     public LivingEntity getShooter() {
         return shooter;
     }
 
-    /**
-     * @return the uuid
-     */
-    public UUID getUuid() {
-        return uuid;
-    }
 
     /**
      * @return the dir
@@ -198,7 +171,7 @@ public class ParticleProjectile {
             ds = DamageSource.mobAttack(((CraftLivingEntity) shooter).getHandle());
         }
 
-        if (this.ignoreArmor) {
+        if (this.isIgnoreArmor()) {
             Utils.setIgnoreArmor(ds);
         }
 
@@ -220,14 +193,14 @@ public class ParticleProjectile {
 
                 System.out.println("Hit: " + le.getType());
 
-                el.damageEntity(ds, (float) this.damage);
+                el.damageEntity(ds, (float) this.getDamage());
                 hit = true;
                 this.die = true;
             }
         }
 
         if (hit) {
-            for (ParticleEffect e : onHit) {
+            for (ParticleEffect e : getOnHit()) {
                 PointEffect.doEffect(world, location.toVector(), e);
             }
         }

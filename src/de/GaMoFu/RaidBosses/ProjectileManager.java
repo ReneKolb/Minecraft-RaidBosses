@@ -8,12 +8,18 @@ import java.util.UUID;
 
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Projectile;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockIgniteEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.util.Vector;
+
+import de.GaMoFu.RaidBosses.ParticleEffects.PointEffect;
 
 public class ProjectileManager implements Listener {
 
-    private HashMap<UUID, ParticleProjectile> launchedProjectiles;
+    private HashMap<UUID, CustomProjectile> launchedProjectiles;
 
     private RaidBosses plugin;
 
@@ -45,13 +51,48 @@ public class ProjectileManager implements Listener {
 
     }
 
+    public void addCustomDamageProjectile(Projectile projectile, double damageOnHit, List<ParticleEffect> onHit) {
+        CustomProjectile cp = new CustomProjectile(damageOnHit, false, projectile, false, onHit);
+
+        this.launchedProjectiles.put(cp.getUuid(), cp);
+    }
+
+    @EventHandler
+    public void onDamageEntityByEntity(EntityDamageByEntityEvent event) {
+        UUID damagerID = event.getDamager().getUniqueId();
+        if (!this.launchedProjectiles.containsKey(damagerID)) {
+            return;
+        }
+
+        CustomProjectile projectile = this.launchedProjectiles.get(damagerID);
+        event.setDamage(projectile.getDamage());
+
+        for (ParticleEffect e : projectile.getOnHit()) {
+            PointEffect.doEffect(event.getDamager().getWorld(), event.getDamager().getLocation().toVector(), e);
+        }
+    }
+
+    @EventHandler
+    public void onBlockIgnote(BlockIgniteEvent event) {
+        // Prevent Custom Fireballs from igniting hit Blocks
+        UUID igniterID = event.getIgnitingEntity().getUniqueId();
+        if (!this.launchedProjectiles.containsKey(igniterID)) {
+            return;
+        }
+        CustomProjectile projectile = this.launchedProjectiles.get(igniterID);
+
+        if (!projectile.isCanIgnoteBlocks()) {
+            event.setCancelled(true);
+        }
+    }
+
     private Runnable loop = new Runnable() {
 
         @Override
         public void run() {
             List<UUID> toRemove = new LinkedList<>();
-            for (Map.Entry<UUID, ParticleProjectile> e : launchedProjectiles.entrySet()) {
-                ParticleProjectile p = e.getValue();
+            for (Map.Entry<UUID, CustomProjectile> e : launchedProjectiles.entrySet()) {
+                CustomProjectile p = e.getValue();
 
                 p.tick();
 

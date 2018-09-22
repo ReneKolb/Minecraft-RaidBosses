@@ -7,7 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
+import org.bukkit.entity.SmallFireball;
 
 import de.GaMoFu.RaidBosses.ParticleEffect;
 import de.GaMoFu.RaidBosses.RaidBosses;
@@ -25,29 +25,11 @@ public abstract class Fireball implements ISkill {
 
     @Override
     public boolean execute(Player executer) {
+        ParticleEffect hitEffect = new ParticleEffect(Particle.LAVA, 25, 0.2, 0.2, 0.2, 0.3);
 
-        Vector dir = executer.getLocation().getDirection().clone();
-        dir.normalize();
-        // dir.multiply(0.8);
-
-        ParticleEffect fly1 = new ParticleEffect(Particle.SMOKE_NORMAL, 10, 0.1, 0.1, 0.1, 0);
-        ParticleEffect fly2 = new ParticleEffect(Particle.FLAME, 15, 0.1, 0.1, 0.1, 0);
-
-        // ParticleEffect hit1 = new ParticleEffect(Particle.EXPLOSION_HUGE, 1, 1, 1, 1,
-        // 1);
-        // ParticleEffect hit2 = new ParticleEffect(Particle.FLAME, 25, 1, 1, 1, 1);
-        // ParticleEffect hit3 = new ParticleEffect(Particle.SMOKE_NORMAL, 25, 1, 1, 1,
-        // 1);
-        // ParticleEffect hit4 = new ParticleEffect(Particle.LAVA, 25, 1, 1, 1, 1);
-        // ParticleEffect hit5 = new ParticleEffect(Particle.LAVA, 25, 1, 1, 1, 1);
-        // ParticleEffect hit6 = new ParticleEffect(Particle.REDSTONE, 50, 1, 1, 1,
-        // 0.01);
-
-        Location sourceLoc = executer.getEyeLocation();
-        sourceLoc.setDirection(dir);
-
-        RaidBosses.getPluginInstance().getProjectileManager().launchProjectile(Arrays.asList(fly1, fly2), null, 1, 50,
-                getDamage(), false, executer, dir, sourceLoc);
+        SmallFireball sfb = executer.launchProjectile(SmallFireball.class);
+        RaidBosses.getPluginInstance().getProjectileManager().addCustomDamageProjectile(sfb, getDamage(),
+                Arrays.asList(hitEffect));
 
         executer.getWorld().playSound(executer.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 2, 0.5f);
 
@@ -68,7 +50,7 @@ public abstract class Fireball implements ISkill {
 
     @Override
     public int getBasicHungerCost() {
-        return 2;
+        return 1;
     }
 
     @Override
@@ -78,7 +60,7 @@ public abstract class Fireball implements ISkill {
 
     @Override
     public Material getDisplayMaterial() {
-        return null;
+        return Material.FIRE_CHARGE;
     }
 
     @Override

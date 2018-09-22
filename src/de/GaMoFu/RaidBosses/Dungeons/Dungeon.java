@@ -38,6 +38,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityPotionEffectEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
 import org.bukkit.event.inventory.InventoryAction;
@@ -52,7 +53,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerResourcePackStatusEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
@@ -700,6 +701,28 @@ public abstract class Dungeon implements Listener {
                 }
 
             }, 1);
+        }
+    }
+
+    //TODO: Move to PlayerHandlerListener or so.
+    @EventHandler
+    public void onPotionEffect(EntityPotionEffectEvent event) {
+        if (!(event.getEntity() instanceof Player)) {
+            return;
+        }
+
+        Player player = (Player) event.getEntity();
+        if (!player.getGameMode().equals(GameMode.ADVENTURE)) {
+            return;
+        }
+
+        if (event.getAction().equals(EntityPotionEffectEvent.Action.ADDED)
+                && event.getCause().equals(EntityPotionEffectEvent.Cause.FOOD)) {
+
+            if (event.getNewEffect().getType().equals(PotionEffectType.HUNGER)) {
+                // Eating e.g. RottenFlesh should not apply the Hunger Effect
+                event.setCancelled(true);
+            }
         }
     }
 
