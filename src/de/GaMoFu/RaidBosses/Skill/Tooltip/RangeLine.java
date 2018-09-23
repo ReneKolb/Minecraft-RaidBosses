@@ -6,6 +6,10 @@ import java.util.List;
 public class RangeLine implements ITooltipLine {
 
     private double range;
+    
+    public RangeLine(double range) {
+        this.range = range;
+    }
 
     @Override
     public List<String> formatLine() {

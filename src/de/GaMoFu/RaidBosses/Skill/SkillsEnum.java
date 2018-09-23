@@ -3,7 +3,9 @@ package de.GaMoFu.RaidBosses.Skill;
 public enum SkillsEnum {
 
     //@formatter:off
-	HEAL_1(SkillHeal1.class),
+	SELF_HEAL_1(SelfHeal1.class),
+	
+	HEALING_1(Healing1.class),
 	
 	HEAL_BEAM_1(HealBeam1.class),
 	HEAL_BEAM_2(HealBeam2.class),
@@ -22,7 +24,7 @@ public enum SkillsEnum {
     // REMEMBER TO CALL event(EntityRegainHealthEvent) WHEN MANUALLY CHANGING
     // PLAYER'S HEALTH
 
-    // Heiler: Esser beizaubern
+    // Heiler: Essen beizaubern
     // Heal
 
     private Class<? extends ISkill> skillClass;

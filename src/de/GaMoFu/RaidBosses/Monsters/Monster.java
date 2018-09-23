@@ -17,7 +17,6 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_13_R2.entity.CraftCreature;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Creature;
@@ -40,12 +39,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.loot.LootTable;
 import org.bukkit.projectiles.ProjectileSource;
-import org.bukkit.util.BlockIterator;
-import org.bukkit.util.Vector;
 
 import de.GaMoFu.RaidBosses.Aggro;
 import de.GaMoFu.RaidBosses.IdleWalk;
 import de.GaMoFu.RaidBosses.RaidBosses;
+import de.GaMoFu.RaidBosses.Utils;
 import de.GaMoFu.RaidBosses.Config.IdleWalkSettings;
 import de.GaMoFu.RaidBosses.Events.BossDeathEvent;
 import de.GaMoFu.RaidBosses.Events.FightEndEvent;
@@ -310,22 +308,7 @@ public abstract class Monster<T extends Creature> implements Listener {
     }
 
     protected boolean canSee(Location loc) {
-        if (!this.getEntity().getWorld().getName().equals(loc.getWorld().getName()))
-            return false;
-
-        Vector dir = loc.toVector().subtract(this.getEntity().getLocation().toVector());
-        int dist = (int) dir.length();
-
-        BlockIterator blockIterator = new BlockIterator(this.getEntity().getWorld(),
-                this.getEntity().getLocation().toVector(), dir, this.getEntity().getEyeHeight(), dist);
-
-        while (blockIterator.hasNext()) {
-            Block block = blockIterator.next();
-            if (block.getType().isOccluding())
-                return false;
-        }
-
-        return true;
+        return Utils.canSee(this.getEntity(), loc);
     }
 
     protected void onNewTarget(UUID newTargetID) {

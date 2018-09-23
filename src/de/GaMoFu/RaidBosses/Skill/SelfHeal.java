@@ -18,18 +18,13 @@ import de.GaMoFu.RaidBosses.Skill.Tooltip.HungerCostLine;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.InstantHealLine;
 import de.GaMoFu.RaidBosses.Skill.Tooltip.SkillTooltipBuilder;
 
-public abstract class SkillHeal implements ISkill {
+public abstract class SelfHeal implements ISkill {
 
     protected abstract double getHealAmount();
 
     @Override
     public String getSkillDisplayNameWithoutLevel() {
-        return "Heal";
-    }
-
-    @Override
-    public String getSkillInternalName() {
-        return "HEAL_LVL_" + getLevel();
+        return "Self Heal";
     }
 
     @Override

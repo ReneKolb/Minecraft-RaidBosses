@@ -8,7 +8,11 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.util.BlockIterator;
+import org.bukkit.util.Vector;
 
 import net.minecraft.server.v1_13_R2.DamageSource;
 
@@ -120,5 +124,24 @@ public class Utils {
                 | InvocationTargetException e) {
             e.printStackTrace();
         }
+    }
+
+    public static boolean canSee(LivingEntity le, Location loc) {
+        if (!le.getWorld().getName().equals(loc.getWorld().getName()))
+            return false;
+
+        Vector dir = loc.toVector().subtract(le.getLocation().toVector());
+        int dist = (int) dir.length();
+
+        BlockIterator blockIterator = new BlockIterator(le.getWorld(), le.getLocation().toVector(), dir,
+                le.getEyeHeight(), dist);
+
+        while (blockIterator.hasNext()) {
+            Block block = blockIterator.next();
+            if (block.getType().isOccluding())
+                return false;
+        }
+
+        return true;
     }
 }

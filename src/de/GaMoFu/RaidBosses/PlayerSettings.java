@@ -10,16 +10,19 @@ import java.util.Optional;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.attribute.AttributeModifier.Operation;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.util.Vector;
 
 import de.GaMoFu.RaidBosses.Dungeons.Dungeon;
 import de.GaMoFu.RaidBosses.Items.Item;
@@ -375,6 +378,33 @@ public class PlayerSettings {
         player.sendMessage(
                 "For the best possible experience use the ResourcePack Conquest and OptiFine with connected textures.");
         player.sendMessage("===============================================");
+    }
+
+    public boolean looksAt(LivingEntity entity, boolean checkWalls) {
+        if (!player.getWorld().getName().equals(entity.getWorld().getName())) {
+            return false;
+        }
+
+        Location targetLoc = entity.getLocation().add(0, entity.getHeight() / 2, 0);
+
+        if (checkWalls && !Utils.canSee(this.player, entity.getEyeLocation())) {
+            return false;
+        }
+
+        // TODO: implement this!
+        double toleranceVertical = entity.getHeight() / 2.0 + 0.05;
+        double toleranceHorizontal = entity.getWidth() / 2.0 + 0.05;
+
+        Vector distanceVector = targetLoc.toVector().subtract(player.getEyeLocation().toVector());
+
+        float angle = distanceVector.angle(player.getLocation().getDirection());
+        double distance = distanceVector.length();
+
+        double a = distance * Math.tan(angle);
+
+        // System.out.println("a: " + a);
+
+        return Math.abs(a) < 0.6;
     }
 
 }
