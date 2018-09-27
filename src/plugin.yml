@@ -3,7 +3,7 @@ main: de.GaMoFu.RaidBosses.RaidBosses
 version: 0.1
 api-version: 1.13
 author: GaMoFu
-softdepend: [HolographicDisplays]
+softdepend: [HolographicDisplays, GlowAPI]
 commands:
   world:
     description: Create, teleport, remove raid instances worlds

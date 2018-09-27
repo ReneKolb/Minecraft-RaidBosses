@@ -15,7 +15,10 @@ import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.v1_13_R2.entity.CraftFallingBlock;
+import org.bukkit.entity.Bat;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Guardian;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Phantom;
@@ -28,6 +31,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 
 import de.GaMoFu.RaidBosses.PlayerSettings;
 import de.GaMoFu.RaidBosses.PlayerSettings.MonsterSelection;
@@ -261,6 +265,43 @@ public class TestCommand implements ICommandHandler {
             item.setItemMeta(meta);
 
             player.getInventory().addItem(item);
+        } else if (args.length == 1 && args[0].equalsIgnoreCase("fire")) {
+            for (int phi = 0; phi < 360; phi++) {
+                Location loc = player.getLocation().clone().add(3 * Math.cos(0.174533 * phi), 3,
+                        3 * Math.sin(0.174533 * phi));
+                plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+
+                    @Override
+                    public void run() {
+                        FallingBlock b = player.getWorld().spawnFallingBlock(loc, Material.FIRE, (byte) 0);
+                        b.setVelocity(new Vector(1, 0, 0));
+                    }
+
+                }, phi + 10);
+            }
+        } else if (args.length == 1 && args[0].equalsIgnoreCase("whisp")) {
+            Location loc = player.getLocation().add(0, 3, 0);
+
+            Bat bat = (Bat) player.getWorld().spawnEntity(loc, EntityType.BAT);
+            bat.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0, false, false),
+                    true);
+            bat.setSilent(true);
+
+            FallingBlock glowStone = player.getWorld().spawnFallingBlock(loc, Material.GLOWSTONE, (byte) 0);
+            FallingBlock fire = player.getWorld().spawnFallingBlock(loc, Material.FIRE, (byte) 0);
+
+            // Todo: frequently reset tickslived (min is 1 -.- so no negative -100000 is
+            // allowed)-> since after 100 ticks the falling block will "die()"
+            ((CraftFallingBlock) glowStone).getHandle().ticksLived = Integer.MIN_VALUE;
+            ((CraftFallingBlock) fire).getHandle().ticksLived = Integer.MIN_VALUE;
+
+            glowStone.addPassenger(fire);
+            bat.addPassenger(glowStone);
+        } else if (args.length == 1 && args[0].equalsIgnoreCase("glow")) {
+            org.bukkit.entity.Zombie z = (org.bukkit.entity.Zombie) player.getWorld()
+                    .spawnEntity(player.getLocation().add(2, 0, 2), EntityType.ZOMBIE);
+
+            plugin.getGlowHandler().showGlow(z, ChatColor.BLUE);
         }
 
         return false;

@@ -54,6 +54,8 @@ public final class RaidBosses extends JavaPlugin {
     private TraderFactory traderFactory;
 
     private HologramHandler hologramHandler;
+    
+    private GlowHandler glowHandler;
 
     private FallingSwordHandler fallingSwordHandler;
 
@@ -120,6 +122,8 @@ public final class RaidBosses extends JavaPlugin {
         this.printAsciiArt();
 
         this.hologramHandler = new HologramHandler(this);
+        
+        this.glowHandler = new GlowHandler(this);
 
         df = new DecimalFormat("#.0");
         df.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.ENGLISH));
@@ -202,6 +206,10 @@ public final class RaidBosses extends JavaPlugin {
 
     public HologramHandler getHologramHandler() {
         return this.hologramHandler;
+    }
+    
+    public GlowHandler getGlowHandler() {
+        return this.glowHandler;
     }
 
     public FallingSwordHandler getFallingSwordHandler() {
